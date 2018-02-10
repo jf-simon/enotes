@@ -1,0 +1,29 @@
+This is a note program witten in c using efl
+
+save all relevant infos automaticly 
+when you leave the note with the mouse! 
+
+￼ click on "tape" to move the note
+￼ click bottom right corner to resize
+￼ On the left size you have a little menu
+￼ Use Mouse Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard size
+￼ "ESC" Dismiss dialogs and colorselector
+￼ "F1" Show/hide help
+￼ "F2" Blur text
+￼ "F3" adds ￼
+￼ "F4" adds ￼
+￼ "F5" creates a new note
+￼ "F6" delete note
+￼ "F7" set sticky
+￼ "F8" iconify note
+￼ "F9" toogle designs
+￼ "F10" Write backup textfile
+￼ "ctrl + q" quits enotes
+￼ "crtl + m" toogle menu
+
+Have fun! 
+
+Download and updates:
+https://github.com/jf-simon/enotes
+
+Author: Simon Tischer [jf_simon on irc #e.de]

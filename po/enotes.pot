@@ -1,0 +1,151 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: enotes 0.0.1\n"
+"Report-Msgid-Bugs-To: enlightenment-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2017-09-02 15:34+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ../src/bin\n"
+"X-Poedit-SearchPath-0: enotes_main.c\n"
+
+#: enotes_main.c:349
+msgid "eNotes Help"
+msgstr ""
+
+#: enotes_main.c:380
+msgid "<bigger>eNotes help!</bigger><br><b>Download and updates: <a href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer [jf_simon on irc #e.de]</b>"
+msgstr ""
+
+#: enotes_main.c:405
+msgid "Dismiss dialogs"
+msgstr ""
+
+#: enotes_main.c:425
+msgid "Show/hide<br>this help"
+msgstr ""
+
+#: enotes_main.c:444
+msgid "Blur text"
+msgstr ""
+
+#: enotes_main.c:464
+msgid "Insert done icon"
+msgstr ""
+
+#: enotes_main.c:483
+msgid "Insert important icon"
+msgstr ""
+
+#: enotes_main.c:503
+msgid "Create a new note"
+msgstr ""
+
+#: enotes_main.c:522
+msgid "Delete selected note"
+msgstr ""
+
+#: enotes_main.c:541
+msgid "Set note sticky"
+msgstr ""
+
+#: enotes_main.c:561
+msgid "Iconify note"
+msgstr ""
+
+#: enotes_main.c:581
+msgid "Toogle designs"
+msgstr ""
+
+#: enotes_main.c:601
+msgid "Write backup<br>textfile"
+msgstr ""
+
+#: enotes_main.c:620
+msgid "Toogle menu"
+msgstr ""
+
+#: enotes_main.c:642
+msgid "Close enotes"
+msgstr ""
+
+#: enotes_main.c:662
+msgid "in/decrease front<br>ctrl+0 to reset"
+msgstr ""
+
+#: enotes_main.c:813 enotes_main.c:922
+msgid "File written to:"
+msgstr ""
+
+#: enotes_main.c:828 enotes_main.c:937
+msgid "close"
+msgstr ""
+
+#: enotes_main.c:834 enotes_main.c:943
+msgid "open"
+msgstr ""
+
+#: enotes_main.c:969
+msgid "What do you want to write to file?"
+msgstr ""
+
+#: enotes_main.c:977
+msgid "all notes"
+msgstr ""
+
+#: enotes_main.c:984
+msgid "this note"
+msgstr ""
+
+#: enotes_main.c:1001
+msgid "cancel"
+msgstr ""
+
+#: enotes_main.c:1716
+msgid "Close enotes?"
+msgstr ""
+
+#: enotes_main.c:1724 enotes_main.c:1994
+msgid "No"
+msgstr ""
+
+#: enotes_main.c:1730 enotes_main.c:2001
+msgid "Yes"
+msgstr ""
+
+#: enotes_main.c:1986
+msgid "Delete this note?"
+msgstr ""
+
+#: enotes_main.c:2175
+msgid "Change color for: "
+msgstr ""
+
+#: enotes_main.c:2176
+msgid "Textcolor"
+msgstr ""
+
+#: enotes_main.c:2177
+msgid "Background"
+msgstr ""
+
+#: enotes_main.c:2233
+msgid "Save colorset as default"
+msgstr ""
+
+#: enotes_main.c:2240
+msgid "Set colorset to all notes"
+msgstr ""
+
+#: enotes_main.c:2427
+msgid "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note for you automaticly <br>when you leave the note with the mouse! <br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></item> click bottom right corner to resize<br><item relsize=24x24 vsize=full href=done></item> On the left size you have a little menu, klick on the gray rect to open/close it<br><item relsize=24x24 vsize=full href=done></item> Use Mouse Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard size<br><item relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Dismiss dialogs and colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></item> &quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full href=done></item> &quot;F3&quot; adds <item relsize=24x24 vsize=full href=done></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; creates a new note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F9&quot; toogle designs<br/><item relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + m&quot; toogle menu<br/><br/>Have fun! <br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc #e.de]"
+msgstr ""
