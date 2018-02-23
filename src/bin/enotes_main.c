@@ -40,7 +40,7 @@ static Eina_List *note_list = NULL;
 static Eina_List *note_list_edje_objects = NULL;
 const char *tcolor_default;
 int dcolor_r, dcolor_g, dcolor_b, dcolor_a;
-
+int gadget = 0;
 
 static char home_dir[PATH_MAX];
 static char home_file[PATH_MAX];
@@ -77,6 +77,7 @@ typedef struct {
         const char *blur;
         const char *theme;
         const char *note_text;
+        Eina_Bool as_gadget;
 } Note;
 
 typedef struct {
@@ -113,6 +114,7 @@ typedef struct {
         const char *blur;
         const char *theme;
         const char *note_text;
+        Eina_Bool as_gadget;
 } My_Conf_Type;
    
 
@@ -165,6 +167,7 @@ _my_conf_descriptor_init(void)
     MY_CONF_SUB_ADD_BASIC(blur, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(theme, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(note_text, EET_T_STRING);
+    MY_CONF_SUB_ADD_BASIC(as_gadget, EET_T_UCHAR);
    
     MY_CONF_ADD_BASIC(first, EET_T_STRING);
     MY_CONF_ADD_BASIC(first1, EET_T_INT);
@@ -973,6 +976,7 @@ note_list = NULL;
 //	&list_data->text_size);7
 //	ic2);8
 //	bx);9
+// check_as_gadget;10
 					
 		Note *savenote;
 		savenote = calloc(1, sizeof(Note));
@@ -990,9 +994,14 @@ note_list = NULL;
 		int *textcolor = eina_list_nth(data1, 6);
 		int *textsize = eina_list_nth(data1, 7);
 		Evas_Object *ic2 = eina_list_nth(data1, 8);
+// 		Evas_Object *check_as_gadget = eina_list_nth(data1, 10);
+		
+		
+//    Eina_Bool as_gadget = elm_check_state_get(check_as_gadget);
+// 	printf("AS_GADGET %i\n", as_gadget);
 
 		// get layout of win
-		elm_layout_file_get(ly, NULL, &theme);    
+		elm_layout_file_get(ly, NULL, &theme);
 
 		// get menu state
 		edje_obj = elm_layout_edje_get(ly);
@@ -1035,13 +1044,13 @@ note_list = NULL;
                         savenote->menu = eina_stringshare_add(state);
                         savenote->blur = eina_stringshare_add(blur);
                         savenote->note_text = eina_stringshare_add(elm_object_text_get(en));
+// 								savenote->as_gadget = 1;
                     
     note_list = eina_list_append(note_list, savenote);
-
 	 
     }
     
-	 printf("-----\n\n");
+	 printf("-----NEW\n\n");
     _save_notes();
 	
 }
@@ -1313,7 +1322,7 @@ _insert_done_icon_context(void *data, Evas_Object *obj EINA_UNUSED, void *event_
 {   
     elm_entry_entry_insert(data, "<item relsize=24x24 vsize=full href=done></item> ");
 }
-
+/*
 static void
 _insert_important_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
 {   
@@ -1321,7 +1330,7 @@ _insert_important_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em 
     
     if(elm_object_focus_get(en))
     elm_entry_entry_insert(en, "<item relsize=24x24 vsize=full href=important></item> ");
-}
+}*/
 
 static void
 _insert_open_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
@@ -1413,6 +1422,7 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
     int *textcolor = eina_list_nth(list_values, 6);
     int *textsize = eina_list_nth(list_values, 7);
     Evas_Object *ic2 = eina_list_nth(list_values, 8);
+    Evas_Object *check_as_gadget = eina_list_nth(list_values, 10);
     
     // get layout of win
     elm_layout_file_get(ly, NULL, &theme);    
@@ -1437,10 +1447,18 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
     Note *list_data2;
 // 	printf("COUNT CHANGE %i\n", eina_list_count(note_list));
 	
+   Eina_Bool as_gadget = elm_check_state_get(check_as_gadget);
+	printf("AS_GADGET %i\n", as_gadget);
+		
         EINA_LIST_FOREACH(note_list, l, list_data2)
                 {
+// 						 
+						if(as_gadget == 1 && list_data2->id != *old_id)
+							list_data2->as_gadget = 0;
+							
                     if(list_data2->id == *old_id)
                     {
+							   list_data2->as_gadget = 1;
                         list_data2->note_name = eina_stringshare_add(elm_object_text_get(en1));
                         list_data2->id = *old_id;
                         list_data2->x = x;
@@ -1501,7 +1519,7 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
                         list_data2->note_text = eina_stringshare_add(elm_object_text_get(en));
                     }
                 }
-//     _save_notes();
+    _save_notes();
 }
 
 
@@ -1893,7 +1911,7 @@ _close_all2(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void 
 }
 
 //////////////////////////////
-
+/*
 static Eina_Bool
 _url_complete_cb(void *data EINA_UNUSED, int type EINA_UNUSED, void *event_info)
 {
@@ -1913,7 +1931,7 @@ _url_complete_cb(void *data EINA_UNUSED, int type EINA_UNUSED, void *event_info)
 //    ecore_main_loop_quit();
    return EINA_TRUE;
 	
-}
+}*/
 
 /*
 char *stringReplace(char *search, char *replace, char *string) {
@@ -2005,8 +2023,8 @@ _url_data_cb(void *data EINA_UNUSED, int type EINA_UNUSED, void *event_info)
 
 	char search_icon[] = "[x]";
 	char replace_icon[] = "<item relsize=24x24 vsize=full href=done></item> ";
-	char search_br[] = "\n";
-	char replace_br[] = "<br>";
+// 	char search_br[] = "\n";
+// 	char replace_br[] = "<br>";
 
 	
         stringReplace(search_icon, replace_icon, (char *)url_data->data);
@@ -2021,6 +2039,7 @@ return EINA_TRUE;
 ///////////////////////////////
 
 void key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_info)
+// void key_down(void *data, int type __UNUSED__, void *ev)
 {
     Eina_List *list_values = data;
     Evas_Object *en = eina_list_nth(list_values, 0);
@@ -2031,19 +2050,22 @@ void key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, voi
     Evas_Object *edje_obj = elm_layout_edje_get(ly);
 
     Evas_Event_Key_Down *ev = event_info;
+// 	 Ecore_Event_Key *event = ev;
     Eina_Bool ctrl = evas_key_modifier_is_set(ev->modifiers, "Control");
-    const char *k = ev->keyname;
+// 	 Eina_Bool ctrl = 0;
+    const char *k = ev->key;
 
 	 printf("KEY: %s\n", k);
+	 
         if(ctrl)
         {
             if(!strcmp(k, "q"))                     // close enotes
             {            
                 _close_all(win, NULL, NULL);
             }
-            else if(!strcmp(k, "m"))                // show menu
+            if(!strcmp(k, "m"))                // show menu
             {
-                edje_object_signal_emit(edje_obj, "menu_toggle", "menu_toggle");
+                edje_object_signal_emit(edje_obj, "menu_toogle", "menu_toogle");
             }
         }
         
@@ -2274,7 +2296,7 @@ Content-Type: application/xml; charset=utf-8
             eina_list_free(list_text_tmp);
         }
         
-        
+// return ECORE_CALLBACK_PASS_ON;
 }
 
 void 
@@ -2417,7 +2439,7 @@ _tg_changed_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
     }
 }
 
-
+/*
 static void
 _menu_show_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj,
               void *event_info)
@@ -2439,27 +2461,29 @@ _menu_show_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj,
 //    Evas_Event_Mouse_Down *ev = event_info;
 //    elm_menu_move(data, ev->canvas.x, ev->canvas.y);
 //    evas_object_show(data);
-}
+}*/
+
+/*
 static void
 _dismissed(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    evas_object_del(obj);
-}
+}*/
 
-
+/*
 static void
 _geometry_update(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_info)
 {
    Evas_Coord_Rectangle *geom = event_info;
    printf("ctxpopup geometry(%d %d %d %d)\n", geom->x, geom->y, geom->w, geom->h);
-}
+}*/
 
-
+/*
 static void
 _ctx_show_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj,
               void *event_info)
 {
-    Evas_Object *ctxpopup, *btn, /**btn1,*/ *sc, *bxt;
+    Evas_Object *ctxpopup, *btn,  *sc, *bxt;
     Evas_Coord x,y;
 
     Evas_Event_Key_Down *ev = event_info;
@@ -2505,30 +2529,25 @@ _ctx_show_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj,
         evas_object_smart_callback_add(btn, "clicked", _insert_done_icon_context, data);
         evas_object_smart_callback_add(ctxpopup, "clicked", _dismissed, NULL);
     }
-}
+}*/
 
 static void
 enotes_win_setup(Note *list_data)
 {
-    Evas_Object *win;
-    Evas_Object *ly;
-    Evas_Object *en;
-    Evas_Object *en1;
-    Evas_Object *edje_obj;
+	Evas_Object *win, *ly, *en, *en1, *edje_obj, *check_as_gadget = NULL;
    
     char buf[PATH_MAX];
-    int r,g,b,a;
+    int r, g, b, a;
     
     // create window and set parms //
-    win = elm_win_add(NULL, "Enote", ELM_WIN_BASIC);
+    win = elm_win_add(NULL, "Enotes", ELM_WIN_BASIC);
     elm_win_borderless_set(win, EINA_TRUE);
     elm_win_alpha_set(win, EINA_TRUE);
- 
-    // create windowname //   
-   
     elm_win_title_set(win, list_data->note_name);
-    
-
+	 elm_object_focus_set(win, EINA_TRUE);
+// 	 rect = evas_object_rectangle_add(win);
+// 	 evas_object_resize(rect, EVAS_HINT_FILL, EVAS_HINT_FILL);
+	
     // LAYOUT CREATE //
     ly = elm_layout_add(win);
     snprintf(buf, sizeof(buf), "%s/themes/default.edj", elm_app_data_dir_get());
@@ -2540,6 +2559,7 @@ enotes_win_setup(Note *list_data)
     elm_layout_part_cursor_set(ly, "shadow_corner", ELM_CURSOR_BOTTOM_RIGHT_CORNER);
    
     elm_win_resize_object_add(win, ly);
+	 
     evas_object_show(ly);
     // LAYOUT CREATE END//  
 
@@ -2642,49 +2662,31 @@ enotes_win_setup(Note *list_data)
     evas_object_size_hint_weight_set(cs, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
     evas_object_size_hint_align_set(cs, EVAS_HINT_FILL, EVAS_HINT_FILL);
     
-    elm_colorselector_mode_set(cs, ELM_COLORSELECTOR_BOTH);
+   elm_colorselector_mode_set(cs, ELM_COLORSELECTOR_BOTH);
  
-    elm_colorselector_palette_name_set(cs, "enotes");
+   elm_colorselector_palette_name_set(cs, "enotes");
   
-    elm_colorselector_palette_color_add(cs, 253, 232, 82, 255);
-    elm_colorselector_palette_color_add(cs, 255, 186, 0, 255);
-    elm_colorselector_palette_color_add(cs, 223, 147, 37, 255);
-    elm_colorselector_palette_color_add(cs, 238, 119, 99, 255);
-    elm_colorselector_palette_color_add(cs, 164, 182, 166, 255);
-    elm_colorselector_palette_color_add(cs, 146, 175, 29, 255);
-   elm_colorselector_palette_color_add(cs, 41, 68, 59, 255);
-    elm_colorselector_palette_color_add(cs, 0, 109, 128, 255);
-    elm_colorselector_palette_color_add(cs, 11, 54, 71, 255);
-    elm_colorselector_palette_color_add(cs, 41, 46, 68, 255);
-    elm_colorselector_palette_color_add(cs, 116, 13, 14, 255);
-    elm_colorselector_palette_color_add(cs, 101, 33, 44, 255);
+   elm_colorselector_palette_color_add(cs, 253, 232, 82, 255);
+   elm_colorselector_palette_color_add(cs, 255, 186, 0, 255);
+   elm_colorselector_palette_color_add(cs, 223, 147, 37, 255);
+   elm_colorselector_palette_color_add(cs, 238, 119, 99, 255);
+   elm_colorselector_palette_color_add(cs, 164, 182, 166, 255);
+   elm_colorselector_palette_color_add(cs, 146, 175, 29, 255);
+	elm_colorselector_palette_color_add(cs, 41, 68, 59, 255);
+   elm_colorselector_palette_color_add(cs, 0, 109, 128, 255);
+   elm_colorselector_palette_color_add(cs, 11, 54, 71, 255);
+   elm_colorselector_palette_color_add(cs, 41, 46, 68, 255);
+   elm_colorselector_palette_color_add(cs, 116, 13, 14, 255);
+   elm_colorselector_palette_color_add(cs, 101, 33, 44, 255);
    elm_colorselector_palette_color_add(cs, 132, 50, 118, 255);
-    elm_colorselector_palette_color_add(cs, 68, 40, 55, 255);
+   elm_colorselector_palette_color_add(cs, 68, 40, 55, 255);
    elm_colorselector_palette_color_add(cs, 63, 37, 60, 255);
-    elm_colorselector_palette_color_add(cs, 115, 87, 63, 255);
-    elm_colorselector_palette_color_add(cs, 66, 70, 73, 255);
-    elm_colorselector_palette_color_add(cs, 255, 255, 255, 255);
-    elm_colorselector_palette_color_add(cs, 0, 0, 0, 255);
-    
-  
-  
-  
-  
-  
-  
-  
-//     elm_colorselector_palette_color_add(cs, 145, 172, 29, 255);
-//     elm_colorselector_palette_color_add(cs, 0, 119, 143, 255);
-//     elm_colorselector_palette_color_add(cs, 83, 104, 172, 255);
-//     elm_colorselector_palette_color_add(cs, 92, 142, 151, 255);
-//     elm_colorselector_palette_color_add(cs, 201, 174, 153, 255);
-//     elm_colorselector_palette_color_add(cs, 183, 48, 110, 255);
-    
-//     elm_colorselector_palette_color_add(cs, 252, 235, 192, 255);
-//     elm_colorselector_palette_color_add(cs, 209, 125, 53, 255);
-    
-       
-    elm_colorselector_color_set(cs, r, g, b, a);
+   elm_colorselector_palette_color_add(cs, 115, 87, 63, 255);
+   elm_colorselector_palette_color_add(cs, 66, 70, 73, 255);
+   elm_colorselector_palette_color_add(cs, 255, 255, 255, 255);
+   elm_colorselector_palette_color_add(cs, 0, 0, 0, 255);
+	
+   elm_colorselector_color_set(cs, r, g, b, a);
 
     elm_box_pack_end(bx, cs);
     evas_object_show(cs);
@@ -2723,6 +2725,17 @@ enotes_win_setup(Note *list_data)
     elm_box_pack_end(bx, bt1);
     evas_object_show(bt1);
     
+	check_as_gadget = elm_check_add(bx);
+	elm_object_text_set(check_as_gadget, "set as gadget note");
+    evas_object_size_hint_align_set(check_as_gadget, 0.5, 0);
+   elm_check_state_set(check_as_gadget, list_data->as_gadget);
+//    E_ALIGN(check_bell, 0.0, 0.0);
+//  	E_WEIGHT(check_bell, EVAS_HINT_EXPAND, 0);
+	elm_box_pack_end(bx, check_as_gadget);
+	evas_object_show(check_as_gadget);
+   
+    list_values = eina_list_append(list_values, check_as_gadget);
+	
     elm_object_part_content_set(ly,"color_swallow", bx);
     
 // COLOR SELECT END //
@@ -2817,11 +2830,13 @@ enotes_win_setup(Note *list_data)
     evas_object_smart_callback_add(cs, "changed", _colorselector_changed_cb, color_change); 
    
    //save note_text on mouse out
+	 if(gadget == 0)
+	 {
     evas_object_event_callback_add(en, EVAS_CALLBACK_MOUSE_OUT, _entry_change_cb, list_values);
 	 evas_object_event_callback_add(en, EVAS_CALLBACK_MOUSE_OUT, _new_save, NULL);
     evas_object_event_callback_add(edje_obj, EVAS_CALLBACK_MOUSE_OUT, _entry_change_cb, list_values);
     evas_object_event_callback_add(win, EVAS_CALLBACK_MOUSE_OUT, _entry_change_cb, list_values);
-       
+	 }  
 // callback for key down/hide/show text //
 // create List for text size and text color
     Eina_List *list_keydown = NULL;
@@ -2829,10 +2844,15 @@ enotes_win_setup(Note *list_data)
     list_keydown = eina_list_append(list_keydown, &list_data->id);
     list_keydown = eina_list_append(list_keydown, en);
     list_keydown = eina_list_append(list_keydown, edje_obj);
-    
-    evas_object_event_callback_add(win, EVAS_CALLBACK_KEY_DOWN, key_down, list_values);
+
+// 	 if(gadget == 0)
+// 	 {
+    evas_object_event_callback_add(edje_obj, EVAS_CALLBACK_KEY_DOWN, key_down, list_values);
+// 	 ecore_event_handler_add(ECORE_EVENT_KEY_DOWN, key_down, list_values);
+// 	 Ecore_Event* ecore_event_add(int type, void* ev, Ecore_End_Cb func_free, void* func_free_data)
+	 
     evas_object_event_callback_add(en, EVAS_CALLBACK_MOUSE_WHEEL, _mouse_wheel, list_text);
-   
+// 	 }
     evas_object_resize(win, list_data->w, list_data->h);
     evas_object_move(win, list_data->x, list_data->y);
     
@@ -3086,6 +3106,13 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
     enotes_init();
     _my_conf_descriptor_init();
 
+   if(getenv("E_GADGET_ID"))
+     {
+        gadget = 1;
+//         snprintf(buf1, sizeof(buf1), "%s", getenv("E_GADGET_ID"));
+//         id_num = atoi(buf1);
+     }
+     printf("IF GADGET: %i", gadget);
 
     args = ecore_getopt_parse(&optdesc, values, argc, argv);
     if (args < 0)
@@ -3116,11 +3143,22 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
     }
     else
     {
-        EINA_LIST_FOREACH(note_list, l, list_data)
-        {
-            enotes_win_setup(list_data);
-        } 
-        
+			if(gadget ==1)
+			{
+					EINA_LIST_FOREACH(note_list, l, list_data)
+					{
+						if(list_data->as_gadget == 1 && gadget ==1)
+							enotes_win_setup(list_data);
+					}
+          }
+          else
+			{
+					EINA_LIST_FOREACH(note_list, l, list_data)
+					{
+							enotes_win_setup(list_data);
+					}
+          }
+
     }
  //    enotes_library_call();
 
