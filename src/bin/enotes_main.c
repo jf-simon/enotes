@@ -463,7 +463,7 @@ enotes_win_help(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UN
     evas_object_size_hint_align_set(ic, EVAS_HINT_FILL, EVAS_HINT_FILL);;
    
    elm_table_pack(tb, ic, 3, 1, 1, 1);
-   evas_object_show(ic);   
+   evas_object_show(ic);
     
    
    lb = elm_label_add(win);
@@ -560,7 +560,7 @@ enotes_win_help(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UN
     evas_object_size_hint_align_set(ic, EVAS_HINT_FILL, EVAS_HINT_FILL);
    
    elm_table_pack(tb, ic, 8, 1, 1, 1);
-   evas_object_show(ic);   
+   evas_object_show(ic);
     
    
    lb = elm_label_add(win);
@@ -580,7 +580,7 @@ enotes_win_help(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UN
     evas_object_size_hint_align_set(ic, EVAS_HINT_FILL, EVAS_HINT_FILL);
    
    elm_table_pack(tb, ic, 9, 1, 1, 1);
-   evas_object_show(ic);   
+   evas_object_show(ic);
     
    
    lb = elm_label_add(win);
@@ -725,7 +725,7 @@ _bt_colorset_to_all(void *data, Evas_Object *obj EINA_UNUSED, void *event_info E
     {
             int *textsize = eina_list_nth(data1, 7);
             snprintf(buf, sizeof(buf), "DEFAULT='font=Sans:style=Regular color=%s font_size=%i'", get_text_color(en), *textsize);
-            
+            evas_color_argb_premul(a, &r, &g, &b);
             evas_object_color_set(eina_list_nth(data1, 8), r, g, b, a);
             elm_entry_text_style_user_push(eina_list_nth(data1, 0), buf);
             elm_entry_text_style_user_push(eina_list_nth(data1, 4), buf1);
@@ -1314,7 +1314,10 @@ _insert_done_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_
     Evas_Object *en = data;
     
     if(elm_object_focus_get(en))
+	 {
+		 elm_entry_cursor_line_begin_set(en);
     elm_entry_entry_insert(en, "<item relsize=24x24 vsize=full href=done></item> ");
+	 }
 }
 
 static void
@@ -1436,6 +1439,7 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
     
     // get color of "ic2"
     evas_object_color_get(ic2, &r, &g, &b, &a);
+	 evas_color_argb_unpremul(a, &r, &g, &b);
 //     printf("SAVE Changed Color [r=%d g=%d b=%d a=%d]\n", r, g, b, a);
    
     // get size and position of "win"
@@ -1448,7 +1452,7 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
 // 	printf("COUNT CHANGE %i\n", eina_list_count(note_list));
 	
    Eina_Bool as_gadget = elm_check_state_get(check_as_gadget);
-	printf("AS_GADGET %i\n", as_gadget);
+// 	printf("AS_GADGET %i\n", as_gadget);
 		
         EINA_LIST_FOREACH(note_list, l, list_data2)
                 {
@@ -1580,7 +1584,12 @@ _colorselector_changed_cb(void *data, Evas_Object *obj, void *event_info EINA_UN
     
     if(!elm_check_state_get(tg))
     {
-        evas_object_color_set(ic2, r, g, b, a);
+// 			r = (r * a) / 255;
+// 			g = (g * a) / 255;
+// 			b = (b * a) / 255;
+// 			a = a;
+			evas_color_argb_premul(a, &r, &g, &b);
+			evas_object_color_set(ic2, r, g, b, a);
     }
     else
     {
@@ -1910,69 +1919,6 @@ _close_all2(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void 
      _close_final(data);
 }
 
-//////////////////////////////
-/*
-static Eina_Bool
-_url_complete_cb(void *data EINA_UNUSED, int type EINA_UNUSED, void *event_info)
-{
-
-            
-   Ecore_Con_Event_Url_Complete *url_complete = event_info;
-   const Eina_List *headers, *l;
-   char *str;
-   printf("\n");
-   printf("download completed with status code: %d\n", url_complete->status);
-   headers = ecore_con_url_response_headers_get(url_complete->url_con);
-   EINA_LIST_FOREACH(headers, l, str)
-     printf("header: %s\n", str);
-   
-//    char *buf = ecore_con_url_data_get(ec_url);
-//     printf("TEST: %c\n", buf);
-//    ecore_main_loop_quit();
-   return EINA_TRUE;
-	
-}*/
-
-/*
-char *stringReplace(char *search, char *replace, char *string) {
-	char *tempString, *searchStart;
-	int len=0;
-// 	int i=0;
-
-	// preuefe ob Such-String vorhanden ist
-	searchStart = strstr(string, search);
-	if(searchStart == NULL) {
-		return string;
-	}
-
-	// Speicher reservieren
-	tempString = (char*) malloc(strlen(string) * sizeof(char));
-	if(tempString == NULL) {
-		return NULL;
-	}
-		// temporaere Kopie anlegen
-	strcpy(tempString, string);
-
-// for(i=0;tempString[i]!='\0';i++)
-// {
-
-	// ersten Abschnitt in String setzen
-	len = searchStart - string;
-	string[len] = '\0';
-
-	// zweiten Abschnitt anhaengen
-	strcat(string, replace);
-
-	// dritten Abschnitt anhaengen
-	len += strlen(search);
-	strcat(string, (char*)tempString+len);
-// }
-	// Speicher freigeben
-	free(tempString);
-
-	return string;
-}
-*/
 char *stringReplace(char *search, char *replace, char *string) {
 	
 	
@@ -2152,136 +2098,11 @@ void key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, voi
 				edje_object_signal_emit(edje_obj, "mouse,clicked,1", "cs_icon");
         }
 
-        if(!strcmp(k, "F12"))                       // backup
-        {            
-            printf("SYNC\n");
-// 			  _caldav_sync(NULL);
+//         if(!strcmp(k, "F12"))                       // backup
+//         {            
+//             printf("SYNC\n");
+// }
 			  
-			  
-			  // 				   const char *type, *post_data = "";
-					Ecore_Con_Url *ec_url = NULL;
-// 					Eina_Bool r;
-					
-   ecore_con_init();
-   ecore_con_url_init();
-/*
-PROPFIND /calendars/johndoe/home/ HTTP/1.1
-Depth: 0
-Prefer: return-minimal
-Content-Type: application/xml; charset=utf-8
-
-<d:propfind xmlns:d="DAV:" xmlns:cs="http://calendarserver.org/ns/">
-  <d:prop>
-     <d:displayname />
-     <cs:getctag />
-  </d:prop>
-</d:propfind>
-*/
-// SHOW OPTIONS
-/*
-   ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/", "OPTIONS");
-	
-	const char *post_data = "Host: jfsimon.ocloud.de";
-	
-	
-//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
-//	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
-	
-		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
-// 		ecore_con_url_additional_header_add(ec_url, "Depth", "1");
-// 		ecore_con_url_additional_header_add(ec_url, "Prefer", "return-minimal");
-// 		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
-
-	
-	ecore_con_url_httpauth_set(ec_url, "jfsimon", "Duff14beer", EINA_FALSE);
-	ecore_con_url_post(ec_url, post_data, strlen(post_data), "text/html");
-  
-	*/
-
-
-// DOWNLOAD CALENDAR OBJECTS
-/*
-//    ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/", "REPORT");
-   ec_url = ecore_con_url_custom_new("http://82.165.71.31/nextcloud/remote.php/dav/calendars/Simon/personal/", "REPORT");
-	
-	
-	const char *post_data = "<c:calendar-query xmlns:d=\"DAV:\" xmlns:c=\"urn:ietf:params:xml:ns:caldav\">"
-    "<d:prop>"
-        "<d:getetag />"
-    "</d:prop>"
-    "<c:filter>"
-        "<c:comp-filter name=\"VCALENDAR\">"
-            "<c:comp-filter name=\"VTODO\" />"
-        "</c:comp-filter>"
-    "</c:filter>"
-"</c:calendar-query>";
-	 
-	
-	
-//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
-//	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
-	
-		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
-		ecore_con_url_additional_header_add(ec_url, "Depth", "1");
-		ecore_con_url_additional_header_add(ec_url, "Prefer", "return-minimal");
-		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
-
-	
-	ecore_con_url_httpauth_set(ec_url, "Simon", "simontischer", EINA_FALSE);
-	ecore_con_url_post(ec_url, post_data, strlen(post_data), NULL);
-  
-  */
-// GET Calendar Information
-/*
-//    ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/", "PROPFIND");
-   ec_url = ecore_con_url_custom_new("http://82.165.71.31/nextcloud/remote.php/dav/calendars/Simon/personal/", "PROPFIND");
-	
-	const char *post_data = "<d:propfind xmlns:d=\"DAV:\" xmlns:cs=\"http://calendarserver.org/ns/\">"
-  "<d:prop>"
-     "<d:displayname />"
-     "<cs:getctag />"
-  "</d:prop>"
-"</d:propfind>";
-	
-	
-//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
-//	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
-	
-		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
-		ecore_con_url_additional_header_add(ec_url, "Depth", "0");
-		ecore_con_url_additional_header_add(ec_url, "Prefer", "return-minimal");
-		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
-
-	
-	ecore_con_url_httpauth_set(ec_url, "simon", "simontischer", EINA_FALSE);
-	ecore_con_url_post(ec_url, post_data, strlen(post_data), "text/html");
-  */
-
-// GET ICS DATA 
-
-// http://82.165.71.31/nextcloud/remote.php/dav/calendars/Simon/personal/
-   ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/20c16a97-0dba-4c05-bcab-fc36a6c2ef21.1507125291887.ics", "GET");
-	
-//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
-		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
-		   ecore_con_url_additional_header_add(ec_url, "encoding", "utf-8");
-// 		   ecore_con_url_additional_header_add(ec_url, "charset", "utf-8");
-		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
-// 	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
-
-	
-//    ecore_con_url_httpauth_set(ec_url, "simon", "simontischer", EINA_FALSE);
-   ecore_con_url_httpauth_set(ec_url, "jfsimon", "Duff14beer", EINA_FALSE);
-	
-     ecore_con_url_get(ec_url);
-
-
-	  
-//    ecore_con_url_free(ec_url);
-//    ecore_con_url_shutdown();
-//    ecore_con_shutdown();
-        }
-        
         if(!strcmp(k, "0")) 
         {        
             Eina_List *list_text_tmp = NULL;
@@ -2435,6 +2256,7 @@ _tg_changed_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
     {
         const char *str = get_text_color1(en1);
         sscanf(str, "%02x%02x%02x%02x", &r, &g, &b, &a);
+		  evas_color_argb_premul(a, &r, &g, &b);
         elm_colorselector_color_set(cs, r, g, b, a);
     }
 }
@@ -2545,8 +2367,7 @@ enotes_win_setup(Note *list_data)
     elm_win_alpha_set(win, EINA_TRUE);
     elm_win_title_set(win, list_data->note_name);
 	 elm_object_focus_set(win, EINA_TRUE);
-// 	 rect = evas_object_rectangle_add(win);
-// 	 evas_object_resize(rect, EVAS_HINT_FILL, EVAS_HINT_FILL);
+	 
 	
     // LAYOUT CREATE //
     ly = elm_layout_add(win);
@@ -2583,28 +2404,27 @@ enotes_win_setup(Note *list_data)
     Evas_Object *icon;
     icon = evas_object_image_add(evas_object_evas_get(win));
     evas_object_image_file_set(icon, buf, "background");
-   
     elm_win_icon_object_set(win, icon);
     evas_object_show(icon);
 
-// create elm_entry //
+	 // create elm_entry //
     en = elm_entry_add(win);
-    
+
     elm_entry_anchor_hover_parent_set(en, win);
-    
+
     elm_entry_line_wrap_set(en, ELM_WRAP_WORD);
     elm_object_text_set(en, list_data->note_text);
-    
+
     evas_object_smart_callback_add(en, "anchor,clicked", _anchor_clicked_cb, NULL);
     evas_object_size_hint_weight_set(en, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
     evas_object_size_hint_align_set(en, EVAS_HINT_FILL, EVAS_HINT_FILL);
     elm_object_part_content_set(ly, "content", en);
 
-   
-    // create elm_entry name//                                                      /
-    en1 = elm_entry_add(win);                                                 
+
+    // create elm_entry name//
+    en1 = elm_entry_add(win);
     elm_entry_line_wrap_set(en1, ELM_WRAP_WORD);
-   
+
     elm_object_text_set(en1, list_data->note_name);
     evas_object_size_hint_weight_set(en1, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
     evas_object_size_hint_align_set(en1, 1.0, 1.0);
@@ -2613,56 +2433,51 @@ enotes_win_setup(Note *list_data)
 
     // BACKGROUND SELECT //
     Evas_Object *ic2;
-    
-    ic2 = evas_object_rectangle_add(win);
+
+    ic2 = evas_object_rectangle_add(evas_object_evas_get(win));
     evas_object_size_hint_weight_set(ic2, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
     evas_object_size_hint_align_set(ic2, EVAS_HINT_FILL, EVAS_HINT_FILL);
-    
-    /* Fix Alpha pre multiplication by edje */
-    r = (list_data->color_r * list_data->color_a) / 255;
-    g = (list_data->color_g * list_data->color_a) / 255;
-    b = (list_data->color_b * list_data->color_a) / 255;
-    a = list_data->color_a;
-    
-//     printf("LOAD Color [r=%i g=%i b=%i a=%i]\n", r, g, b, a);
-    evas_object_color_set(ic2, r, g, b, a);
-    
-//    elm_object_part_content_set(fl, "back", ic2);
-//     evas_object_show(ic2);
-    elm_object_part_content_set(ly,"note_swallow", ic2);    
-// BACKGROUND SELECT END//
 
-    Evas_Object *bx, *cs, *bt, *bt1;
+	/* Fix Alpha pre multiplication by edje */
+   r = list_data->color_r;
+   g = list_data->color_g;
+   b = list_data->color_b;
 
-    
-    
-    Eina_List *tg_change = NULL;
-    tg_change = eina_list_append(tg_change, ic2);
-    
-    
-    bx = elm_box_add(win);
-    evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-    evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, EVAS_HINT_FILL);
-    evas_object_size_hint_min_set(bx, 400, 400);
-    evas_object_show(bx);
-    
-    Evas_Object *tg;
-    tg = elm_check_add(bx);
-    elm_object_style_set(tg, "toggle");
-    elm_object_text_set(tg, gettext("Change color for: "));
-    elm_object_part_text_set(tg, "on", gettext("Textcolor"));
-    elm_object_part_text_set(tg, "off", gettext("Background"));
-    evas_object_smart_callback_add(tg, "changed", _tg_changed_cb, tg_change);
-    elm_box_pack_end(bx, tg);
-    evas_object_show(tg);
-    
-    
-    // COLOR SELECT //
-    cs = elm_colorselector_add(bx);
-    evas_object_size_hint_weight_set(cs, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-    evas_object_size_hint_align_set(cs, EVAS_HINT_FILL, EVAS_HINT_FILL);
-    
-   elm_colorselector_mode_set(cs, ELM_COLORSELECTOR_BOTH);
+   a = list_data->color_a;
+
+	evas_color_argb_premul(a, &r, &g, &b);
+   evas_object_color_set(ic2, r, g, b, a);
+
+   elm_object_part_content_set(ly,"note_swallow", ic2);    
+	// BACKGROUND SELECT END//
+
+   Evas_Object *bx, *cs, *bt, *bt1;
+
+   Eina_List *tg_change = NULL;
+   tg_change = eina_list_append(tg_change, ic2);
+
+   bx = elm_box_add(win);
+   evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_size_hint_min_set(bx, 400, 400);
+   evas_object_show(bx);
+
+   Evas_Object *tg;
+   tg = elm_check_add(bx);
+   elm_object_style_set(tg, "toggle");
+   elm_object_text_set(tg, gettext("Change color for: "));
+   elm_object_part_text_set(tg, "on", gettext("Textcolor"));
+   elm_object_part_text_set(tg, "off", gettext("Background"));
+   evas_object_smart_callback_add(tg, "changed", _tg_changed_cb, tg_change);
+   elm_box_pack_end(bx, tg);
+   evas_object_show(tg);
+
+   // COLOR SELECT //
+   cs = elm_colorselector_add(bx);
+   evas_object_size_hint_weight_set(cs, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(cs, EVAS_HINT_FILL, EVAS_HINT_FILL);
+
+	elm_colorselector_mode_set(cs, ELM_COLORSELECTOR_BOTH);
  
    elm_colorselector_palette_name_set(cs, "enotes");
   
@@ -2685,102 +2500,96 @@ enotes_win_setup(Note *list_data)
    elm_colorselector_palette_color_add(cs, 66, 70, 73, 255);
    elm_colorselector_palette_color_add(cs, 255, 255, 255, 255);
    elm_colorselector_palette_color_add(cs, 0, 0, 0, 255);
-	
+	evas_color_argb_premul(a, &r, &g, &b);
    elm_colorselector_color_set(cs, r, g, b, a);
 
-    elm_box_pack_end(bx, cs);
-    evas_object_show(cs);
+	elm_box_pack_end(bx, cs);
+   evas_object_show(cs);
 
-    
+   tg_change = eina_list_append(tg_change, cs);
+   tg_change = eina_list_append(tg_change, en1);
 
-    tg_change = eina_list_append(tg_change, cs);
-    tg_change = eina_list_append(tg_change, en1);
-       
-// create List for Evas_Objects and other "win" values
-    Eina_List *list_values = NULL;
+	// create List for Evas_Objects and other "win" values
+   Eina_List *list_values = NULL;
+	list_values = eina_list_append(list_values, en);
+   list_values = eina_list_append(list_values, cs);
+   list_values = eina_list_append(list_values, win);
+   list_values = eina_list_append(list_values, &list_data->id);
+   list_values = eina_list_append(list_values, en1);
+   list_values = eina_list_append(list_values, ly);
+   list_values = eina_list_append(list_values, &list_data->text_color);
+   list_values = eina_list_append(list_values, &list_data->text_size);
+   list_values = eina_list_append(list_values, ic2);
+   list_values = eina_list_append(list_values, bx);
 
-    list_values = eina_list_append(list_values, en);
-    list_values = eina_list_append(list_values, cs);
-    list_values = eina_list_append(list_values, win);
-    list_values = eina_list_append(list_values, &list_data->id);
-    list_values = eina_list_append(list_values, en1);
-    list_values = eina_list_append(list_values, ly);
-    list_values = eina_list_append(list_values, &list_data->text_color);
-    list_values = eina_list_append(list_values, &list_data->text_size);
-    list_values = eina_list_append(list_values, ic2);
-    list_values = eina_list_append(list_values, bx);
+   bt = elm_button_add(bx);
+   elm_object_text_set(bt, gettext("Save colorset as default"));
+   evas_object_size_hint_align_set(bt, 0.5, 0);
+   evas_object_smart_callback_add(bt, "clicked", _bt_colorset_save, list_values);
+   elm_box_pack_end(bx, bt);
+   evas_object_show(bt);
 
-    bt = elm_button_add(bx);
-    elm_object_text_set(bt, gettext("Save colorset as default"));
-    evas_object_size_hint_align_set(bt, 0.5, 0);
-    evas_object_smart_callback_add(bt, "clicked", _bt_colorset_save, list_values);
-    elm_box_pack_end(bx, bt);
-    evas_object_show(bt);
+   bt1 = elm_button_add(bx);
+   elm_object_text_set(bt1, gettext("Set colorset to all notes"));
+   evas_object_size_hint_align_set(bt1, 0.5, 0);
 
-    bt1 = elm_button_add(bx);
-    elm_object_text_set(bt1, gettext("Set colorset to all notes"));
-    evas_object_size_hint_align_set(bt1, 0.5, 0);
-    
-    evas_object_smart_callback_add(bt1, "clicked", _bt_colorset_to_all, list_values);
-    elm_box_pack_end(bx, bt1);
-    evas_object_show(bt1);
-    
+   evas_object_smart_callback_add(bt1, "clicked", _bt_colorset_to_all, list_values);
+   elm_box_pack_end(bx, bt1);
+   evas_object_show(bt1);
+
 	check_as_gadget = elm_check_add(bx);
 	elm_object_text_set(check_as_gadget, "set as gadget note");
-    evas_object_size_hint_align_set(check_as_gadget, 0.5, 0);
+   evas_object_size_hint_align_set(check_as_gadget, 0.5, 0);
    elm_check_state_set(check_as_gadget, list_data->as_gadget);
-//    E_ALIGN(check_bell, 0.0, 0.0);
-//  	E_WEIGHT(check_bell, EVAS_HINT_EXPAND, 0);
+	
 	elm_box_pack_end(bx, check_as_gadget);
 	evas_object_show(check_as_gadget);
-   
-    list_values = eina_list_append(list_values, check_as_gadget);
-	
-    elm_object_part_content_set(ly,"color_swallow", bx);
-    
-// COLOR SELECT END //
-   
 
-    
-    
-// CALLBACK NEW/ICONIFY/DELETE NOTES //
+   list_values = eina_list_append(list_values, check_as_gadget);
+	
+   elm_object_part_content_set(ly,"color_swallow", bx);
+
+	// COLOR SELECT END //
+
+	
+	// CALLBACK NEW/ICONIFY/DELETE NOTES //
     edje_object_signal_callback_add(edje_obj, "new", "new", _enotes_new, NULL);
     edje_object_signal_callback_add(edje_obj, "iconify", "iconify", _enotes_iconify, list_values);
-   
-// create List for Evas_Object and other "win" delete request
-    Eina_List *list_delete = NULL;
-    list_delete = eina_list_append(list_delete, win);
-    list_delete = eina_list_append(list_delete, &list_data->id);  
-   
-    edje_object_signal_callback_add(edje_obj, "delete", "delete", _popup_delete_cb, list_values);
+
+	// create List for Evas_Object and other "win" delete request
+   Eina_List *list_delete = NULL;
+   list_delete = eina_list_append(list_delete, win);
+   list_delete = eina_list_append(list_delete, &list_data->id);  
+
+   edje_object_signal_callback_add(edje_obj, "delete", "delete", _popup_delete_cb, list_values);
 
 
-// CALLBACK für theme
-//     edje_object_signal_callback_add(edje_obj, "layout", "layout", _layout_change, list_values);
-   
-    
-// CALLBACK was passiert wenn das Fenster geschloss wird 
-    evas_object_smart_callback_add(win, "delete,request", _close_all, win);
-    
-   
-// create List for text size and text color
-    Eina_List *list_text = NULL;
-    list_text = eina_list_append(list_text, en);
-    list_text = eina_list_append(list_text, list_data->tcolor); 
-    list_text = eina_list_append(list_text, &list_data->text_size);
-    list_text = eina_list_append(list_text, en1);
-    list_text = eina_list_append(list_text, ly);
-  
+	// CALLBACK für theme
+	//     edje_object_signal_callback_add(edje_obj, "layout", "layout", _layout_change, list_values);
+	
 
-// CALLBACK für die Schriftgröße
-    char buf_en[PATH_MAX];
-    char buf_en1[PATH_MAX];
+	// CALLBACK was passiert wenn das Fenster geschloss wird 
+   evas_object_smart_callback_add(win, "delete,request", _close_all, win);
 
-    snprintf(buf_en, sizeof(buf_en), "DEFAULT='font=Sans:style=Regular color=%s font_size=%i'", list_data->tcolor, list_data->text_size);
-    snprintf(buf_en1, sizeof(buf_en1), "DEFAULT='font=Sans:style=Regular color=%s font_size=16'", list_data->tcolor);
 
-    elm_entry_text_style_user_push(en, buf_en);
-    elm_entry_text_style_user_push(en1, buf_en1);
+	// create List for text size and text color
+   Eina_List *list_text = NULL;
+   list_text = eina_list_append(list_text, en);
+   list_text = eina_list_append(list_text, list_data->tcolor); 
+   list_text = eina_list_append(list_text, &list_data->text_size);
+   list_text = eina_list_append(list_text, en1);
+   list_text = eina_list_append(list_text, ly);
+
+	
+	// CALLBACK für die Schriftgröße
+   char buf_en[PATH_MAX];
+   char buf_en1[PATH_MAX];
+
+   snprintf(buf_en, sizeof(buf_en), "DEFAULT='font=Sans:style=Regular color=%s font_size=%i'", list_data->tcolor, list_data->text_size);
+   snprintf(buf_en1, sizeof(buf_en1), "DEFAULT='font=Sans:style=Regular color=%s font_size=16'", list_data->tcolor);
+
+   elm_entry_text_style_user_push(en, buf_en);
+   elm_entry_text_style_user_push(en1, buf_en1);
 
 //     edje_object_signal_callback_add(edje_obj, "size", "normal", _textsize_change_cb_normal, list_text);
 //     edje_object_signal_callback_add(edje_obj, "size", "increase", _textsize_change_cb_increase, list_text);
@@ -2845,9 +2654,10 @@ enotes_win_setup(Note *list_data)
     list_keydown = eina_list_append(list_keydown, en);
     list_keydown = eina_list_append(list_keydown, edje_obj);
 
+	 
 // 	 if(gadget == 0)
 // 	 {
-    evas_object_event_callback_add(edje_obj, EVAS_CALLBACK_KEY_DOWN, key_down, list_values);
+    evas_object_event_callback_add(ly, EVAS_CALLBACK_KEY_DOWN, key_down, list_values); // TODO: CALLBACK sollte auf obj win gehen. bug in efl
 // 	 ecore_event_handler_add(ECORE_EVENT_KEY_DOWN, key_down, list_values);
 // 	 Ecore_Event* ecore_event_add(int type, void* ev, Ecore_End_Cb func_free, void* func_free_data)
 	 
@@ -2858,26 +2668,8 @@ enotes_win_setup(Note *list_data)
     
     elm_entry_item_provider_append(en, item_provider, NULL);
     elm_entry_item_provider_append(en1, item_provider, NULL);    
-//// TEST MENU    
-    char buf1[1024];
-    Evas_Object *o = NULL;
-    snprintf(buf1, sizeof(buf1), "%s/themes/default.edj", elm_app_data_dir_get());
-    o = edje_object_add(win);
-    edje_object_file_set(o, buf1, "done");
-    
-    elm_entry_context_menu_item_add(en, "todo", "home", ELM_ICON_NONE, _insert_done_icon_context, en);
-//     elm_entry_context_menu_item_add(en, "done", "/home/simon/efl_src/enotes/data/desktop/enotes.png", ELM_ICON_FILE, _insert_done_icon_context, en);
-    elm_entry_context_menu_item_add(en, "important", "home", ELM_ICON_STANDARD, _insert_done_icon_context, en);
-    
-//     Evas_Object *menu;
-//     menu = elm_menu_add(win);
-   
 
-   
-//     elm_menu_item_add(menu, NULL, "/home/simon/efl_src/enotes/data/desktop/enotes.png", NULL, NULL, NULL);
-//     elm_menu_item_add(menu, NULL, "/home/simon/efl_src/enotes/data/desktop/enotes.png", NULL, NULL, NULL);
-//    evas_object_event_callback_add(en, EVAS_CALLBACK_KEY_UP, _ctx_show_cb, en);
-
+	 
     evas_object_show(win);
         
     if(list_data->sticky)
