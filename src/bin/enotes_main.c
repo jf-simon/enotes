@@ -1312,11 +1312,13 @@ static void
 _insert_done_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
 {   
     Evas_Object *en = data;
-    
+    int pos;
     if(elm_object_focus_get(en))
 	 {
+		 pos = elm_entry_cursor_pos_get(en);
 		 elm_entry_cursor_line_begin_set(en);
-    elm_entry_entry_insert(en, "<item relsize=24x24 vsize=full href=done></item> ");
+		 elm_entry_entry_insert(en, "<item relsize=24x24 vsize=full href=done></item> ");
+		 elm_entry_cursor_pos_set(en, pos+2);
 	 }
 }
 
