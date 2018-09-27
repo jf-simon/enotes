@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=enotes
+Name[de]=enotes
+GenericName=a Note program for daily use
+Comment=Efl Application Enotes
+Icon=enotes.png
+TryExec=enotes
+Exec=enotes
+Categories=Utility;Office

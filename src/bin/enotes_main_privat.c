@@ -19,8 +19,8 @@
 
 
 #include "gettext.h"
-// #include "Enotes.h"
-// #include "enotes_private.h"
+#include "Enotes.h"
+#include "enotes_private.h"
 
 // #include "caldav.h"
 // #include "enotes_caldav.c"
@@ -46,9 +46,7 @@ static char home_dir[PATH_MAX];
 static char home_file[PATH_MAX];
 Eina_Bool clean_start;
 int help_on;
-int settings_on;
 Evas_Object *help_win = NULL;
-Evas_Object *settings_win = NULL;
 Evas_Object *popup_delete_tmp = NULL;
 Evas_Object *popup_close_tmp = NULL;
 Evas_Object *popup_backup_tmp = NULL;
@@ -80,7 +78,6 @@ typedef struct {
         const char *theme;
         const char *note_text;
         Eina_Bool as_gadget;
-        const char *cat;
 } Note;
 
 typedef struct {
@@ -118,7 +115,6 @@ typedef struct {
         const char *theme;
         const char *note_text;
         Eina_Bool as_gadget;
-        const char *cat;
 } My_Conf_Type;
    
 
@@ -172,7 +168,6 @@ _my_conf_descriptor_init(void)
     MY_CONF_SUB_ADD_BASIC(theme, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(note_text, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(as_gadget, EET_T_UCHAR);
-    MY_CONF_SUB_ADD_BASIC(cat, EET_T_STRING);
    
     MY_CONF_ADD_BASIC(first, EET_T_STRING);
     MY_CONF_ADD_BASIC(first1, EET_T_INT);
@@ -187,7 +182,8 @@ _my_conf_descriptor_init(void)
     EET_DATA_DESCRIPTOR_ADD_LIST
      (_my_conf_descriptor, Note_List_Eet, "note_list1", note_list1, _my_conf_sub_descriptor);
 
-    #undef MY_CONF_ADD_BASIC
+     
+    #undef MY_CONF_ADD_BASIC     
     #undef MY_CONF_SUB_ADD_BASIC
 }
 
@@ -366,7 +362,7 @@ enotes_win_help(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UN
     
     // LAYOUT CREATE //
     ly = elm_layout_add(win);
-    snprintf(buf, sizeof(buf), "%s/themes/enotes.edj", elm_app_data_dir_get());
+    snprintf(buf, sizeof(buf), "%s/themes/default.edj", elm_app_data_dir_get());
     elm_layout_file_set(ly, buf, "help");
     evas_object_size_hint_weight_set(ly, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 
@@ -998,7 +994,6 @@ note_list = NULL;
 		int *textcolor = eina_list_nth(data1, 6);
 		int *textsize = eina_list_nth(data1, 7);
 		Evas_Object *ic2 = eina_list_nth(data1, 8);
-		Evas_Object *cat = eina_list_nth(data1, 11);
 // 		Evas_Object *check_as_gadget = eina_list_nth(data1, 10);
 		
 		
@@ -1049,7 +1044,6 @@ note_list = NULL;
                         savenote->menu = eina_stringshare_add(state);
                         savenote->blur = eina_stringshare_add(blur);
                         savenote->note_text = eina_stringshare_add(elm_object_text_get(en));
-                        savenote->cat = eina_stringshare_add(elm_object_text_get(cat));
 // 								savenote->as_gadget = 1;
                     
     note_list = eina_list_append(note_list, savenote);
@@ -1230,88 +1224,6 @@ _save_notes()
 
 
 static void
-_open_settings(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
-{
-
-    Evas_Object *win;
-	 
-    if(settings_on != 1)
-    {    
-			char buf[PATH_MAX];
-			Eina_List *list_values= data;
-			Evas_Object *win1 = eina_list_nth(list_values, 2);
-			Evas_Object *ly = eina_list_nth(list_values, 5);
-			Evas_Object *cat = eina_list_nth(list_values, 11);
-			
-			Evas_Object *edje_obj = elm_layout_edje_get(ly);
-			
-			win = elm_win_add(NULL, "Enote SETTINGS", ELM_WIN_BASIC);
-			
-			elm_win_title_set(win, gettext("eNotes Settings"));
-			elm_win_focus_highlight_enabled_set(win, EINA_TRUE);
-			elm_win_borderless_set(win, EINA_TRUE);
-			elm_win_alpha_set(win, EINA_TRUE);
-			elm_win_autodel_set(win, EINA_TRUE);
-			
-			// LAYOUT CREATE //
-			ly = elm_layout_add(win);
-			snprintf(buf, sizeof(buf), "%s/themes/enotes.edj", elm_app_data_dir_get());
-			elm_layout_file_set(ly, buf, "help");
-			evas_object_size_hint_weight_set(ly, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-			
-			elm_win_resize_object_add(win, ly);
-			evas_object_show(ly);
-			
-			Evas_Object *bx;
-			
-			bx = elm_box_add(win);
-			evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-			evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, EVAS_HINT_FILL);
-			evas_object_show(bx);
-
-			/////
-			Eina_List *l;
-			Note *list_data;
-
-					EINA_LIST_FOREACH(note_list, l, list_data)
-					{
-						
-						if((strcmp(list_data->cat, "") != 0)/* || (list_data->cat != NULL)*/)
-						{
-								Evas_Object *check_cat;
-			
-								check_cat = elm_check_add(win);
-								evas_object_size_hint_weight_set(check_cat, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-								evas_object_size_hint_align_set(check_cat, EVAS_HINT_FILL, EVAS_HINT_FILL);
-								elm_object_text_set(check_cat, list_data->cat);
-								evas_object_show(check_cat);
-								
-							elm_box_pack_end(bx, check_cat);
-						}
-					}
-					
-					
-
-			
-			
-			evas_object_size_hint_min_set(win, 150, 150);
-			evas_object_resize(win, 150, 150);
-			elm_win_center(win, EINA_TRUE, EINA_TRUE);
-			evas_object_show(win);
-			elm_object_focus_set(win, EINA_TRUE);
-			settings_win = win;
-			settings_on = 1;
-    }
-    else
-    {
-         settings_on = 0;
-			evas_object_del(settings_win);
-			settings_win = NULL;
-    }
-}
-
-
-static void
 _layout_change(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
 {
     char buf[PATH_MAX];
@@ -1331,7 +1243,7 @@ _layout_change(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNU
     state_blur = edje_object_part_state_get(edje_obj, "blur", NULL);
     state_menu = edje_object_part_state_get(edje_obj, "rect_overleft", NULL);
     
-    snprintf(buf, sizeof(buf), "%s/themes/enotes.edj", elm_app_data_dir_get());
+    snprintf(buf, sizeof(buf), "%s/themes/default.edj", elm_app_data_dir_get());
     
     if(strcmp(layout,"layout1") == 0)
     {
@@ -1376,19 +1288,19 @@ static Evas_Object
    
    if (!strcmp(item, "done"))
    {
-        snprintf(buf1, sizeof(buf1), "%s/themes/enotes.edj", elm_app_data_dir_get());
+        snprintf(buf1, sizeof(buf1), "%s/themes/default.edj", elm_app_data_dir_get());
         o = edje_object_add(evas_object_evas_get(en));
         edje_object_file_set(o, buf1, "done");
    }
    if (!strcmp(item, "important"))
    {
-        snprintf(buf1, sizeof(buf1), "%s/themes/enotes.edj", elm_app_data_dir_get());
+        snprintf(buf1, sizeof(buf1), "%s/themes/default.edj", elm_app_data_dir_get());
         o = edje_object_add(evas_object_evas_get(en));
         edje_object_file_set(o, buf1, "important");
    }
    if (!strcmp(item, "open"))
    {
-        snprintf(buf1, sizeof(buf1), "%s/themes/enotes.edj", elm_app_data_dir_get());
+        snprintf(buf1, sizeof(buf1), "%s/themes/default.edj", elm_app_data_dir_get());
         o = edje_object_add(evas_object_evas_get(en));
         edje_object_file_set(o, buf1, "open");
    }
@@ -1400,21 +1312,19 @@ static void
 _insert_done_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
 {   
     Evas_Object *en = data;
-    int pos;
+    
     if(elm_object_focus_get(en))
 	 {
-		 pos = elm_entry_cursor_pos_get(en);
 		 elm_entry_cursor_line_begin_set(en);
-		 elm_entry_entry_insert(en, "<item relsize=24x24 vsize=full href=done></item> ");
-		 elm_entry_cursor_pos_set(en, pos+2);
+    elm_entry_entry_insert(en, "<item relsize=24x24 vsize=full href=done></item> ");
 	 }
 }
-/*
+
 static void
 _insert_done_icon_context(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
 {   
     elm_entry_entry_insert(data, "<item relsize=24x24 vsize=full href=done></item> ");
-}*/
+}
 /*
 static void
 _insert_important_icon(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNUSED, const char *src EINA_UNUSED)
@@ -1516,10 +1426,9 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
     int *textsize = eina_list_nth(list_values, 7);
     Evas_Object *ic2 = eina_list_nth(list_values, 8);
     Evas_Object *check_as_gadget = eina_list_nth(list_values, 10);
-    Evas_Object *cat = eina_list_nth(list_values, 11);
     
     // get layout of win
-    elm_layout_file_get(ly, NULL, &theme);
+    elm_layout_file_get(ly, NULL, &theme);    
     
     // get menu state
     edje_obj = elm_layout_edje_get(ly);
@@ -1612,7 +1521,6 @@ _entry_change_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, 
                         list_data2->menu = eina_stringshare_add(state);
                         list_data2->blur = eina_stringshare_add(blur);
                         list_data2->note_text = eina_stringshare_add(elm_object_text_get(en));
-                        list_data2->cat = eina_stringshare_add(elm_object_text_get(cat));
                     }
                 }
     _save_notes();
@@ -2011,9 +1919,72 @@ _close_all2(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void 
      _close_final(data);
 }
 
-char 
-*stringReplace(char *search, char *replace, char *string)
+//////////////////////////////
+/*
+static Eina_Bool
+_url_complete_cb(void *data EINA_UNUSED, int type EINA_UNUSED, void *event_info)
 {
+
+            
+   Ecore_Con_Event_Url_Complete *url_complete = event_info;
+   const Eina_List *headers, *l;
+   char *str;
+   printf("\n");
+   printf("download completed with status code: %d\n", url_complete->status);
+   headers = ecore_con_url_response_headers_get(url_complete->url_con);
+   EINA_LIST_FOREACH(headers, l, str)
+     printf("header: %s\n", str);
+   
+//    char *buf = ecore_con_url_data_get(ec_url);
+//     printf("TEST: %c\n", buf);
+//    ecore_main_loop_quit();
+   return EINA_TRUE;
+	
+}*/
+
+/*
+char *stringReplace(char *search, char *replace, char *string) {
+	char *tempString, *searchStart;
+	int len=0;
+// 	int i=0;
+
+	// preuefe ob Such-String vorhanden ist
+	searchStart = strstr(string, search);
+	if(searchStart == NULL) {
+		return string;
+	}
+
+	// Speicher reservieren
+	tempString = (char*) malloc(strlen(string) * sizeof(char));
+	if(tempString == NULL) {
+		return NULL;
+	}
+		// temporaere Kopie anlegen
+	strcpy(tempString, string);
+
+// for(i=0;tempString[i]!='\0';i++)
+// {
+
+	// ersten Abschnitt in String setzen
+	len = searchStart - string;
+	string[len] = '\0';
+
+	// zweiten Abschnitt anhaengen
+	strcat(string, replace);
+
+	// dritten Abschnitt anhaengen
+	len += strlen(search);
+	strcat(string, (char*)tempString+len);
+// }
+	// Speicher freigeben
+	free(tempString);
+
+	return string;
+}
+*/
+char *stringReplace(char *search, char *replace, char *string) {
+	
+	
    while(strstr(string, search) != NULL)
    {
 		
@@ -2046,8 +2017,37 @@ char
 }
 
 
-void 
-key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_info)
+static Eina_Bool
+_url_data_cb(void *data EINA_UNUSED, int type EINA_UNUSED, void *event_info)
+{
+	
+	    Eina_List *list_values = data;
+    Evas_Object *en = eina_list_nth(list_values, 0);
+//     Evas_Object *en1 = eina_list_nth(list_values, 4);
+	 
+   Ecore_Con_Event_Url_Data *url_data = event_info;
+//
+	
+	printf("ORG\n%s\n", url_data->data);
+
+	char search_icon[] = "[x]";
+	char replace_icon[] = "<item relsize=24x24 vsize=full href=done></item> ";
+// 	char search_br[] = "\n";
+// 	char replace_br[] = "<br>";
+
+	
+        stringReplace(search_icon, replace_icon, (char *)url_data->data);
+//         stringReplace(search_br, replace_br, (char *)url_data->data);
+		
+  
+    elm_object_text_set(en, (char *)url_data->data);
+
+return EINA_TRUE;
+}
+
+///////////////////////////////
+
+void key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_info)
 // void key_down(void *data, int type __UNUSED__, void *ev)
 {
     Eina_List *list_values = data;
@@ -2163,10 +2163,134 @@ key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *ev
 
         if(!strcmp(k, "F12"))                       // backup
         {            
-            printf("OPEN SETTINGS\n");
-            _open_settings(data, NULL, NULL, NULL);
-		  }
+            printf("SYNC\n");
+// 			  _caldav_sync(NULL);
 			  
+			  
+			  // 				   const char *type, *post_data = "";
+					Ecore_Con_Url *ec_url = NULL;
+// 					Eina_Bool r;
+					
+   ecore_con_init();
+   ecore_con_url_init();
+/*
+PROPFIND /calendars/johndoe/home/ HTTP/1.1
+Depth: 0
+Prefer: return-minimal
+Content-Type: application/xml; charset=utf-8
+
+<d:propfind xmlns:d="DAV:" xmlns:cs="http://calendarserver.org/ns/">
+  <d:prop>
+     <d:displayname />
+     <cs:getctag />
+  </d:prop>
+</d:propfind>
+*/
+// SHOW OPTIONS
+/*
+   ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/", "OPTIONS");
+	
+	const char *post_data = "Host: jfsimon.ocloud.de";
+	
+	
+//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
+//	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
+	
+		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
+// 		ecore_con_url_additional_header_add(ec_url, "Depth", "1");
+// 		ecore_con_url_additional_header_add(ec_url, "Prefer", "return-minimal");
+// 		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
+
+	
+	ecore_con_url_httpauth_set(ec_url, "jfsimon", "Duff14beer", EINA_FALSE);
+	ecore_con_url_post(ec_url, post_data, strlen(post_data), "text/html");
+  
+	*/
+
+
+// DOWNLOAD CALENDAR OBJECTS
+/*
+//    ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/", "REPORT");
+   ec_url = ecore_con_url_custom_new("http://82.165.71.31/nextcloud/remote.php/dav/calendars/Simon/personal/", "REPORT");
+	
+	
+	const char *post_data = "<c:calendar-query xmlns:d=\"DAV:\" xmlns:c=\"urn:ietf:params:xml:ns:caldav\">"
+    "<d:prop>"
+        "<d:getetag />"
+    "</d:prop>"
+    "<c:filter>"
+        "<c:comp-filter name=\"VCALENDAR\">"
+            "<c:comp-filter name=\"VTODO\" />"
+        "</c:comp-filter>"
+    "</c:filter>"
+"</c:calendar-query>";
+	 
+	
+	
+//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
+//	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
+	
+		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
+		ecore_con_url_additional_header_add(ec_url, "Depth", "1");
+		ecore_con_url_additional_header_add(ec_url, "Prefer", "return-minimal");
+		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
+
+	
+	ecore_con_url_httpauth_set(ec_url, "Simon", "simontischer", EINA_FALSE);
+	ecore_con_url_post(ec_url, post_data, strlen(post_data), NULL);
+  
+  */
+// GET Calendar Information
+/*
+//    ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/", "PROPFIND");
+   ec_url = ecore_con_url_custom_new("http://82.165.71.31/nextcloud/remote.php/dav/calendars/Simon/personal/", "PROPFIND");
+	
+	const char *post_data = "<d:propfind xmlns:d=\"DAV:\" xmlns:cs=\"http://calendarserver.org/ns/\">"
+  "<d:prop>"
+     "<d:displayname />"
+     "<cs:getctag />"
+  "</d:prop>"
+"</d:propfind>";
+	
+	
+//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
+//	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
+	
+		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
+		ecore_con_url_additional_header_add(ec_url, "Depth", "0");
+		ecore_con_url_additional_header_add(ec_url, "Prefer", "return-minimal");
+		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
+
+	
+	ecore_con_url_httpauth_set(ec_url, "simon", "simontischer", EINA_FALSE);
+	ecore_con_url_post(ec_url, post_data, strlen(post_data), "text/html");
+  */
+
+// GET ICS DATA 
+
+// http://82.165.71.31/nextcloud/remote.php/dav/calendars/Simon/personal/
+   ec_url = ecore_con_url_custom_new("http://jfsimon.ocloud.de/remote.php/dav/calendars/jfsimon/caldavtest/20c16a97-0dba-4c05-bcab-fc36a6c2ef21.1507125291887.ics", "GET");
+	
+//    ecore_event_handler_add(ECORE_CON_EVENT_URL_COMPLETE, _url_complete_cb, NULL);
+		ecore_event_handler_add(ECORE_CON_EVENT_URL_DATA, _url_data_cb, list_values);
+		   ecore_con_url_additional_header_add(ec_url, "encoding", "utf-8");
+// 		   ecore_con_url_additional_header_add(ec_url, "charset", "utf-8");
+		ecore_con_url_additional_header_add(ec_url, "Content-Type", "application/xml; charset=utf-8");
+// 	   ecore_event_handler_add(ECORE_CON_EVENT_URL_PROGRESS, _url_progress_cb, NULL);
+
+	
+//    ecore_con_url_httpauth_set(ec_url, "simon", "simontischer", EINA_FALSE);
+   ecore_con_url_httpauth_set(ec_url, "jfsimon", "Duff14beer", EINA_FALSE);
+	
+     ecore_con_url_get(ec_url);
+
+
+	  
+//    ecore_con_url_free(ec_url);
+//    ecore_con_url_shutdown();
+//    ecore_con_shutdown();
+        }
+        
         if(!strcmp(k, "0")) 
         {        
             Eina_List *list_text_tmp = NULL;
@@ -2435,7 +2559,7 @@ enotes_win_setup(Note *list_data)
 	
     // LAYOUT CREATE //
     ly = elm_layout_add(win);
-    snprintf(buf, sizeof(buf), "%s/themes/enotes.edj", elm_app_data_dir_get());
+    snprintf(buf, sizeof(buf), "%s/themes/default.edj", elm_app_data_dir_get());
     elm_layout_file_set(ly, buf, list_data->theme);
     evas_object_size_hint_weight_set(ly, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);	
 
@@ -2474,15 +2598,14 @@ enotes_win_setup(Note *list_data)
 	 // create elm_entry //
     en = elm_entry_add(win);
 
-//     elm_entry_anchor_hover_parent_set(en, win);
+    elm_entry_anchor_hover_parent_set(en, win);
 
     elm_entry_line_wrap_set(en, ELM_WRAP_WORD);
     elm_object_text_set(en, list_data->note_text);
 
-//     evas_object_smart_callback_add(en, "anchor,clicked", _anchor_clicked_cb, NULL);
+    evas_object_smart_callback_add(en, "anchor,clicked", _anchor_clicked_cb, NULL);
     evas_object_size_hint_weight_set(en, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
     evas_object_size_hint_align_set(en, EVAS_HINT_FILL, EVAS_HINT_FILL);
-	 evas_object_show(en);
     elm_object_part_content_set(ly, "content", en);
 
 
@@ -2513,21 +2636,21 @@ enotes_win_setup(Note *list_data)
 	evas_color_argb_premul(a, &r, &g, &b);
    evas_object_color_set(ic2, r, g, b, a);
 
-   elm_object_part_content_set(ly,"note_swallow", ic2);
+   elm_object_part_content_set(ly,"note_swallow", ic2);    
 	// BACKGROUND SELECT END//
 
    Evas_Object *bx, *cs, *bt, *bt1;
-   Evas_Object *tg, *cat, *cat_text;
 
    Eina_List *tg_change = NULL;
    tg_change = eina_list_append(tg_change, ic2);
 
    bx = elm_box_add(win);
-   evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, 0);
-   evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, 0);
-//    evas_object_size_hint_min_set(bx, 400, 400);
+   evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_size_hint_min_set(bx, 400, 400);
    evas_object_show(bx);
 
+   Evas_Object *tg;
    tg = elm_check_add(bx);
    elm_object_style_set(tg, "toggle");
    elm_object_text_set(tg, gettext("Change color for: "));
@@ -2540,7 +2663,7 @@ enotes_win_setup(Note *list_data)
    // COLOR SELECT //
    cs = elm_colorselector_add(bx);
    evas_object_size_hint_weight_set(cs, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(cs, EVAS_HINT_FILL, 0);
+   evas_object_size_hint_align_set(cs, EVAS_HINT_FILL, EVAS_HINT_FILL);
 
 	elm_colorselector_mode_set(cs, ELM_COLORSELECTOR_BOTH);
  
@@ -2609,26 +2732,8 @@ enotes_win_setup(Note *list_data)
 	
 	elm_box_pack_end(bx, check_as_gadget);
 	evas_object_show(check_as_gadget);
-	
-	cat_text = elm_label_add(bx);
-	elm_object_text_set(cat_text, "set categories");
-	elm_box_pack_end(bx, cat_text);
-	evas_object_show(cat_text);
-	
-	
-	cat = elm_entry_add(bx);
-   evas_object_size_hint_weight_set(cat, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(cat, EVAS_HINT_FILL, EVAS_HINT_FILL);
-	elm_object_text_set(cat, list_data->cat);
-	elm_object_part_text_set(cat, "elm.guide", "Enter categorie Name, ';' seperated");
-	elm_entry_single_line_set(cat, EINA_TRUE);
-	elm_entry_context_menu_disabled_set(cat, EINA_TRUE);
-	elm_box_pack_end(bx, cat);
-	evas_object_show(cat);
-
 
    list_values = eina_list_append(list_values, check_as_gadget);
-   list_values = eina_list_append(list_values, cat);
 	
    elm_object_part_content_set(ly,"color_swallow", bx);
 
@@ -2746,6 +2851,8 @@ enotes_win_setup(Note *list_data)
 	 
     evas_object_event_callback_add(en, EVAS_CALLBACK_MOUSE_WHEEL, _mouse_wheel, list_text);
 // 	 }
+    evas_object_resize(win, list_data->w, list_data->h);
+    evas_object_move(win, list_data->x, list_data->y);
     
     elm_entry_item_provider_append(en, item_provider, NULL);
     elm_entry_item_provider_append(en1, item_provider, NULL);    
@@ -2762,9 +2869,6 @@ enotes_win_setup(Note *list_data)
     }
 
     
-	 printf("NAME: %s\t\t: %i x H:%i\n\n", list_data->note_name, list_data->w, list_data->h);
-    evas_object_resize(win, list_data->w, list_data->h);
-    evas_object_move(win, list_data->x, list_data->y);
 
     
     Eina_List *note_list_edje_objects1 = NULL;
@@ -2785,8 +2889,6 @@ enotes_win_setup(Note *list_data)
     note_list_edje_objects1 = eina_list_append(note_list_edje_objects1, &list_data->text_size);
     note_list_edje_objects1 = eina_list_append(note_list_edje_objects1, ic2);
     note_list_edje_objects1 = eina_list_append(note_list_edje_objects1, bx);
-    note_list_edje_objects1 = eina_list_append(note_list_edje_objects1, check_as_gadget);
-    note_list_edje_objects1 = eina_list_append(note_list_edje_objects1, cat);
 
     note_list_edje_objects = eina_list_append(note_list_edje_objects, note_list_edje_objects1);
 }
@@ -2940,7 +3042,7 @@ _enotes_new()
     enotes_win_setup(defaultnote);
 }
 
-/*
+
 static const Ecore_Getopt optdesc = {
     "enotes",  
     "%prog [options] [command]\n\n",
@@ -2957,7 +3059,7 @@ static const Ecore_Getopt optdesc = {
         ECORE_GETOPT_HELP('h', "help"),
         ECORE_GETOPT_SENTINEL
     }
-};*/
+};
 
 
 EAPI_MAIN int
@@ -2973,11 +3075,6 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
         ECORE_GETOPT_VALUE_BOOL(quit_option),
         ECORE_GETOPT_VALUE_NONE
    };
-	
-	elm_app_compile_bin_dir_set(PACKAGE_BIN_DIR);
-	elm_app_compile_lib_dir_set(PACKAGE_LIB_DIR);
-	elm_app_compile_data_dir_set(PACKAGE_DATA_DIR);
-
 
 #if ENABLE_NLS
     setlocale(LC_ALL, "");
@@ -2986,7 +3083,7 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
     textdomain(PACKAGE);
 #endif
 
-//     enotes_init();
+    enotes_init();
     _my_conf_descriptor_init();
 
    if(getenv("E_GADGET_ID"))
@@ -2996,7 +3093,7 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
 //         id_num = atoi(buf1);
      }
      printf("IF GADGET: %i", gadget);
-/*
+
     args = ecore_getopt_parse(&optdesc, values, argc, argv);
     if (args < 0)
     {
@@ -3007,7 +3104,7 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
     {
         goto end;
     }
-     */
+     
     // set app informations
     elm_app_name_set("eNotes");
     elm_app_desktop_entry_set("enotes.desktop");
@@ -3036,16 +3133,12 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
           }
           else
 			{
-				
 					EINA_LIST_FOREACH(note_list, l, list_data)
 					{
-// 						char needle[] = "dienst";
-// 						if(strstr(list_data->cat, "privat")) 
-// 						{
 							enotes_win_setup(list_data);
-// 						}
 					}
-			}
+          }
+
     }
  //    enotes_library_call();
 
@@ -3053,7 +3146,7 @@ elm_main(int argc EINA_UNUSED, char **argv EINA_UNUSED)
 
     end:
         _my_conf_descriptor_shutdown();
-//         enotes_shutdown();
+        enotes_shutdown();
         elm_shutdown();
 
    return 0;
