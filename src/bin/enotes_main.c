@@ -359,7 +359,7 @@ enotes_win_help(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UN
     win = elm_win_add(NULL, "Enote HELP", ELM_WIN_BASIC);
     
     elm_win_title_set(win, gettext("eNotes Help"));
-    elm_win_focus_highlight_enabled_set(win, EINA_TRUE);
+    elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
     elm_win_borderless_set(win, EINA_TRUE);
     elm_win_alpha_set(win, EINA_TRUE);
     elm_win_autodel_set(win, EINA_TRUE);
@@ -2430,6 +2430,8 @@ enotes_win_setup(Note *list_data)
     elm_win_borderless_set(win, EINA_TRUE);
     elm_win_alpha_set(win, EINA_TRUE);
     elm_win_title_set(win, list_data->note_name);
+	 
+    elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
 	 elm_object_focus_set(win, EINA_TRUE);
 	 
 	
