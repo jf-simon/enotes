@@ -1336,17 +1336,17 @@ _layout_change(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UNU
     if(strcmp(layout,"layout1") == 0)
     {
             elm_layout_file_set(edje_obj, buf, "layout2");
-    }
-    
-    if(strcmp(layout,"layout2") == 0)
+    }else if
+    (strcmp(layout,"layout2") == 0)
     {
             elm_layout_file_set(edje_obj, buf, "layout3");
-    }
-    
-    if(strcmp(layout,"layout3") == 0)
+    }else if    
+    (strcmp(layout,"layout3") == 0)
     {
             elm_layout_file_set(edje_obj, buf, "layout1");
     }
+    else
+		 elm_layout_file_set(edje_obj, buf, "layout1");
     
         
     elm_layout_part_cursor_set(ly, "tape", ELM_CURSOR_HAND2);
