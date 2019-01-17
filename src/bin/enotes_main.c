@@ -357,7 +357,7 @@ enotes_win_help(void *data, Evas_Object *obj EINA_UNUSED, const char *em EINA_UN
     Evas_Object *edje_obj = elm_layout_edje_get(ly);
     
     win = elm_win_add(NULL, "Enote HELP", ELM_WIN_BASIC);
-    
+	 
     elm_win_title_set(win, gettext("eNotes Help"));
     elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
     elm_win_borderless_set(win, EINA_TRUE);
@@ -2435,6 +2435,8 @@ enotes_win_setup(Note *list_data)
 	 elm_object_focus_set(win, EINA_TRUE);
 	 
 	
+    snprintf(buf, sizeof(buf), "%s/themes/entry_theme.edj", elm_app_data_dir_get());
+    elm_theme_overlay_add(NULL, buf);
     // LAYOUT CREATE //
     ly = elm_layout_add(win);
     snprintf(buf, sizeof(buf), "%s/themes/enotes.edj", elm_app_data_dir_get());
@@ -2475,8 +2477,8 @@ enotes_win_setup(Note *list_data)
 
 	 // create elm_entry //
     en = elm_entry_add(win);
-
-//     elm_entry_anchor_hover_parent_set(en, win);
+	 elm_entry_scrollable_set(en, EINA_TRUE);
+ //     elm_entry_anchor_hover_parent_set(en, win);
 
     elm_entry_line_wrap_set(en, ELM_WRAP_WORD);
     elm_object_text_set(en, list_data->note_text);
@@ -2764,7 +2766,7 @@ enotes_win_setup(Note *list_data)
     }
 
     
-	 printf("NAME: %s\t\t: %i x H:%i\n\n", list_data->note_name, list_data->w, list_data->h);
+	 printf("NAME: %s\t\t: W:%i x H:%i\n\n", list_data->note_name, list_data->w, list_data->h);
     evas_object_resize(win, list_data->w, list_data->h);
     evas_object_move(win, list_data->x, list_data->y);
 
