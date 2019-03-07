@@ -319,6 +319,7 @@ group { name: "layout1";
                rel1.offset: -50 0;
                rel2.relative: 0.5 0.0;
                rel2.offset: 50 24;
+               color: 255 255 255 128;
             }
          }
          part { name: "content";
@@ -949,7 +950,6 @@ group { name: "layout2";
             mouse_events: 1;
             clip_to: "clip";
             description { state: "default" 0.0;
-//                 aspect: 1 1;
                rel1.relative: 0.5 0.0;
                rel1.offset: -14 0;
                rel2.relative: 0.5 0.0;

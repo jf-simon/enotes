@@ -18,6 +18,8 @@ edje = dependency('edje',       required: true,  version: efl_version)
 ecore = dependency('ecore', required: true,  version: efl_version)
 ecorex = dependency('ecore-x', required: true,  version: efl_version)
 depe = dependency('enlightenment', required: false)
+curl_dep = dependency('libcurl', version : '>= 7.35.0', required: true)
+
 ##### check for windows dependency
 #if build_machine.system() == 'windows'
 #   win = dependency('evil', version: efl_version)

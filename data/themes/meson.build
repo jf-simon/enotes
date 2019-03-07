@@ -10,4 +10,7 @@ custom_target(src + '.edj',
               install_dir: join_paths(dir_data, proj, 'themes'),
               install    : true
              )
+             
+install_data('entry_theme.edj',
+             install_dir: join_paths(dir_data, 'enotes/themes'))
 meson.add_install_script('perms.sh')
