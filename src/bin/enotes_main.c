@@ -92,6 +92,7 @@ typedef struct {
                const char *prodid;
                const char *created;
                const char *last_modified;
+               const char *last_modified_server;
                const char *summary;
                const char *percent_complete;
                const char *status;
@@ -99,6 +100,7 @@ typedef struct {
                const char *dtstamp;
                const char *uid;
                const char *href;
+               int *online;
          } Note_Sync_Data;
          
 } My_Conf_Type;
@@ -158,6 +160,7 @@ _my_conf_descriptor_init(void)
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.prodid, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.created, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.last_modified, EET_T_STRING);
+    MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.last_modified_server, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.summary, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.percent_complete, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.status, EET_T_STRING);
@@ -165,6 +168,7 @@ _my_conf_descriptor_init(void)
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.dtstamp, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.uid, EET_T_STRING);
     MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.href, EET_T_STRING);
+    MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.online, EET_T_INT);
    
     MY_CONF_ADD_BASIC(first, EET_T_STRING);
     MY_CONF_ADD_BASIC(first1, EET_T_INT);
@@ -1384,6 +1388,8 @@ save_enotes_all_objects(void *data EINA_UNUSED, Evas *e EINA_UNUSED, Evas_Object
 
     Eina_List *l;
     Eina_List *list_values;
+    Eina_Strbuf *newbuf;
+    newbuf = eina_strbuf_new();
     
    char last_modified[512];
 	time_t t;
@@ -1429,12 +1435,11 @@ save_enotes_all_objects(void *data EINA_UNUSED, Evas *e EINA_UNUSED, Evas_Object
     elm_win_title_set(win, elm_object_text_get(entry_title));
     
 
-         Eina_List *l1;
+        Eina_List *l1;
         EINA_LIST_FOREACH(note_list, l1, list_data2)
                 {
                     if(list_data2->id == *old_id)
                     {
-                        list_data2->note_name = eina_stringshare_add(elm_object_text_get(entry_title));
                         list_data2->id = *old_id;
                         list_data2->x = x;
                         list_data2->y = y;
@@ -1471,7 +1476,7 @@ save_enotes_all_objects(void *data EINA_UNUSED, Evas *e EINA_UNUSED, Evas_Object
                                 list_data2->w_cs = w;
                                 list_data2->h_cs = h;
                             }
-                            
+
                             if(strcmp(event_info,"3") == 0)
                             {
                                 list_data2->iconify = EINA_TRUE;
@@ -1491,23 +1496,38 @@ save_enotes_all_objects(void *data EINA_UNUSED, Evas *e EINA_UNUSED, Evas_Object
                         list_data2->theme = eina_stringshare_add(theme);
                         list_data2->menu = eina_stringshare_add(state);
                         list_data2->blur = eina_stringshare_add(blur);
-                        
+                        list_data2->cat = eina_stringshare_add(elm_object_text_get(cat));
+
                         t = time(NULL);
                         ts = localtime(&t);
-                        snprintf(last_modified, sizeof(last_modified), "%i%02i%02iT%02i%02i%02iZ", ts->tm_year+1900, ts->tm_mon+1, ts->tm_wday+1, ts->tm_hour, ts->tm_min, ts->tm_sec);
-//                      
-                        if(entry_notecontent != NULL && list_data2->note_text != NULL)
-                        {
-                           if(strcmp(list_data2->note_text, elm_object_text_get(entry_notecontent)))
-                           {
-                              list_data2->note_text = eina_stringshare_add(elm_object_text_get(entry_notecontent));
+                        snprintf(last_modified, sizeof(last_modified), "%i%02i%02iT%02i%02i%02iZ", ts->tm_year+1900, ts->tm_mon+1, ts->tm_mday, ts->tm_hour, ts->tm_min, ts->tm_sec);
 
-                              list_data2->Note_Sync_Data.last_modified = eina_stringshare_add(last_modified);
-                              
-                           }
+                        if(list_data2->Note_Sync_Data.last_modified == NULL|| !strcmp(list_data2->Note_Sync_Data.last_modified, ""))
+                        {
+                           list_data2->Note_Sync_Data.last_modified = eina_stringshare_add(last_modified);
                         }
+                        else
+                        {
+                           if(entry_notecontent != NULL && list_data2->note_text != NULL)
+                              {
+                                 if(strcmp(list_data2->note_text, elm_object_text_get(entry_notecontent)))
+                                 {
+                                    list_data2->note_text = eina_stringshare_add(elm_object_text_get(entry_notecontent));
+                                    list_data2->Note_Sync_Data.last_modified = eina_stringshare_add(last_modified);
+                                 }
+                              }
+                           if(entry_title != NULL && list_data2->note_name != NULL)
+                              {
+                                 if(strcmp(list_data2->note_name, elm_object_text_get(entry_title)))
+                                 {
+                                    list_data2->note_name = eina_stringshare_add(elm_object_text_get(entry_title));
+                                    list_data2->Note_Sync_Data.last_modified = eina_stringshare_add(last_modified);
+                                 }
+                              }
+                        }
+
                         if(list_data2->Note_Sync_Data.prodid == NULL || !strcmp(list_data2->Note_Sync_Data.prodid, ""))
-                           list_data2->Note_Sync_Data.prodid = eina_stringshare_add("Enotes");
+                           list_data2->Note_Sync_Data.prodid = eina_stringshare_add("-//Enotes");
                         
                         if(list_data2->Note_Sync_Data.created == NULL || !strcmp(list_data2->Note_Sync_Data.created, ""))
                            list_data2->Note_Sync_Data.created = eina_stringshare_add(last_modified);
@@ -1515,18 +1535,23 @@ save_enotes_all_objects(void *data EINA_UNUSED, Evas *e EINA_UNUSED, Evas_Object
                         if(list_data2->Note_Sync_Data.status == NULL || !strcmp(list_data2->Note_Sync_Data.status, ""))
                            list_data2->Note_Sync_Data.status = eina_stringshare_add("NEEDS-ACTION");
                         
+                        if(list_data2->Note_Sync_Data.etag == NULL || !strcmp(list_data2->Note_Sync_Data.etag, ""))
+                           list_data2->Note_Sync_Data.etag = eina_stringshare_add("");
                         
-
-                        list_data2->cat = eina_stringshare_add(elm_object_text_get(cat));
+                        if(list_data2->Note_Sync_Data.summary == NULL || !strcmp(list_data2->Note_Sync_Data.summary, ""))
+                           list_data2->Note_Sync_Data.summary = eina_stringshare_add(list_data2->note_name);
                         
+                        if(list_data2->Note_Sync_Data.percent_complete == NULL || !strcmp(list_data2->Note_Sync_Data.percent_complete, ""))
+                           list_data2->Note_Sync_Data.percent_complete = eina_stringshare_add("");
                         
+                        if(list_data2->Note_Sync_Data.description == NULL || !strcmp(list_data2->Note_Sync_Data.description, ""))
+                           list_data2->Note_Sync_Data.description = eina_stringshare_add(list_data2->note_text);
                         
-//                         printf("INHALT: %s\n", elm_object_text_get(entry_notecontent));
-//                         printf("TITLE: %s\n", elm_object_text_get(entry_title));
-//                         list_data2->Note_Sync_Data.prodid = eina_stringshare_add("Simon");
-//                         list_data2->Note_Sync_Data.created = eina_stringshare_add("HEUTE");
-//                         list_data2->Note_Sync_Data.created = eina_stringshare_add("UID IST NIX");
-
+                        if(list_data2->Note_Sync_Data.dtstamp == NULL || !strcmp(list_data2->Note_Sync_Data.dtstamp, ""))
+                           list_data2->Note_Sync_Data.dtstamp = eina_stringshare_add("");
+                        
+                        if(list_data2->Note_Sync_Data.href == NULL || !strcmp(list_data2->Note_Sync_Data.href, ""))
+                           list_data2->Note_Sync_Data.href = eina_stringshare_add("");
                     }
                 }
       }
@@ -1549,7 +1574,7 @@ _enotes_resize(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
 
 
 unsigned int createHEX(int r, int g, int b, int a)
-{   
+{
     return ((r & 0xff) << 24) + ((g & 0xff) << 16) + ((b & 0xff) << 8) + (a & 0xff);
 }
 /*
@@ -1617,7 +1642,20 @@ _colorselector_changed_cb(void *data, Evas_Object *obj, void *event_info EINA_UN
 
 
 static void
-_enotes_del(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
+_enotes_del_request(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
+{
+    Eina_List *list_values = data;
+    Evas_Object *win = eina_list_nth(list_values, 2);
+    int *del_id = eina_list_nth(list_values, 3);
+    Eina_List *l;
+    Eina_List *l1;
+    Note *list_data2;
+
+    _del_local_data(data, NULL, NULL);
+}
+
+void
+_enotes_del_local(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
 {
     Eina_List *list_values = data;
     Evas_Object *win = eina_list_nth(list_values, 2);
@@ -1626,8 +1664,8 @@ _enotes_del(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUS
     Eina_List *l1;
     Note *list_data2;
     
+//     delete data out of master eina_list which holds all notes
     
-    // delete data out of master eina_list which holds all notes
     EINA_LIST_FOREACH(note_list, l, list_data2)
     {
         if(list_data2->id == *del_id)
@@ -1656,6 +1694,8 @@ _enotes_del(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUS
    save_enotes_all_objects(NULL, NULL, NULL, "0");
 
     evas_object_hide(win);
+
+   
 }
 
 
@@ -1832,6 +1872,8 @@ _enotes_exit(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_i
 static void
 _close_final(void *data)
 {
+    save_enotes_all_objects(NULL, NULL, NULL, "0");
+
     Evas_Object *notify, *bx, *bxv, *o;
 
     notify = elm_notify_add(data);
@@ -1978,36 +2020,36 @@ key_down(void *data, Evas *e EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *ev
             _enotes_sticky(win, NULL, NULL, NULL);
 
         }
-        
+
         if(!strcmp(k, "F8"))                        // set iconify 
         {
             _enotes_iconify(data, NULL, NULL, NULL);
-        }        
-        
+        }
+
         if(!strcmp(k, "F9"))                        // change layout
         {
             _layout_change(data, NULL, NULL, NULL);
         }
-        
+
         if(!strcmp(k, "F10"))                       // backup
         {
 //             _backup_to_file(list_values);
-           save_enotes_all_objects(NULL, NULL, NULL, "0");
+            save_enotes_all_objects(NULL, NULL, NULL, "0");
             _put_local_data(NULL, NULL, NULL);
         }
-        if(!strcmp(k, "F11"))                       // Open colorselector
+        if(!strcmp(k, "F11"))                       // Start Syncing
         {
-// 				edje_object_signal_emit(edje_obj, "mouse,clicked,1", "cs_icon");
+            save_enotes_all_objects(NULL, NULL, NULL, "0");
             _get_online_data(NULL, NULL, NULL);
         }
 
         if(!strcmp(k, "F12"))                       // backup
         {
             _open_settings(data, NULL, NULL, NULL);
-		  }
-			  
+        }
+
         if(!strcmp(k, "0")) 
-        {        
+        {
             Eina_List *list_text_tmp = NULL;
             list_text_tmp = eina_list_append(list_text_tmp, eina_list_nth(list_values, 0));
             list_text_tmp = eina_list_append(list_text_tmp, eina_list_nth(list_values, 6)); 
@@ -2076,7 +2118,7 @@ _popup_delete_cb(void *data, Evas_Object *obj EINA_UNUSED, const char *emission 
                     
         o = elm_button_add(bxv);
         elm_object_text_set(o, gettext("Yes"));
-        evas_object_smart_callback_add(o, "clicked", _enotes_del, data);
+        evas_object_smart_callback_add(o, "clicked", _enotes_del_request, data);
         evas_object_show(o);
         elm_box_pack_end(bxv, o);
         evas_object_show(bxv);
@@ -2440,7 +2482,7 @@ enotes_win_setup(Note *list_data)
     evas_object_event_callback_add(entry_notecontent, EVAS_CALLBACK_MOUSE_WHEEL, _mouse_wheel, list_text);
 
     elm_entry_item_provider_append(entry_notecontent, item_provider, NULL);
-    elm_entry_item_provider_append(entry_title, item_provider, NULL);    
+    elm_entry_item_provider_append(entry_title, item_provider, NULL);
 
 	 /// TODO CATEGORIES COMPARE
 //     if(strstr(list_data->cat, "Privat"))
@@ -2479,39 +2521,44 @@ enotes_win_setup(Note *list_data)
 void
 note_online_to_local(Eina_List *new_notes)
 {
-   
-   // TODO: IF UID vorhanden dann update, ansonsten NEUE
-   // TODO: last_modified ABGLEICH
 
-    
     Note *list_data1 = NULL, *list_data = NULL;
-    Eina_List *note_list_tmp;
+//     Eina_List *note_list_tmp = NULL;
     Eina_List *l, *l1, *l2, *l3, *list_data3;
     int s = 0;
+    int u = 0;
     Evas_Object *entry_notecontent, *entry_title;
- 
-   note_list_tmp = eina_list_clone(note_list);
-
+    Eina_Strbuf *last_modified_local, *last_modified_online;
+    last_modified_local = eina_strbuf_new();
+    last_modified_online = eina_strbuf_new();
+    
+//     note_list_tmp = eina_list_clone(note_list);
+    note_list_put = NULL;
 
     Note *data_get;
     
    EINA_LIST_FOREACH(new_notes, l, data_get)
    {
-      int u = 0;
-      EINA_LIST_FOREACH(note_list_tmp, l1, list_data)
+      EINA_LIST_FOREACH(note_list, l1, list_data)
       {
-         if(list_data->Note_Sync_Data.uid != NULL)
-         {
                   if(strcmp(list_data->Note_Sync_Data.uid, data_get->Note_Sync_Data.uid) == 0)
                   {
+//                      printf("SCHLEIFE GLEICHE UID\n");
+                     eina_strbuf_append(last_modified_local, list_data->Note_Sync_Data.last_modified);
+                     eina_strbuf_append(last_modified_online, data_get->Note_Sync_Data.last_modified);
+                     eina_strbuf_replace_all(last_modified_local, "T", "");
+                     eina_strbuf_replace_all(last_modified_local, "Z", "");
+                     eina_strbuf_replace_all(last_modified_online, "T", "");
+                     eina_strbuf_replace_all(last_modified_online, "Z", "");
+
+                     if(atol(eina_strbuf_string_get(last_modified_local)) <= atol(eina_strbuf_string_get(last_modified_online)))
+                     {
                            EINA_LIST_FOREACH(enotes_all_objects_list, l2, list_data3)
                            {
                               int *id = eina_list_nth(list_data3, 8);
                               if(list_data->id == *id)
                               {
-                                 printf("\n\nENTRY ÜBERSCHREIBEN\n");
-                                 printf("SUMMARY: %s\n", data_get->Note_Sync_Data.summary);
-                                 printf("DESCRIPTION: %s\n", data_get->Note_Sync_Data.description);
+//                                  printf("\n\nLOCAL ÜBERSCHREIBEN\n");
 
                                  entry_title = eina_list_nth(list_data3, 3);
                                  entry_notecontent = eina_list_nth(list_data3, 2);
@@ -2519,16 +2566,43 @@ note_online_to_local(Eina_List *new_notes)
                                  elm_object_text_set(entry_notecontent, data_get->Note_Sync_Data.description);
                               }
                            }
-                           u = 1;
+                        printf("\n\nLOCAL ÜBERSCHREIBEN id:%i name:%s\n", data_get->id, data_get->Note_Sync_Data.summary);
+                     }else if(atol(eina_strbuf_string_get(last_modified_local)) >= atol(eina_strbuf_string_get(last_modified_online)))
+                     {
+//                         printf("\n\nAUF DIE LISTE -> NEUER UPLOAD\n");
+                        note_list_put = eina_list_append(note_list_put, list_data); //upload local data, because last_modified is newer
+                        printf("\n\nAUF DIE LISTE -> NEUER UPLOAD id:%i name:%s\n", data_get->id, data_get->Note_Sync_Data.summary);
+                     }
+                     eina_strbuf_reset(last_modified_local);
+                     eina_strbuf_reset(last_modified_online);
+                     list_data->Note_Sync_Data.online = (int*)3;
+                     u = 1;
                   }
-         }
       }
-      if(u != 1)
+      if(u == 1)
       {
+         u = 0;
+         printf("TEST\n");
+         continue;
+      }
+       
+//       if(list_data->Note_Sync_Data.online == 0)
+//                   {
+// //                         printf("\n\nNEUER ZETTEL->UPLOAD LISTE\n");
+//                         note_list_put = eina_list_append(note_list_put, list_data);
+// //                         data_get->Note_Sync_Data.online = 3;
+//                         printf("\n\nNEUER ZETTEL->UPLOAD LISTE id:%i name:%s\n", data_get->id, data_get->Note_Sync_Data.summary);
+//                   u = 1;
+//                   }
+//                   
+//       if(data_get->Note_Sync_Data.online == 1)
+      if(u == 0)
+                  {
+                        printf("\n\nLOCAL NEU ERSTELLEN id:%i name:%s\n", data_get->id, data_get->Note_Sync_Data.summary);
                   Note *defaultnote;
                   defaultnote = calloc(1, sizeof(Note));
 
-                  printf("SCHLEIFE NOTE_LIST\n");
+//                   printf("\n\nLOCAL NEU ERSTELLEN\n");
                   // check for a free ID //
                   int n = 0;
                   int x1 = 0;
@@ -2562,7 +2636,7 @@ note_online_to_local(Eina_List *new_notes)
                   defaultnote->Note_Sync_Data.etag = eina_stringshare_add(data_get->Note_Sync_Data.etag);
                   defaultnote->Note_Sync_Data.href = eina_stringshare_add(data_get->Note_Sync_Data.href);
                   defaultnote->Note_Sync_Data.uid = eina_stringshare_add(data_get->Note_Sync_Data.uid);
-                  
+                  defaultnote->Note_Sync_Data.online = (int*)0;
                   defaultnote->text_color = 0;
 
                   if(dcolor_a)
@@ -2597,10 +2671,17 @@ note_online_to_local(Eina_List *new_notes)
                s++;
                note_list = eina_list_append(note_list, defaultnote);
                enotes_win_setup(defaultnote);
-      }
-      }
+               
+                     u = 0;
+               }
+   
+   }
 
-      eina_list_free(note_list_tmp);
+                     u = 0;
+      _put_local_data(NULL, NULL, NULL);
+//       _put_local_data_online();
+      
+//       eina_list_free(note_list_tmp);
 }
 
 
@@ -2742,9 +2823,20 @@ _enotes_new()
     defaultnote->blur = eina_stringshare_add("default");
     defaultnote->theme = eina_stringshare_add("layout1");
 
-    note_list = eina_list_append(note_list, defaultnote);
+	time_t t;
+	struct tm * ts;
+   t = time(NULL);
+   ts = localtime(&t);
+   Eina_Strbuf *newbuf;
+   newbuf = eina_strbuf_new();
+   eina_strbuf_append_printf(newbuf, "enotes_%i%02i%02iT%02i%02i%02iZ", ts->tm_year+1900, ts->tm_mon+1, ts->tm_mday, ts->tm_hour, ts->tm_min, ts->tm_sec);
+   defaultnote->Note_Sync_Data.uid = eina_stringshare_add(eina_strbuf_string_get(newbuf));
+   defaultnote->Note_Sync_Data.online = (int*)0;
+   eina_strbuf_free(newbuf);
+
+   note_list = eina_list_append(note_list, defaultnote);
  
-    enotes_win_setup(defaultnote);
+   enotes_win_setup(defaultnote);
 }
 
 /*

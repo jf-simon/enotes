@@ -43,6 +43,7 @@ typedef struct {
                const char *prodid;
                const char *created;
                const char *last_modified;
+               const char *last_modified_server;
                const char *summary;
                const char *percent_complete;
                const char *status;
@@ -50,6 +51,7 @@ typedef struct {
                const char *dtstamp;
                const char *uid;
                const char *href;
+               int *online;
          } Note_Sync_Data;
 
 } Note;
@@ -58,6 +60,7 @@ typedef struct {
 Eina_List *note_list;
 Eina_List *enotes_all_objects_list;
 Eina_List *note_list_put;
+Eina_List *note_list_del;
 
 char *server_url;
 char *user;
@@ -73,3 +76,5 @@ void _save_and_check_user_data(void *data, Evas_Object *obj EINA_UNUSED, void *e
 void fill_cat_list();
 char *stringReplace(char *search, char *replace, char *string);
 char* find_data(char *string, char *start1, char *end1);
+void _enotes_del_local(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED);
+void _put_local_data_online();

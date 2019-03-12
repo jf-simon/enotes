@@ -21,13 +21,18 @@ parse_curl_get_response(Eina_Strbuf *mybuffer)
 	int i = 0, y = 0;
    Eina_List *new_notes = NULL;
 	arr = eina_str_split(eina_strbuf_string_get(mybuffer), "<d:response>", 0); // split into single "responses"
-	
+
+	Eina_Strbuf *arry_split, *summary_tmp;
+
+   arry_split = eina_strbuf_new();
+   summary_tmp = eina_strbuf_new();
 	if(arr == NULL)
 		return; // no response data = no vtodo
    for (i = 1; arr[i]; i++)
 	{
       Note *data_add = calloc(1, sizeof(Note));
       data_add->Note_Sync_Data.href = find_data(arr[i], "<d:href>", "</d:href>");           // find <d:href>
+//                printf("HREF: %s\n",  data_add->Note_Sync_Data.href);
 
       data_add->Note_Sync_Data.etag = find_data(arr[i], "<d:getetag>", "</d:getetag>");  // find <d:getetag>
       stringReplace("&quot;", "", (char *)data_add->Note_Sync_Data.etag);
@@ -35,59 +40,70 @@ parse_curl_get_response(Eina_Strbuf *mybuffer)
       arr1 = eina_str_split(find_data(arr[i], "<cal:calendar-data>", "</cal:calendar-data>"), "\n", 0); // split calendar-data into single lines
          for (y = 0; arr1[y]; y++)
          {
+            eina_strbuf_append(arry_split, arr1[y]);
+
             if(strstr(arr1[y], "SUMMARY"))
+            { 
+               eina_strbuf_replace_all(arry_split, "SUMMARY:", "");
+               eina_strbuf_replace_all(arry_split, "<br>", " ");
+               data_add->Note_Sync_Data.summary = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
+            }else if(strstr(arr1[y], "DESCRIPTION"))
             {
-               stringReplace("SUMMARY:", "", arr1[y]);
-               stringReplace("\\n:", "<br>", arr1[y]);
-//                printf("SUMMARY: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.summary = arr1[y];
-            }else if(strstr(arr1[y], "DESCRIPTION")) /// TODO: Zeile ohne Treffer aller IF Abfragen ist auch DESCRIPTION
-            {
-               stringReplace("DESCRIPTION:", "", arr1[y]);
-               stringReplace("\\n", "<br/>", arr1[y]);
-               stringReplace("[x]", "<item relsize=24x24 vsize=full href=done></item>", arr1[y]);
-               stringReplace("[ ]", "<item relsize=24x24 vsize=full href=open></item>", arr1[y]);
-//                printf("DESCRIPTION: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.description = arr1[y];
+               eina_strbuf_append_buffer(summary_tmp, arry_split);
+
             }else if(strstr(arr1[y], "UID"))
             {
-               stringReplace("UID:", "", arr1[y]);
-//                printf("UID: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.uid = arr1[y];
+               eina_strbuf_replace_all(arry_split, "UID:", "");
+               data_add->Note_Sync_Data.uid = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
             }else if(strstr(arr1[y], "PRODID"))
             {
-               stringReplace("PRODID:", "", arr1[y]);
-//                printf("UID: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.prodid = arr1[y];
+               eina_strbuf_replace_all(arry_split, "PRODID:", "");
+               data_add->Note_Sync_Data.prodid = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
             }else if(strstr(arr1[y], "CREATED"))
             {
-               stringReplace("CREATED:", "", arr1[y]);
-//                printf("UID: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.created = arr1[y];
+               eina_strbuf_replace_all(arry_split, "CREATED:", "");
+               data_add->Note_Sync_Data.created = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
             }else if(strstr(arr1[y], "LAST-MODIFIED"))
             {
-               stringReplace("LAST-MODIFIED:", "", arr1[y]);
-//                printf("UID: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.last_modified = arr1[y];
+               eina_strbuf_replace_all(arry_split, "LAST-MODIFIED:", "");
+               data_add->Note_Sync_Data.last_modified = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+               data_add->Note_Sync_Data.last_modified_server = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
             }else if(strstr(arr1[y], "PERCENT-COMPLETE"))
             {
-               stringReplace("PERCENT-COMPLETE:", "", arr1[y]);
-//                printf("UID: %s\n", arr1[y]);
-               data_add->Note_Sync_Data.percent_complete = arr1[y];
-            }esle
+               eina_strbuf_replace_all(arry_split, "PERCENT-COMPLETE:", "");
+               data_add->Note_Sync_Data.percent_complete = eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
+            }else if(strstr(arr1[y], " "))
             {
-               
+               eina_strbuf_ltrim(arry_split);
+               eina_strbuf_append_buffer(summary_tmp, arry_split);
             }
 
+         eina_strbuf_reset(arry_split);
          }
-      
-//                const char *dtstamp;
-//       data_add->Note_Sync_Data.uid = find_data(arr[i], "<d:status>", "</d:status>");     // <d:status>
 
-      new_notes = eina_list_append(new_notes, data_add);
+         eina_strbuf_replace_all(summary_tmp, "DESCRIPTION:", "");
+         eina_strbuf_replace_all(summary_tmp, "\\n", "<br/>");
+         eina_strbuf_replace_all(summary_tmp, "[x]", "<item relsize=24x24 vsize=full href=done></item>");
+         eina_strbuf_replace_all(summary_tmp, "[ ]", "<item relsize=24x24 vsize=full href=open></item>");
+
+         data_add->Note_Sync_Data.description = eina_stringshare_add(eina_strbuf_string_get(summary_tmp));
+         eina_strbuf_reset(summary_tmp);
+
+         data_add->Note_Sync_Data.online = (int*)1;
+
+         new_notes = eina_list_append(new_notes, data_add);
 
    }
-   note_online_to_local(new_notes);
+   if(eina_list_count(new_notes) == 0)
+      _put_local_data(NULL, NULL, NULL);
+   else
+      note_online_to_local(new_notes);
    
 //    eina_list_free(new_notes);
    free(arr[0]);
@@ -123,17 +139,14 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 void
 _get_online_data(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
 {
-   
-   printf("Server URL: %s\n", server_url);
-   
   			char last_modified[512];
 			time_t t;
 			struct tm * ts;
 			t = time(NULL);
 			ts = localtime(&t);
-			snprintf(last_modified, sizeof(last_modified), "%i%02i%02iT%02i%02i%02iZ", ts->tm_year+1900, ts->tm_mon+1, ts->tm_wday+1, ts->tm_hour, ts->tm_min, ts->tm_sec);
-			printf(" LAST-MODIFIED:%s\n",last_modified);
-//  
+			snprintf(last_modified, sizeof(last_modified), "%i%02i%02iT%02i%02i%02iZ", ts->tm_year+1900, ts->tm_mon+1, ts->tm_mday, ts->tm_hour, ts->tm_min, ts->tm_sec);
+
+
   struct MemoryStruct chunk;
  
   chunk.memory = malloc(1);  /* will be grown as needed by the realloc above */ 

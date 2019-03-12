@@ -73,11 +73,20 @@ category_parse()
 static void
 _user_data_changed(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
-   
    char buf[PATH_MAX];
    
 	snprintf(buf, sizeof(buf), "%s/images/online_notchecked.png", PACKAGE_DATA_DIR);
 	elm_image_file_set(data, buf, NULL);
+}
+
+static void
+_m_check_callback(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
+{	
+   Eina_Bool state = elm_check_state_get(obj);
+	if(state != EINA_TRUE)
+		elm_object_disabled_set(data, EINA_FALSE);
+	else
+		elm_object_disabled_set(data, EINA_TRUE);
 }
 
 void
@@ -95,7 +104,7 @@ _open_settings(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
 // 			elm_win_alpha_set(win, EINA_TRUE);
 // 			elm_win_autodel_set(win, EINA_TRUE);
 		
-			Evas_Object *bx, *lb, *en_server, *en_user, *en_password, *tb, *sl_refresh, *bn, *o, *list, *ic;
+			Evas_Object *bx, *lb, *en_server, *en_user, *en_password, *tb, *sl_refresh, *bn, *o, *list, *ic, *m_check;
 			
 			bx = elm_box_add(win);
 			evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
@@ -114,7 +123,7 @@ _open_settings(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
             
             lb = elm_label_add(bx);
             elm_object_text_set(lb, "Server URL:");
-            evas_object_size_hint_align_set(lb, EVAS_HINT_FILL, 0);
+            evas_object_size_hint_align_set(lb, 1, 0);
             evas_object_show(lb);
             elm_table_pack(tb, lb, 0, 0, 1, 1);
             evas_object_show(lb);
@@ -149,7 +158,7 @@ _open_settings(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
             
             lb = elm_label_add(bx);
             elm_object_text_set(lb, "User:");
-            evas_object_size_hint_align_set(lb, EVAS_HINT_FILL, 0);
+            evas_object_size_hint_align_set(lb, 1, 0);
             evas_object_show(lb);
             elm_table_pack(tb, lb, 0, 1, 1, 1);
             evas_object_show(lb);
@@ -169,7 +178,7 @@ _open_settings(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
             
             lb = elm_label_add(bx);
             elm_object_text_set(lb, "Password:");
-            evas_object_size_hint_align_set(lb, EVAS_HINT_FILL, 0);
+            evas_object_size_hint_align_set(lb, 1, 0);
             evas_object_show(lb);
             elm_table_pack(tb, lb, 0, 2, 1, 1);
             
@@ -189,6 +198,7 @@ _open_settings(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
 
             lb = elm_label_add(bx);
             elm_object_text_set(lb, "Refresh intervall:");
+            evas_object_size_hint_align_set(lb, 1, 0);
             evas_object_show(lb);
             elm_table_pack(tb, lb, 0, 3, 1, 1);
             evas_object_show(lb);
@@ -206,6 +216,16 @@ _open_settings(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char 
             evas_object_show(sl_refresh);
 //             evas_object_data_set(tb, "sl_refresh", sl_refresh);
             elm_table_pack(tb, sl_refresh, 1, 3, 1, 1);
+            
+            m_check = elm_check_add(bx);
+            evas_object_size_hint_weight_set(m_check, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+            evas_object_size_hint_align_set(m_check, EVAS_HINT_FILL, 0);
+            elm_object_text_set(m_check, "manual sync [F11]");
+//             elm_slider_value_set(m_check, m_check);
+            evas_object_show(m_check);
+            evas_object_data_set(tb, "m_check", m_check);
+            evas_object_smart_callback_add(m_check, "changed", _m_check_callback, sl_refresh); 
+            elm_table_pack(tb, m_check, 1, 4, 1, 1);
 			
             elm_box_pack_end(bx, tb);
             

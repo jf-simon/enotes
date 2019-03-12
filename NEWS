@@ -1,0 +1,5 @@
+- caldav sync support to nextcloud server
+- new intern method to save data
+- settings dialog
+- inform about unsynced notes (in manuel sync state)
+- 
