@@ -367,7 +367,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 20 15;
             rel2.relative: 1 1;
-            rel2.offset: -15 -25;
+            rel2.offset: -15 -30;
         }
       }
       part {
@@ -378,7 +378,7 @@ collections {
             state: "default" 0.0;
             rel.to: "note_swallow";
             rel1.relative: 0 1;
-            rel1.offset: 20 0;
+            rel1.offset: 20 3;
             rel2.relative: 1 1;
             rel2.offset: -15 -35;
         }
@@ -969,7 +969,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 20 15;
             rel2.relative: 1 1;
-            rel2.offset: -15 -25;
+            rel2.offset: -15 -30;
         }
       }
       part {
@@ -980,7 +980,7 @@ collections {
             state: "default" 0.0;
             rel.to: "note_swallow";
             rel1.relative: 0 1;
-            rel1.offset: 20 0;
+            rel1.offset: 20 3;
             rel2.relative: 1 1;
             rel2.offset: -15 -35;
         }
@@ -1569,7 +1569,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 20 15;
             rel2.relative: 1 1;
-            rel2.offset: -15 -25;
+            rel2.offset: -15 -30;
         }
       }
       part {
@@ -1580,7 +1580,7 @@ collections {
             state: "default" 0.0;
             rel.to: "note_swallow";
             rel1.relative: 0 1;
-            rel1.offset: 20 0;
+            rel1.offset: 20 3;
             rel2.relative: 1 1;
             rel2.offset: -15 -35;
         }
