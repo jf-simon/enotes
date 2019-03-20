@@ -117,7 +117,7 @@ _del_local_data_online(void* data)
     curl = curl_easy_init();
     //                   if (!curl) return 2; //TODO: ABFRAGE CHECKEN
 
-    eina_strbuf_append_printf(logindata, "%s:%s", user, password);
+    eina_strbuf_append_printf(logindata, "%s:%s", user_name, password);
     curl_easy_setopt(curl, CURLOPT_USERPWD, eina_strbuf_string_get(logindata));
 
     eina_strbuf_append_printf(

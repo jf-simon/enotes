@@ -169,8 +169,7 @@ _get_online_data(void* data EINA_UNUSED,
 
   // request data for receiving calendar information
   const char* request_data_download_objects =
-    "<c:calendar-query xmlns:d=\"DAV:\" "
-    "xmlns:c=\"urn:ietf:params:xml:ns:caldav\">"
+    "<c:calendar-query xmlns:d=\"DAV:\" xmlns:c=\"urn:ietf:params:xml:ns:caldav\">"
     "<d:prop>"
     "<d:getetag />"
     "<c:calendar-data />"
@@ -188,15 +187,17 @@ _get_online_data(void* data EINA_UNUSED,
   // 	if (!curl) return 2; //TODO: ABFRAGE MACHEN
 
   char logindata[PATH_MAX];
-  snprintf(logindata, sizeof(logindata), "%s:%s", user, password);
+  snprintf(logindata, sizeof(logindata), "%s:%s", user_name, password);
   curl_easy_setopt(curl, CURLOPT_USERPWD, logindata);
   //     curl_easy_setopt (curl, CURLOPT_VERBOSE, "on");
 
   char header_url_report[PATH_MAX];
   snprintf(header_url_report,
            sizeof(header_url_report),
-           "REPORT /calendars/%s/personal/ HTTP/1.1",
-           user);
+           "REPORT /calendars/%s/%s/ HTTP/1.1",
+           user_name,
+           calendar_name
+          );
 
   put_header_download_objects =
     curl_slist_append(put_header_download_objects, header_url_report);
@@ -210,7 +211,8 @@ _get_online_data(void* data EINA_UNUSED,
 
   char curl_url[PATH_MAX];
   snprintf(
-    curl_url, sizeof(curl_url), "%s/calendars/%s/personal", server_url, user);
+    curl_url, sizeof(curl_url), "%s/calendars/%s/%s", server_url, user_name, calendar_name);
+  printf("CURL_URL: %s\n\n", curl_url);
   curl_easy_setopt(curl, CURLOPT_URL, curl_url);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, put_header_download_objects);
   curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "REPORT");
@@ -233,7 +235,7 @@ _get_online_data(void* data EINA_UNUSED,
 
     Eina_Strbuf* response_data;
     response_data = eina_strbuf_new();
-    eina_strbuf_append(response_data, chunk.memory);
+    eina_strbuf_append(response_data, (const char*)chunk.memory);
     parse_curl_get_response(response_data);
     eina_strbuf_free(response_data);
 

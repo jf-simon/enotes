@@ -46,34 +46,14 @@ _save_and_check_user_data(void* data,
   Evas_Object* en_user = evas_object_data_get(data, "en_user");
   Evas_Object* bn = evas_object_data_get(data, "bn");
   Evas_Object* ic = evas_object_data_get(data, "ic");
+  Evas_Object* en_calendar = evas_object_data_get(data, "en_calendar");
 
-  printf("SERVER_URL: %s\n", elm_object_text_get(en_server));
-  printf("PASSWORD: %s\n", elm_object_text_get(en_password));
-  printf("USER: %s\n", elm_object_text_get(en_user));
   server_url = elm_object_text_get(en_server);
+  calendar_name = elm_object_text_get(en_calendar);
   password = elm_object_text_get(en_password);
-  user = elm_object_text_get(en_user);
+  user_name = elm_object_text_get(en_user);
 
-  printf("Server URL: %s\n", server_url);
-
-  char last_modified[512];
-  time_t t;
-  struct tm* ts;
-  t = time(NULL);
-  ts = localtime(&t);
-  snprintf(last_modified,
-           sizeof(last_modified),
-           "%i%02i%02iT%02i%02i%02iZ",
-           ts->tm_year + 1900,
-           ts->tm_mon + 1,
-           ts->tm_wday + 1,
-           ts->tm_hour,
-           ts->tm_min,
-           ts->tm_sec);
-  printf(" LAST-MODIFIED:%s\n", last_modified);
-  //   CURL *curl_handle;
-  //   CURLcode res;
-  //
+  
   struct MemoryStruct chunk;
 
   chunk.memory = malloc(1); /* will be grown as needed by the realloc above */
@@ -97,15 +77,16 @@ _save_and_check_user_data(void* data,
   // 	if (!curl) return 2;// TODO: ABFRAGE CHECKEN
 
   char logindata[PATH_MAX];
-  snprintf(logindata, sizeof(logindata), "%s:%s", user, password);
+  snprintf(logindata, sizeof(logindata), "%s:%s", user_name, password);
   curl_easy_setopt(curl, CURLOPT_USERPWD, logindata);
   //     curl_easy_setopt (curl, CURLOPT_VERBOSE, "on");
 
   char header_url_propfind[PATH_MAX];
   snprintf(header_url_propfind,
            sizeof(header_url_propfind),
-           "PROPFIND /calendars/%s/personal/ HTTP/1.1",
-           user);
+           "PROPFIND /calendars/%s/%s/ HTTP/1.1",
+           user_name,
+           calendar_name);
 
   request_header_download_objects =
     curl_slist_append(request_header_download_objects, header_url_propfind);
@@ -119,7 +100,7 @@ _save_and_check_user_data(void* data,
 
   char curl_url[PATH_MAX];
   snprintf(
-    curl_url, sizeof(curl_url), "%s/calendars/%s/personal", server_url, user);
+    curl_url, sizeof(curl_url), "%s/calendars/%s/%s", server_url, user_name, calendar_name);
   curl_easy_setopt(curl, CURLOPT_URL, curl_url);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, request_header_download_objects);
   curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
@@ -150,12 +131,14 @@ _save_and_check_user_data(void* data,
       snprintf(
         buf, sizeof(buf), "%s/images/online_valid.png", PACKAGE_DATA_DIR);
       elm_image_file_set(ic, buf, NULL);
+      online_check = EINA_TRUE;
     } else {
       printf("login data wrong\n");
       elm_object_text_set(bn, "login data wrong - click for recheck");
       snprintf(
         buf, sizeof(buf), "%s/images/online_wrong.png", PACKAGE_DATA_DIR);
       elm_image_file_set(ic, buf, NULL);
+      online_check = EINA_FALSE;
     }
 
     Eina_Strbuf* tmp;

@@ -10,6 +10,7 @@ deps = [
 src = [
   'enotes.h',
   'enotes_main.c',
+  'enotes_systray.c',
   'enotes_caldav_check.c',
   'enotes_caldav.c',
   'enotes_caldav_get.c',

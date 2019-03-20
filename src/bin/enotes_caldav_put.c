@@ -119,8 +119,6 @@ _put_local_data_online()
     CURL* curl;
     CURLcode res;
     // request PUT for put download objects
-    //                      snprintf(put_data_existing,
-    //                      sizeof(put_data_existing),
     eina_strbuf_append_printf(
       put_data_existing,
       "BEGIN:VCALENDAR\n"
@@ -134,9 +132,9 @@ _put_local_data_online()
       "SUMMARY:%s\n"
       "PERCENT-COMPLETE:0\n"
       "STATUS:%s\n"
-      "DESCRIPTION:￼%s\n"
-      //                      "START:20190219T153000Z\n"
-      //       "DUE:20190220T153000Z\n"
+      "DESCRIPTION:%s\n"
+//       "START:20190219T153000Z\n"
+//       "DUE:20190220T153000Z\n"
       "DTSTAMP:%s\n"
       "SEQUENCE:1\n"
       "UID:%s\n"
@@ -151,10 +149,6 @@ _put_local_data_online()
       list_data->Note_Sync_Data.last_modified,
       list_data->Note_Sync_Data.uid);
 
-    eina_strbuf_append_printf(
-      newbuf, "enote_%s", eina_strbuf_string_get(last_modified));
-    //                      list_data->Note_Sync_Data.uid =
-    //                      eina_stringshare_add(eina_strbuf_string_get(newbuf));
 
     eina_strbuf_replace_all(put_data_existing,
                             "<item relsize=24x24 vsize=full href=done></item>",
@@ -163,14 +157,13 @@ _put_local_data_online()
                             "<item relsize=24x24 vsize=full href=open></item>",
                             "[ ]");
     eina_strbuf_replace_all(put_data_existing, "<br/>", "\\n");
-    //                   printf("PUTDATA:\n%s\n",
-    //                   eina_strbuf_string_get(put_data_existing));
+    
     struct curl_slist* put_header_download_objects = NULL;
 
     curl = curl_easy_init();
     //                   if (!curl) return 2;// TODO: ABFRAGE MACHEN
 
-    eina_strbuf_append_printf(logindata, "%s:%s", user, password);
+    eina_strbuf_append_printf(logindata, "%s:%s", user_name, password);
     curl_easy_setopt(curl, CURLOPT_USERPWD, eina_strbuf_string_get(logindata));
     //     curl_easy_setopt (curl, CURLOPT_VERBOSE, "on");
 
@@ -183,12 +176,16 @@ _put_local_data_online()
 
     } else {
       eina_strbuf_append_printf(tmp1,
-                                "https://enotes.ocloud.de/remote.php/dav/"
-                                "calendars/enotes/personal/enotes_%s.ics",
+                                "%s/calendars/%s/%s/enotes_%s.ics",
+                                server_url,
+                                user_name,
+                                calendar_name,
                                 list_data->Note_Sync_Data.last_modified);
       eina_strbuf_append_printf(
         tmp,
-        "PUT /calendars/enotes/personal/enotes_%s HTTP/1.1",
+        "PUT /calendars/%s/%s/enotes_%s HTTP/1.1",
+        user_name,
+        calendar_name,
         list_data->Note_Sync_Data.last_modified);
 
       eina_strbuf_append_buffer(tmpnew, tmp);
@@ -198,8 +195,12 @@ _put_local_data_online()
       eina_strbuf_append(tmpnew, ".ics");
       list_data->Note_Sync_Data.href =
         eina_stringshare_add(eina_strbuf_string_get(tmpnew));
+        
       printf("\n\n\nhref UPDATE\n");
-      printf("\n\n\ntitel: %s\n", list_data->Note_Sync_Data.summary);
+      
+      printf("\n\n\nurl: %s\n", eina_strbuf_string_get(tmp1));
+      
+      printf("\n\n\nurl: %s\n", eina_strbuf_string_get(tmp));
     }
     //                    printf("upload header:%s\n",
     //                    eina_strbuf_string_get(tmp)); printf("upload
@@ -233,7 +234,7 @@ _put_local_data_online()
 
       //                   char *test;
       //                   test = chunk.memory;
-      eina_strbuf_append(response_data, chunk.memory);
+      eina_strbuf_append(response_data, (const char*)chunk.memory);
     }
 
     //                   if(list_data->Note_Sync_Data.href == NULL ||

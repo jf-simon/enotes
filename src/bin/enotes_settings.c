@@ -328,6 +328,7 @@ _it_clicked_cb(void *data EINA_UNUSED, Evas_Object *li,
    //TODO: ABGLEICH MIT NOTE_LIST nach Übereinstimmung der CATEGORIES
    elm_list_item_selected_get(lit);
    }
+   printf("\n\n");
 }
 
 static void
@@ -337,7 +338,7 @@ _it_clicked_select_all_cb(void *data, Evas_Object *li EINA_UNUSED,
    Eina_List *l;
    cat_list = elm_list_items_get(data);
    Elm_Object_Item *lit;
-   
+   printf("SELECT ALL\n\n");
    EINA_LIST_FOREACH(cat_list, l, lit)
    {
       elm_list_item_selected_set(lit, EINA_TRUE);
@@ -640,7 +641,8 @@ _open_settings(void* data,
                   li1 = elm_list_item_append(list, "Enotes", NULL, NULL, NULL, list);
                   elm_list_go(list);
                   
-                  evas_object_smart_callback_add(li1, "activated", _it_clicked_select_all_cb, list);
+                  evas_object_smart_callback_add(list, "selected", _it_clicked_cb, list);
+                  evas_object_smart_callback_add(list, "unselected", _it_clicked_cb, list);
                   evas_object_show(list);
                   elm_box_pack_end(bx, list);
                   

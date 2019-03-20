@@ -4,6 +4,13 @@
 #endif
 
 #include "config.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
 #include <Ecore_Getopt.h>
 #include <Elementary.h>
 #include <Elementary_Cursor.h>
@@ -37,7 +44,6 @@ typedef struct
   const char* blur;
   const char* theme;
   const char* note_text;
-  const char* cat;
 
   struct
   {
@@ -62,14 +68,23 @@ Eina_List* note_list;
 Eina_List* enotes_all_objects_list;
 Eina_List* note_list_put;
 Eina_List* note_list_del;
+Eina_List* cat_list;
 
 const char* server_url;
-const char* user;
+const char* user_name;
 const char* password;
+const char* calendar_name;
 Eina_Bool ci_m_check;
+Eina_Bool ci_systray;
+Eina_Bool online_check;
+Eina_Bool ci_sync_enabled;
+Eina_Bool ci_border_enabled;
 const char* cat_settings;
 Eina_List* cat_list;
 char enotes_running[PATH_MAX];
+Eina_Bool all_hidden;
+Evas_Object *list;
+Eo *item;
 
 void
 _put_local_data(void* data EINA_UNUSED,
@@ -108,3 +123,18 @@ _del_local_data(void* data,
                 void* event_info EINA_UNUSED);
 void
 _del_local_data_online(void* data);
+void 
+_hide_show_all_notes(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED);
+void
+_enotes_exit(void* data EINA_UNUSED,
+             Evas_Object* obj EINA_UNUSED,
+             void* event_info EINA_UNUSED);
+void
+enotes_systray();
+void
+_enotes_new();
+void
+enotes_win_help(void* data,
+                Evas_Object* obj EINA_UNUSED,
+                const char* em EINA_UNUSED,
+                const char* src EINA_UNUSED);
