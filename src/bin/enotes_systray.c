@@ -16,15 +16,15 @@ _ev_handler(void *data EINA_UNUSED,
 {
    Eina_Bool ret = EINA_FALSE;
 
-   printf("systray ready event\n");
+//    printf("systray ready event\n");
 
    ret = elm_obj_systray_register(item);
 
-   printf("Item Registration: ");
-   if (ret)
-     printf("OK!\n");
-   else
-     printf("Failed!\n");
+//    printf("Item Registration: ");
+//    if (ret)
+//      printf("OK!\n");
+//    else
+//      printf("Failed!\n");
 
    return ECORE_CALLBACK_DONE;
 }
@@ -35,14 +35,14 @@ _menu_clicked(void *data,
             Evas_Object *obj EINA_UNUSED,
             void *event_info EINA_UNUSED)
 {
-   printf("Menu Item Clicked: %s\n", (const char *) data);
+//    printf("Menu Item Clicked: %s\n", (const char *) data);
 }
 
 void
 enotes_systray()
 {
-   Evas_Object *win, *it;
-   Elm_Object_Item *it2, *it3;
+   Evas_Object *win, *ic;
+   Elm_Object_Item *it1 = NULL , *it2, *it3;
    
 
 //    Eina_Bool init_ok = elm_need_systray();
@@ -58,27 +58,48 @@ enotes_systray()
  
    
    it = elm_menu_add(win);
+       Eina_Strbuf* buf2, *hide_label;
+    buf2 = eina_strbuf_new();
+    hide_label = eina_strbuf_new();
+    
+    eina_strbuf_append_printf(buf2, "%s/images/enotes_hideshow.png", elm_app_data_dir_get());
+//     printf("IMAGE %s\n", eina_strbuf_string_get(buf2));
+    
+//    char buf2[PATH_MAX];
+//    snprintf(buf2, sizeof(buf2), "/usr/local/share/enotes/images/enotes_hideshow.png", elm_app_data_dir_get());
+    
+   if(all_hidden == EINA_TRUE)
+      eina_strbuf_append(hide_label, "Show all Notes");
+   else
+      eina_strbuf_append(hide_label, "Hide all Notes");
+     
    
-   char buf2[1024];
-   snprintf(buf2, sizeof(buf2), "%s/images/enotes_hideshow.png", elm_app_data_dir_get());
-   elm_menu_item_add(it, NULL, buf2, "Hide/Show all Notes", _hide_show_all_notes, it);
-   
+   elm_menu_item_add(it, NULL, "/usr/local/share/enotes/images/enotes_hideshow.png", "Hide/Show all Notes", _hide_show_all_notes, it);
+//       it1 = elm_menu_item_add(it, NULL, NULL, eina_strbuf_string_get(hide_label), _hide_show_all_notes, it1);
+      
+      ic = elm_image_add(win);
+      elm_image_file_set(ic, "/usr/local/share/enotes/images/enotes_hideshow.png", NULL);
+      evas_object_show(ic);
+      elm_object_item_part_content_set(it1, NULL, ic);
+//     eina_strbuf_free(buf2);
    elm_menu_item_separator_add(it, NULL);
    
-   it2 = elm_menu_item_add(it, NULL, NULL, "Categories to show", NULL, NULL);
+//    it2 = elm_menu_item_add(it, NULL, NULL, "Categories to show", NULL, NULL);
+//    
+//    //// START RADIO TEST
+//    
+//    Elm_Object_Item *menu_it2;
+//    Evas_Object *radio;
+// 
+//    radio = elm_radio_add(it);
+//    elm_radio_state_value_set(radio, 0);
+//    elm_radio_value_set(radio, 0);
+//    elm_object_text_set(radio, "radio in menu");
+//    menu_it3 = elm_menu_item_add(it, it2, NULL, "SIMON", NULL, NULL);
+//    
+//       elm_object_item_part_text_set(menu_it3, NULL, "show all notes");
    
-   //// START RADIO TEST
-   
-   Elm_Object_Item *menu_it2, *menu_it3;
-   Evas_Object *radio;
-
-   radio = elm_radio_add(it);
-   elm_radio_state_value_set(radio, 0);
-   elm_radio_value_set(radio, 0);
-   elm_object_text_set(radio, "radio in menu");
-   menu_it3 = elm_menu_item_add(it, it2, NULL, NULL, NULL, NULL);
-   
-   elm_object_item_content_set(menu_it3, radio);
+//    elm_object_item_content_set(menu_it3, radio);
    
    //// END RADIO TEST
    
@@ -96,38 +117,37 @@ enotes_systray()
 //    }
 //    
    /// START LIST TEST
-   elm_menu_item_add(it, NULL, NULL, NULL, NULL, NULL);
-   
-   Evas_Object *list;
-                  Elm_Object_Item *li, *li1;
-                     list = elm_list_add(it);
-                  elm_list_multi_select_set(list, EINA_TRUE);
-                  elm_list_multi_select_mode_set(list, ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT);
-                  evas_object_size_hint_weight_set(list, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-                  evas_object_size_hint_align_set(list, EVAS_HINT_FILL, EVAS_HINT_FILL);
-
-                  elm_list_mode_set(list, ELM_LIST_COMPRESS);
-                  
-                  elm_list_item_append(list, "Default", NULL, NULL, NULL, list);
-                  li = elm_list_item_append(list, NULL, NULL, NULL, NULL, NULL);
-                  elm_list_item_separator_set(li, EINA_TRUE);
-                  elm_list_item_append(list, "Privat", NULL, NULL, NULL, list);
-                  elm_list_item_append(list, "Work", NULL, NULL, NULL, list);
-                  elm_list_item_append(list, "EJW FDS", NULL, NULL, NULL, list);
-                  elm_list_item_append(list, "Pfalzgrafenweiler", NULL, NULL, NULL, list);
-                  li1 = elm_list_item_append(list, "Enotes", NULL, NULL, NULL, list);
-                  elm_list_go(list);
-                  
-   elm_object_item_content_set(it2, list);
+//    elm_menu_item_add(it, NULL, NULL, NULL, NULL, NULL);
+//    
+//    Evas_Object *list;
+//                   Elm_Object_Item *li, *li1;
+//                      list = elm_list_add(it);
+//                   elm_list_multi_select_set(list, EINA_TRUE);
+//                   elm_list_multi_select_mode_set(list, ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT);
+//                   evas_object_size_hint_weight_set(list, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+//                   evas_object_size_hint_align_set(list, EVAS_HINT_FILL, EVAS_HINT_FILL);
+//                   elm_list_mode_set(list, ELM_LIST_COMPRESS);
+//                   
+//                   elm_list_item_append(list, "Default", NULL, NULL, NULL, list);
+//                   li = elm_list_item_append(list, NULL, NULL, NULL, NULL, NULL);
+//                   elm_list_item_separator_set(li, EINA_TRUE);
+//                   elm_list_item_append(list, "Privat", NULL, NULL, NULL, list);
+//                   elm_list_item_append(list, "Work", NULL, NULL, NULL, list);
+//                   elm_list_item_append(list, "EJW FDS", NULL, NULL, NULL, list);
+//                   elm_list_item_append(list, "Pfalzgrafenweiler", NULL, NULL, NULL, list);
+//                   li1 = elm_list_item_append(list, "Enotes", NULL, NULL, NULL, list);
+//                   elm_list_go(list);
+//                   
+//    elm_object_item_content_set(it2, list);
    /// END LIST TEST
    
    elm_menu_item_separator_add(it, NULL);
    
    elm_menu_item_add(it, NULL, "enotes", "New Note", _enotes_new, NULL); // TODO FÜR ALLE DREI: FUNKTIONS VORGABEN BEACHTEN
-   elm_menu_item_add(it, NULL, NULL, "Settings", _open_settings, NULL);
-   elm_menu_item_add(it, NULL, NULL, "Help", enotes_win_help, NULL);
+   elm_menu_item_add(it, NULL, "media-eject", "Settings", _open_settings, NULL);
+   elm_menu_item_add(it, NULL, "help-about", "Help", enotes_win_help, NULL);
    
-   elm_menu_item_add(it, NULL, NULL, "Close Enotes", _enotes_exit, NULL);
+   elm_menu_item_add(it, NULL, "window-close", "Close Enotes", _enotes_exit, NULL);
 
    // Status Notifier Item Handler
    item = efl_add(ELM_SYSTRAY_CLASS, win);

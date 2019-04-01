@@ -62,22 +62,29 @@ Evas_Object* popup_delete_tmp = NULL;
 Evas_Object* popup_close_tmp = NULL;
 Evas_Object* popup_backup_tmp = NULL;
 
+
+
 typedef struct
 {
-  const char* first;
-  int first1;
-  const char* tcolor_default;
-  int dcolor_r, dcolor_g, dcolor_b, dcolor_a;
-  Eina_List* note_list1;
-  const char* server_url;
-  const char* user_name;
-  const char* password;
-  const char* calendar_name;
-  Eina_Bool ci_m_check;
-  Eina_Bool ci_systray;
-  Eina_Bool ci_sync_enabled;
-  Eina_Bool ci_border_enabled;
-} Note_List_Eet;
+   const char* first;
+   int first1;
+   const char* tcolor_default;
+   int dcolor_r, dcolor_g, dcolor_b, dcolor_a;
+   Eina_List* note_list1;
+   Eina_List* cat_list_eet;
+   Eina_List* note_list_del;
+   const char* server_url;
+   const char* user_name;
+   const char* password;
+   const char* calendar_name;
+   Eina_Bool ci_m_check;
+   Eina_Bool ci_systray;
+   Eina_Bool ci_sync_enabled;
+   Eina_Bool ci_border_enabled;
+   
+   } Note_List_Eet;
+
+
 
 typedef struct
 {
@@ -121,6 +128,7 @@ typedef struct
     const char* uid;
     const char* href;
     int* online;
+    const char* categories;
   } Note_Sync_Data;
 
 } My_Conf_Type;
@@ -129,6 +137,8 @@ static const char MY_CONF_FILE_ENTRY[] = "config";
 
 static Eet_Data_Descriptor* _my_conf_descriptor;
 static Eet_Data_Descriptor* _my_conf_sub_descriptor;
+static Eet_Data_Descriptor* _my_conf_sub_descriptor_cat;
+static Eet_Data_Descriptor* _my_conf_sub_descriptor_del;
 
 static void
 _my_conf_descriptor_init(void)
@@ -139,6 +149,12 @@ _my_conf_descriptor_init(void)
 
   EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, My_Conf_Type);
   _my_conf_sub_descriptor = eet_data_descriptor_stream_new(&eddc);
+  
+  EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, My_Conf_Type_Cat);
+  _my_conf_sub_descriptor_cat = eet_data_descriptor_stream_new(&eddc);
+  
+  EET_EINA_STREAM_DATA_DESCRIPTOR_CLASS_SET(&eddc, My_Conf_Type_Del);
+  _my_conf_sub_descriptor_del = eet_data_descriptor_stream_new(&eddc);
 
 #define MY_CONF_ADD_BASIC(member, eet_type)                                    \
   EET_DATA_DESCRIPTOR_ADD_BASIC(                                               \
@@ -146,7 +162,58 @@ _my_conf_descriptor_init(void)
 #define MY_CONF_SUB_ADD_BASIC(member, eet_type)                                \
   EET_DATA_DESCRIPTOR_ADD_BASIC(                                               \
     _my_conf_sub_descriptor, My_Conf_Type, #member, member, eet_type)
+#define MY_CONF_SUB_CAT_ADD_BASIC(member, eet_type)                                \
+  EET_DATA_DESCRIPTOR_ADD_BASIC(                                               \
+    _my_conf_sub_descriptor_cat, My_Conf_Type_Cat, #member, member, eet_type)
+#define MY_CONF_SUB_DEL_ADD_BASIC(member, eet_type)                                \
+  EET_DATA_DESCRIPTOR_ADD_BASIC(                                               \
+    _my_conf_sub_descriptor_del, My_Conf_Type_Del, #member, member, eet_type)
 
+  MY_CONF_SUB_DEL_ADD_BASIC(note_name, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(id, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(x, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(y, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(h, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(w, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(h_m, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(w_m, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(h_mtmp, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(w_mtmp, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(h_cs, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(w_cs, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(h_cstmp, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(w_cstmp, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(color_r, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(color_g, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(color_b, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(color_a, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(text_color, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(tcolor, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(text_size, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(iconify, EET_T_UCHAR);
+  MY_CONF_SUB_DEL_ADD_BASIC(sticky, EET_T_UCHAR);
+  MY_CONF_SUB_DEL_ADD_BASIC(menu, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(blur, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(theme, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(note_text, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.etag, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.prodid, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.created, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.last_modified, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.last_modified_server, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.summary, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.percent_complete, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.status, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.description, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.dtstamp, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.uid, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.href, EET_T_STRING);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.online, EET_T_INT);
+  MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.categories, EET_T_STRING);
+  
+  MY_CONF_SUB_CAT_ADD_BASIC(cat_name, EET_T_STRING);
+  MY_CONF_SUB_CAT_ADD_BASIC(cat_selected, EET_T_UCHAR);
+  
   MY_CONF_SUB_ADD_BASIC(note_name, EET_T_STRING);
   MY_CONF_SUB_ADD_BASIC(id, EET_T_INT);
   MY_CONF_SUB_ADD_BASIC(x, EET_T_INT);
@@ -187,6 +254,7 @@ _my_conf_descriptor_init(void)
   MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.uid, EET_T_STRING);
   MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.href, EET_T_STRING);
   MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.online, EET_T_INT);
+  MY_CONF_SUB_ADD_BASIC(Note_Sync_Data.categories, EET_T_STRING);
 
   MY_CONF_ADD_BASIC(first, EET_T_STRING);
   MY_CONF_ADD_BASIC(first1, EET_T_INT);
@@ -210,14 +278,30 @@ _my_conf_descriptor_init(void)
                                "note_list1",
                                note_list1,
                                _my_conf_sub_descriptor);
+  
+  EET_DATA_DESCRIPTOR_ADD_LIST(_my_conf_descriptor,
+                               Note_List_Eet,
+                               "cat_list_eet",
+                               cat_list_eet,
+                               _my_conf_sub_descriptor_cat);
+  
+  EET_DATA_DESCRIPTOR_ADD_LIST(_my_conf_descriptor,
+                               Note_List_Eet,
+                               "note_list_del",
+                               note_list_del,
+                               _my_conf_sub_descriptor_del);
 
 #undef MY_CONF_ADD_BASIC
 #undef MY_CONF_SUB_ADD_BASIC
+#undef MY_CONF_SUB_CAT_ADD_BASIC
+#undef MY_CONF_SUB_DEL_ADD_BASIC
 }
 
 static void
 _my_conf_descriptor_shutdown(void)
 {
+  eet_data_descriptor_free(_my_conf_sub_descriptor_del);
+  eet_data_descriptor_free(_my_conf_sub_descriptor_cat);
   eet_data_descriptor_free(_my_conf_sub_descriptor);
   eet_data_descriptor_free(_my_conf_descriptor);
 }
@@ -760,6 +844,7 @@ void _hide_show_all_notes(void *data, Evas_Object *obj, void *event_info EINA_UN
 {
   Eina_List* list_values;
   Eina_List* l;
+  Elm_Object_Item* it = data;
 
   EINA_LIST_FOREACH(enotes_all_objects_list,
                     l,
@@ -768,24 +853,23 @@ void _hide_show_all_notes(void *data, Evas_Object *obj, void *event_info EINA_UN
    Evas_Object* win = eina_list_nth(list_values, 0);
   
    if(all_hidden == EINA_TRUE)
-   {
       elm_win_iconified_set(win, 0);
-      elm_obj_systray_status_set(item, 1);
-//       elm_object_item_text_set(data, "hide all notes");
-   }
    else
-   {
       elm_win_iconified_set(win, 1);
-      elm_obj_systray_status_set(item, 2);
-//       elm_object_item_text_set(data, "show all notes");
-   }
-     
   }
   
    if(all_hidden == EINA_TRUE)
+   {
       all_hidden = EINA_FALSE;
+      elm_obj_systray_status_set(item, 1);
+      elm_object_item_part_text_set(data, NULL, "hide all notes");
+   }
    else
+   {
       all_hidden = EINA_TRUE;
+      elm_obj_systray_status_set(item, 2);
+      elm_object_item_part_text_set(data, NULL, "show all notes");
+   }
 }
 /*
 
@@ -1194,6 +1278,8 @@ _read_notes_eet()
   my_conf = eet_data_read(ef, _my_conf_descriptor, MY_CONF_FILE_ENTRY);
 
   note_list = my_conf->note_list1;
+  cat_list_settings = my_conf->cat_list_eet;
+  note_list_del = my_conf->note_list_del;
   dcolor_r = my_conf->dcolor_r;
   dcolor_g = my_conf->dcolor_g;
   dcolor_b = my_conf->dcolor_b;
@@ -1219,7 +1305,7 @@ _save_notes_eet()
   ef = eet_open(eina_strbuf_string_get(home_file), EET_FILE_MODE_WRITE);
 
   if (!ef) {
-    printf("ERROR\n");
+//     printf("ERROR\n");
     fprintf(stderr,
             "ERROR: could not open '%s' for write\n",
             eina_strbuf_string_get(home_file));
@@ -1234,7 +1320,8 @@ _save_notes_eet()
 
     //         my_conf->note_list1 = note_list;
     my_conf->note_list1 = note_list;
-
+    my_conf->cat_list_eet = cat_list_settings;
+    my_conf->note_list_del = note_list_del;
     my_conf->tcolor_default = tcolor_default;
     my_conf->dcolor_r = dcolor_r;
     my_conf->dcolor_g = dcolor_g;
@@ -1473,6 +1560,7 @@ save_enotes_all_objects(void* data EINA_UNUSED,
     Evas_Object* entry_notecontent = eina_list_nth(list_values, 2);
     Evas_Object* entry_title = eina_list_nth(list_values, 3);
     Evas_Object* background = eina_list_nth(list_values, 4);
+    Evas_Object* list1 = eina_list_nth(list_values, 9);
     int* old_id = eina_list_nth(list_values, 7);
 
     // get layout of win
@@ -1499,44 +1587,47 @@ save_enotes_all_objects(void* data EINA_UNUSED,
     EINA_LIST_FOREACH(note_list, l1, list_data2)
     {
       if (list_data2->id == *old_id) {
-        list_data2->id = *old_id;
-        list_data2->x = x;
-        list_data2->y = y;
-        list_data2->w = w;
-        list_data2->h = h;
+         if(evas_object_visible_get(win) == EINA_TRUE)
+         {
+            list_data2->id = *old_id;
+            list_data2->x = x;
+            list_data2->y = y;
+            list_data2->w = w;
+            list_data2->h = h;
 
-        if (strcmp(event_info, "1") == 0) {
-          list_data2->w_m = w;
-          list_data2->h_m = h;
-          list_data2->w_mtmp = w;
-          list_data2->h_mtmp = h;
-        }
-        if (strcmp(event_info, "4") == 0) {
-          list_data2->w_mtmp = w;
-          list_data2->h_mtmp = h;
-        }
-        if (strcmp(event_info, "7") == 0) {
-          tcolor_default = get_text_color(entry_notecontent);
-          dcolor_r = r;
-          dcolor_g = g;
-          dcolor_b = b;
-          dcolor_a = a;
-        }
-        if (strcmp(event_info, "5") == 0) {
-          list_data2->w_cstmp = w;
-          list_data2->h_cstmp = h;
-        }
-        if (strcmp(event_info, "2") == 0) {
-          list_data2->w_cs = w;
-          list_data2->h_cs = h;
-        }
+            if (strcmp(event_info, "1") == 0) {
+               list_data2->w_m = w;
+               list_data2->h_m = h;
+               list_data2->w_mtmp = w;
+               list_data2->h_mtmp = h;
+            }
+            if (strcmp(event_info, "4") == 0) {
+               list_data2->w_mtmp = w;
+               list_data2->h_mtmp = h;
+            }
+            if (strcmp(event_info, "7") == 0) {
+               tcolor_default = get_text_color(entry_notecontent);
+               dcolor_r = r;
+               dcolor_g = g;
+               dcolor_b = b;
+               dcolor_a = a;
+            }
+            if (strcmp(event_info, "5") == 0) {
+               list_data2->w_cstmp = w;
+               list_data2->h_cstmp = h;
+            }
+            if (strcmp(event_info, "2") == 0) {
+               list_data2->w_cs = w;
+               list_data2->h_cs = h;
+            }
+         }
 
         if (strcmp(event_info, "3") == 0) {
           list_data2->iconify = EINA_TRUE;
-          //                                 printf("ICONIFY EINA_TRUE \n");
+//           printf("ICONIFY EINA_TRUE \n");
         } else {
           list_data2->iconify = EINA_FALSE;
-          //                                 printf("ICONIFY EINA_FALSE \n");
+//           printf("ICONIFY EINA_FALSE \n");
         }
 
         list_data2->color_r = r;
@@ -1548,7 +1639,6 @@ save_enotes_all_objects(void* data EINA_UNUSED,
         list_data2->theme = eina_stringshare_add(theme);
         list_data2->menu = eina_stringshare_add(state);
         list_data2->blur = eina_stringshare_add(blur);
-//         list_data2->cat = eina_stringshare_add(elm_object_text_get(cat));
 
         t = time(NULL);
         ts = localtime(&t);
@@ -1631,6 +1721,25 @@ save_enotes_all_objects(void* data EINA_UNUSED,
         if (list_data2->Note_Sync_Data.href == NULL ||
             !strcmp(list_data2->Note_Sync_Data.href, ""))
           list_data2->Note_Sync_Data.href = eina_stringshare_add("");
+       
+         Eina_List *l_list;
+         const Eina_List *note_categories = elm_list_selected_items_get(list1);
+         Elm_Object_Item *lit;
+         
+        
+         Eina_Strbuf *categories_tmp;
+         categories_tmp = eina_strbuf_new();
+         EINA_LIST_FOREACH(note_categories, l_list, lit)
+         {
+               eina_strbuf_append(categories_tmp, elm_object_item_text_get(lit));
+               eina_strbuf_append(categories_tmp, ",");
+         }
+         eina_strbuf_remove(categories_tmp, eina_strbuf_length_get(categories_tmp)-1, eina_strbuf_length_get(categories_tmp));
+
+         list_data2->Note_Sync_Data.categories = eina_stringshare_add(eina_strbuf_string_get(categories_tmp));
+
+         eina_strbuf_free(categories_tmp);
+
       }
     }
   }
@@ -1742,30 +1851,29 @@ _enotes_del_request(void* data,
                     Evas_Object* obj EINA_UNUSED,
                     void* event_info EINA_UNUSED)
 {
-  //     Eina_List *list_values = data;
-  //     Evas_Object *win = eina_list_nth(list_values, 2);
-  //     int *del_id = eina_list_nth(list_values, 3);
+      int del_id = (int)data;
 
-  _del_local_data(data, NULL, NULL);
+   printf("delete ID I %i\n", del_id);
+  _del_local_data(del_id);
 }
 
 void
-_enotes_del_local(void* data,
-                  Evas_Object* obj EINA_UNUSED,
-                  void* event_info EINA_UNUSED)
+_enotes_del_local(int del_id)
 {
-  Eina_List* list_values = data;
-  Evas_Object* win = eina_list_nth(list_values, 2);
-  int* del_id = eina_list_nth(list_values, 3);
+//   Eina_List* list_values = data;
+//   Evas_Object* win = eina_list_nth(list_values, 2);
+//   int* del_id = eina_list_nth(list_values, 3);
+//   int* del_id = (const char*)data;
+  
   Eina_List* l;
   Eina_List* l1;
   Note* list_data2;
-
+printf("_enotes_del_local\n");
   //     delete data out of master eina_list which holds all notes
 
   EINA_LIST_FOREACH(note_list, l, list_data2)
   {
-    if (list_data2->id == *del_id) {
+    if (list_data2->id == del_id) {
       note_list = eina_list_remove(note_list, list_data2);
     }
   }
@@ -1773,14 +1881,19 @@ _enotes_del_local(void* data,
   // delete Evas_Objects out of list for "all enotes enotes_all_objects_list"
   EINA_LIST_FOREACH(enotes_all_objects_list, l, l1)
   {
-    int* id = eina_list_nth(l1, 8);
-    if (*id == *del_id) {
+    int *id = eina_list_nth(l1, 7);
+    Evas_Object* win = eina_list_nth(l1, 0);
+    
+      printf("delete ID IIII %i\n", del_id);
+      printf("delete ID V %i\n", *id);
+    if (*id == del_id) {
+       printf("TEST\n");
+      evas_object_del(win);
       enotes_all_objects_list = eina_list_remove(enotes_all_objects_list, l1);
     }
   }
-  printf("note_list Count %i\n", eina_list_count(note_list));
-  printf("enotes_all_objects_list Count %i\n",
-         eina_list_count(enotes_all_objects_list));
+//   printf("note_list Count %i\n", eina_list_count(note_list));
+//   printf("enotes_all_objects_list Count %i\n", eina_list_count(enotes_all_objects_list));
 
   if (eina_list_count(note_list) == 0) {
     _enotes_new();
@@ -1788,7 +1901,7 @@ _enotes_del_local(void* data,
 
   save_enotes_all_objects(NULL, NULL, NULL, "0");
 
-  evas_object_hide(win);
+//   evas_object_hide(win); 
 }
 
 static void
@@ -2138,7 +2251,11 @@ key_down(void* data,
   if (!strcmp(k, "F11")) // Start Syncing
   {
     save_enotes_all_objects(NULL, NULL, NULL, "0");
-    _get_online_data(NULL, NULL, NULL);
+    
+    if (eina_list_count(note_list_del) != 0)
+      _del_local_data_online();
+
+      _get_online_data(NULL, NULL, NULL);
   }
 
   if (!strcmp(k, "F12")) // backup
@@ -2193,6 +2310,7 @@ _popup_delete_cb(void* data,
 {
   Eina_List* list_delete = data;
   Evas_Object* win = eina_list_nth(list_delete, 2);
+  int *del_id = eina_list_nth(list_delete, 3);
   Evas_Object* entry_title = eina_list_nth(list_delete, 4);
   char buf[PATH_MAX];
   snprintf(buf,
@@ -2221,10 +2339,10 @@ _popup_delete_cb(void* data,
   evas_object_smart_callback_add(o1, "clicked", _popup_close_cb, notify);
   evas_object_show(o1);
   elm_box_pack_end(bxv, o1);
-
+printf("delete ID %i\n", *del_id);
   o = elm_button_add(bxv);
   elm_object_text_set(o, gettext("Yes"));
-  evas_object_smart_callback_add(o, "clicked", _enotes_del_request, data);
+  evas_object_smart_callback_add(o, "clicked", _enotes_del_request, *del_id);
   evas_object_show(o);
   elm_box_pack_end(bxv, o);
   evas_object_show(bxv);
@@ -2270,10 +2388,38 @@ _tg_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
   }
 }
 
+
+static void
+_config_show_cs(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
+{
+	Evas_Object *tb = data;
+   
+	Evas_Object *cs_frame = evas_object_data_get(tb, "cs_frame");
+   Evas_Object *categories_frame = evas_object_data_get(tb, "categories_frame");
+
+	evas_object_show(cs_frame);
+	evas_object_hide(categories_frame);
+}
+
+
+
+static void
+_config_show_categories(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
+{
+	Evas_Object *tb = data;
+   
+	Evas_Object *cs_frame = evas_object_data_get(tb, "cs_frame");
+   Evas_Object *categories_frame = evas_object_data_get(tb, "categories_frame");
+
+	evas_object_hide(cs_frame);
+	evas_object_show(categories_frame);
+}
+
+
 static void
 enotes_win_setup(Note* list_data)
 {
-  Evas_Object *win, *ly, *entry_notecontent, *entry_title, *edje_obj, *o;
+  Evas_Object *win, *ly, *entry_notecontent, *entry_title, *edje_obj, *o, *bt_save;
 
   char buf[PATH_MAX];
   int r, g, b, a;
@@ -2475,22 +2621,46 @@ enotes_win_setup(Note* list_data)
   evas_object_size_hint_align_set(list1, EVAS_HINT_FILL, EVAS_HINT_FILL);
 
   elm_list_mode_set(list1, ELM_LIST_EXPAND);
-   
-  Eina_List *l;
-  Elm_Object_Item *lit;
-  EINA_LIST_FOREACH(cat_list, l, lit)
-   {
-      elm_list_item_append(list1, elm_object_item_text_get(lit), NULL, NULL, NULL, NULL);
-   }
-//   elm_list_item_append(list1, "Privat", NULL, NULL, NULL, list1);
-//   elm_list_item_append(list1, "Work", NULL, NULL, NULL, list1);
-//   elm_list_item_append(list1, "EJW FDS", NULL, NULL, NULL, list1);
-//   elm_list_item_append(list1, "Pfalzgrafenweiler", NULL, NULL, NULL, list1);
-//   elm_list_item_append(list1, "Enotes", NULL, NULL, NULL, list1);
-  elm_list_go(list1);
+                  Eina_List *l;
+                  Elm_Object_Item *it;
+                  My_Conf_Type_Cat* new;
+                  new = calloc(1, sizeof(My_Conf_Type_Cat));
+                  
 
+                  EINA_LIST_FOREACH(cat_list_settings, l, new)
+                  {
+                     it = elm_list_item_append(list1, new->cat_name, NULL, NULL, NULL, list1);
+                              
+                     char **arr;
+                     int i;
+                              
+                     arr = eina_str_split(list_data->Note_Sync_Data.categories, ",", 0);
+
+                     if(arr == NULL)
+                        return;
+
+                     for (i = 0; arr[i]; i++)
+                     {
+                        if(strcmp(arr[i], new->cat_name) == 0)
+                           elm_list_item_selected_set(it, EINA_TRUE);
+                     }
+                  }
+                  
+  elm_list_go(list1);
+  
   evas_object_show(list1);  
   elm_box_pack_end(bx, list1);
+
+  
+  
+   bt_save = elm_button_add(bx);
+   evas_object_size_hint_weight_set(bt_save, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(bt_save, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   elm_object_text_set(bt_save, "Save categories");
+   evas_object_smart_callback_add(bt_save, "clicked", NULL, NULL); // TODO FIX BUTTON 
+   evas_object_show(bt_save);
+   elm_box_pack_end(bx, bt_save);
+  
 
   elm_object_part_content_set(ly, "color_swallow", bx);
 
@@ -2654,8 +2824,8 @@ enotes_win_setup(Note* list_data)
   enotes_all_objects = eina_list_append(enotes_all_objects, tg);
   enotes_all_objects = eina_list_append(enotes_all_objects, cs);
   enotes_all_objects = eina_list_append(enotes_all_objects, &list_data->id);
-  enotes_all_objects =
-    eina_list_append(enotes_all_objects, &list_data->text_size);
+  enotes_all_objects = eina_list_append(enotes_all_objects, &list_data->text_size);
+  enotes_all_objects = eina_list_append(enotes_all_objects, list1);
 
   enotes_all_objects_list =
     eina_list_append(enotes_all_objects_list, enotes_all_objects);
@@ -2707,6 +2877,7 @@ note_online_to_local(Eina_List* new_notes)
                                   data_get->Note_Sync_Data.summary);
               elm_object_text_set(entry_notecontent,
                                   data_get->Note_Sync_Data.description);
+              
             }
           }
           printf("\n\nLOCAL ÜBERSCHREIBEN id:%i name:%s\n",
@@ -2783,6 +2954,8 @@ note_online_to_local(Eina_List* new_notes)
         eina_stringshare_add(data_get->Note_Sync_Data.href);
       defaultnote->Note_Sync_Data.uid =
         eina_stringshare_add(data_get->Note_Sync_Data.uid);
+      defaultnote->Note_Sync_Data.categories =
+        eina_stringshare_add(data_get->Note_Sync_Data.categories);
       defaultnote->Note_Sync_Data.online = (int*)1;
       defaultnote->text_color = 0;
 
@@ -2985,6 +3158,8 @@ _enotes_new()
                             ts->tm_sec);
   defaultnote->Note_Sync_Data.uid =
     eina_stringshare_add(eina_strbuf_string_get(newbuf));
+  defaultnote->Note_Sync_Data.categories =
+    eina_stringshare_add(eina_stringshare_add("Default"));
   defaultnote->Note_Sync_Data.online = (int*)0;
   eina_strbuf_free(newbuf);
 
@@ -3083,8 +3258,8 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
     enotes_systray(NULL, NULL, NULL);
     
     all_hidden = EINA_FALSE;
-    
-if (eina_list_count(note_list) == 0) {
+   
+   if (eina_list_count(note_list) == 0) {
       _enotes_new();
     } else {
       EINA_LIST_FOREACH(note_list, l, list_data)

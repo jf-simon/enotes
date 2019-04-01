@@ -104,18 +104,9 @@ _put_local_data_online()
   chunk.memory = malloc(1);
   chunk.size = 0;
   printf("note_list_put: %i\n", eina_list_count(note_list_put));
-  EINA_LIST_FOREACH(
-    note_list_put,
-    l,
-    list_data) // TODO: checken ob href vorhanden, wenn nicht, neue erstellen
-               // ansonsten wird es ein update mit gleicher hred
+  EINA_LIST_FOREACH(note_list_put, l, list_data) // TODO: checken ob href vorhanden, wenn nicht, neue erstellen
+                                                   // ansonsten wird es ein update mit gleicher hred
   {
-    //                printf("upload SUMMARY:%s\n", list_data->note_text);
-    //                time_t t;
-    //                struct tm *ts;
-    //                t = time(NULL);
-    //                ts = localtime(&t);
-
     CURL* curl;
     CURLcode res;
     // request PUT for put download objects
@@ -138,6 +129,7 @@ _put_local_data_online()
       "DTSTAMP:%s\n"
       "SEQUENCE:1\n"
       "UID:%s\n"
+      "CATEGORIES:%s\n"
       "END:VTODO\n"
       "END:VCALENDAR\n",
       list_data->Note_Sync_Data.prodid,
@@ -147,7 +139,8 @@ _put_local_data_online()
       list_data->Note_Sync_Data.status,
       list_data->note_text,
       list_data->Note_Sync_Data.last_modified,
-      list_data->Note_Sync_Data.uid);
+      list_data->Note_Sync_Data.uid,
+      list_data->Note_Sync_Data.categories);
 
 
     eina_strbuf_replace_all(put_data_existing,

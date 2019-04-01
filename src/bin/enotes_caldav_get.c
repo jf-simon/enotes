@@ -35,7 +35,6 @@ parse_curl_get_response(Eina_Strbuf* mybuffer)
     Note* data_add = calloc(1, sizeof(Note));
     data_add->Note_Sync_Data.href =
       find_data(arr[i], "<d:href>", "</d:href>"); // find <d:href>
-    //                printf("HREF: %s\n",  data_add->Note_Sync_Data.href);
 
     data_add->Note_Sync_Data.etag =
       find_data(arr[i], "<d:getetag>", "</d:getetag>"); // find <d:getetag>
@@ -82,6 +81,11 @@ parse_curl_get_response(Eina_Strbuf* mybuffer)
       } else if (strstr(arr1[y], "PERCENT-COMPLETE")) {
         eina_strbuf_replace_all(arry_split, "PERCENT-COMPLETE:", "");
         data_add->Note_Sync_Data.percent_complete =
+          eina_stringshare_add(eina_strbuf_string_get(arry_split));
+
+      } else if (strstr(arr1[y], "CATEGORIES")) {
+        eina_strbuf_replace_all(arry_split, "CATEGORIES:", "");
+        data_add->Note_Sync_Data.categories =
           eina_stringshare_add(eina_strbuf_string_get(arry_split));
 
       } else if (strstr(arr1[y], " ")) {
