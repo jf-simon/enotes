@@ -2798,11 +2798,29 @@ enotes_win_setup(Note* list_data)
   elm_entry_item_provider_append(entry_notecontent, item_provider, NULL);
   elm_entry_item_provider_append(entry_title, item_provider, NULL);
 
-  /// TODO CATEGORIES COMPARE
-  //     if(strstr(list_data->cat, "Privat"))
-  //     {
-  evas_object_show(win);
-  //     }
+        evas_object_hide(win);
+  Eina_List *c1;
+  My_Conf_Type_Cat* c1_data;
+  c1_data = calloc(1, sizeof(My_Conf_Type_Cat));
+  
+  // categories check
+  
+  EINA_LIST_FOREACH(cat_list_settings, c1, c1_data)
+  {
+     if(strstr(list_data->Note_Sync_Data.categories, c1_data->cat_name) && c1_data->cat_selected == 1)
+     {
+//          if(evas_object_visible_get(win) == EINA_FALSE)
+//          {
+        printf("SHOW\n");
+        printf("list_data->Note_Sync_Data.categories %s\n", list_data->Note_Sync_Data.categories);
+        printf("c1_data->cat_name %s\n", c1_data->cat_name);
+        printf("\n\n");
+            evas_object_show(win);
+            break;
+//          }
+     }
+  }
+//             evas_object_show(win);
 
   if (list_data->sticky)
     _enotes_sticky(win, NULL, NULL, NULL);
