@@ -70,26 +70,25 @@ WriteMemoryCallback(void* contents, size_t size, size_t nmemb, void* userp)
 void
 _del_local_data(int del_id)
 {
+   
+//TODO: check for online and offline notes using Note_Sync_Data.online
 
-//   Eina_List* list_values = data;
-  //     Evas_Object *win = eina_list_nth(list_values, 2);
-//   int* del_id = eina_list_nth(list_values, 3);
-//   int* del_id = (int*)data;
-
-//   note_list_del = NULL;
    printf("delete ID II %i\n", del_id);
-  Eina_List* l;
-  Note* list_data;
-  EINA_LIST_FOREACH(note_list, l, list_data)
-  {
-    if (list_data->id == del_id) {
-      note_list_del = eina_list_append(note_list_del, list_data);
-    }
-  }
-  printf("delete %i\n", eina_list_count(note_list_del));
+   Eina_List* l;
+   Note* list_data;
+   EINA_LIST_FOREACH(note_list, l, list_data)
+   {
+      if (list_data->id == del_id) {
+         if(list_data->Note_Sync_Data.online != 0)
+            note_list_del = eina_list_append(note_list_del, list_data);
+         else
+            _enotes_del_local(del_id);
+      }
+   }
+   printf("delete %i\n", eina_list_count(note_list_del));
 
-  if (eina_list_count(note_list_del) > 0)
-    _del_local_data_online();
+   if (eina_list_count(note_list_del) > 0)
+      _del_local_data_online();
 }
 
 void
