@@ -397,7 +397,7 @@ _it_clicked_cb(void *data, Evas_Object *li,
             
 
             
-            if((eina_list_count((Eina_List*)cat_list_selected_note) == 0) && (eina_list_count((Eina_List*)cat_list_selected_settings) != 0)) // show if note has no Categorie
+            if((eina_list_count((Eina_List*)cat_list_selected_note) == 0) || (eina_list_count((Eina_List*)cat_list_selected_settings) != 0)) // show if note has no Categorie
             {
                evas_object_show(win);
                continue;
