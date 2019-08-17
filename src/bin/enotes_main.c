@@ -2339,10 +2339,10 @@ _popup_delete_cb(void* data,
   evas_object_smart_callback_add(o1, "clicked", _popup_close_cb, notify);
   evas_object_show(o1);
   elm_box_pack_end(bxv, o1);
-printf("delete ID %i\n", *del_id);
+   printf("delete ID %i\n", *del_id);
   o = elm_button_add(bxv);
   elm_object_text_set(o, gettext("Yes"));
-  evas_object_smart_callback_add(o, "clicked", _enotes_del_request, (int*)del_id);
+  evas_object_smart_callback_add(o, "clicked", _enotes_del_request, *del_id);
   evas_object_show(o);
   elm_box_pack_end(bxv, o);
   evas_object_show(bxv);
