@@ -85,29 +85,33 @@ parse_curl_get_response(Eina_Strbuf* mybuffer)
 
       } else if (strstr(arr1[y], "CATEGORIES")) {
         eina_strbuf_replace_all(arry_split, "CATEGORIES:", "");
-        data_add->Note_Sync_Data.categories =
-          eina_stringshare_add(eina_strbuf_string_get(arry_split));
+        data_add->Note_Sync_Data.categories = eina_stringshare_add(eina_strbuf_string_get(arry_split));
 
-      } else if (strstr(arr1[y], " ")) {
+      } else if (strstr(arr1[y], " ")) { // the DESCRIPTION is splitted into multible lines. SPACE is the indicator for this. so add this lines to DESCRIPTION
         eina_strbuf_ltrim(arry_split);
         eina_strbuf_append_buffer(summary_tmp, arry_split);
       }
 
       eina_strbuf_reset(arry_split);
     }
+         // check for categories, if none was added. add the default
+   if(data_add->Note_Sync_Data.categories == NULL || strcmp(data_add->Note_Sync_Data.categories,"") == 0)
+      data_add->Note_Sync_Data.categories = eina_stringshare_add("Default");
+   
+   //TODO auf neue CATEGORIES prüfen und ggf. der categories Liste in den Settings hinzufügen
 
     eina_strbuf_replace_all(summary_tmp, "DESCRIPTION:", "");
     eina_strbuf_replace_all(summary_tmp, "\\n", "<br/>");
     eina_strbuf_replace_all(
-      summary_tmp, "[x]", "<item relsize=24x24 vsize=full href=done></item>");
+      summary_tmp, "[x]", "<item relsize=24x24 vsize=full href=done></item>"); // replace [x] to a icon - complatible to "TODO Android App"
     eina_strbuf_replace_all(
-      summary_tmp, "[ ]", "<item relsize=24x24 vsize=full href=open></item>");
+      summary_tmp, "[ ]", "<item relsize=24x24 vsize=full href=open></item>");// replace [ ] to a icon - complatible to "TODO Android App"
 
     data_add->Note_Sync_Data.description =
       eina_stringshare_add(eina_strbuf_string_get(summary_tmp));
     eina_strbuf_reset(summary_tmp);
 
-    data_add->Note_Sync_Data.online = (int*)1;
+    data_add->Note_Sync_Data.online = (int*)1; // 1 = if download and not yet pushed again; 3 = updated local and online; 0 = new created local - not synced online
 
     new_notes = eina_list_append(new_notes, data_add);
   }
