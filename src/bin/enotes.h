@@ -141,6 +141,7 @@ Eina_List* cat_list_settings;
 char enotes_running[PATH_MAX];
 Eina_Bool all_hidden;
 Evas_Object *list;
+Evas_Object *list_all;
 Eo *item;
 Elm_Object_Item *menu_it3;
 Evas_Object *it;
@@ -204,3 +205,7 @@ catlist_to_catlisteet();
 
 void
 _fill_list_to_notes();
+
+void
+_it_clicked_cb(void *data, Evas_Object *li,
+                 void *event_info EINA_UNUSED);
