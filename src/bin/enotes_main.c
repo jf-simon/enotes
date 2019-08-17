@@ -844,7 +844,6 @@ void _hide_show_all_notes(void *data, Evas_Object *obj, void *event_info EINA_UN
 {
   Eina_List* list_values;
   Eina_List* l;
-  Elm_Object_Item* it = data;
 
   EINA_LIST_FOREACH(enotes_all_objects_list,
                     l,
@@ -1729,7 +1728,7 @@ save_enotes_all_objects(void* data EINA_UNUSED,
         
          Eina_Strbuf *categories_tmp;
          categories_tmp = eina_strbuf_new();
-         EINA_LIST_FOREACH(note_categories, l_list, lit)
+         EINA_LIST_FOREACH((Eina_List*)note_categories, l_list, lit)
          {
                eina_strbuf_append(categories_tmp, elm_object_item_text_get(lit));
                eina_strbuf_append(categories_tmp, ",");
@@ -1847,11 +1846,11 @@ _colorselector_changed_cb(void* data,
 }
 
 static void
-_enotes_del_request(void* data,
+_enotes_del_request(void *data,
                     Evas_Object* obj EINA_UNUSED,
                     void* event_info EINA_UNUSED)
 {
-      int del_id = (int)data;
+      int del_id = (int*)data;
 
    printf("delete ID I %i\n", del_id);
   _del_local_data(del_id);
@@ -2253,9 +2252,10 @@ key_down(void* data,
     save_enotes_all_objects(NULL, NULL, NULL, "0");
     
     if (eina_list_count(note_list_del) != 0)
+    {
       _del_local_data_online();
-
-      _get_online_data(NULL, NULL, NULL);
+    }
+    _get_online_data(NULL, NULL, NULL);
   }
 
   if (!strcmp(k, "F12")) // backup
@@ -2342,7 +2342,7 @@ _popup_delete_cb(void* data,
 printf("delete ID %i\n", *del_id);
   o = elm_button_add(bxv);
   elm_object_text_set(o, gettext("Yes"));
-  evas_object_smart_callback_add(o, "clicked", _enotes_del_request, *del_id);
+  evas_object_smart_callback_add(o, "clicked", _enotes_del_request, (int*)del_id);
   evas_object_show(o);
   elm_box_pack_end(bxv, o);
   evas_object_show(bxv);
@@ -2386,33 +2386,6 @@ _tg_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
     evas_color_argb_premul(a, &r, &g, &b);
     elm_colorselector_color_set(cs, r, g, b, a);
   }
-}
-
-
-static void
-_config_show_cs(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
-{
-	Evas_Object *tb = data;
-   
-	Evas_Object *cs_frame = evas_object_data_get(tb, "cs_frame");
-   Evas_Object *categories_frame = evas_object_data_get(tb, "categories_frame");
-
-	evas_object_show(cs_frame);
-	evas_object_hide(categories_frame);
-}
-
-
-
-static void
-_config_show_categories(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
-{
-	Evas_Object *tb = data;
-   
-	Evas_Object *cs_frame = evas_object_data_get(tb, "cs_frame");
-   Evas_Object *categories_frame = evas_object_data_get(tb, "categories_frame");
-
-	evas_object_hide(cs_frame);
-	evas_object_show(categories_frame);
 }
 
 
@@ -2803,24 +2776,28 @@ enotes_win_setup(Note* list_data)
   My_Conf_Type_Cat* c1_data;
   c1_data = calloc(1, sizeof(My_Conf_Type_Cat));
   
-  // categories check
-  
-  EINA_LIST_FOREACH(cat_list_settings, c1, c1_data)
+  // categories check  
+  if(eina_list_count(cat_list_settings) == 0)
+        evas_object_show(win);
+  else
   {
-     if(strstr(list_data->Note_Sync_Data.categories, c1_data->cat_name) && c1_data->cat_selected == 1)
-     {
-//          if(evas_object_visible_get(win) == EINA_FALSE)
-//          {
-        printf("SHOW\n");
-        printf("list_data->Note_Sync_Data.categories %s\n", list_data->Note_Sync_Data.categories);
-        printf("c1_data->cat_name %s\n", c1_data->cat_name);
-        printf("\n\n");
+      EINA_LIST_FOREACH(cat_list_settings, c1, c1_data)
+      {
+         if(!strcmp(list_data->Note_Sync_Data.categories, "") || list_data->Note_Sync_Data.categories == NULL)
+         {   
             evas_object_show(win);
-            break;
-//          }
-     }
+            printf("SHOW EMPTY CAT\n");
+         }
+         if(strstr(list_data->Note_Sync_Data.categories, c1_data->cat_name) && c1_data->cat_selected == 1)
+         {
+            printf("SHOW\n");
+            printf("list_data->Note_Sync_Data.categories %s\n", list_data->Note_Sync_Data.categories);
+            printf("c1_data->cat_name %s\n", c1_data->cat_name);
+            printf("\n\n");
+            evas_object_show(win);
+         }
+      }
   }
-//             evas_object_show(win);
 
   if (list_data->sticky)
     _enotes_sticky(win, NULL, NULL, NULL);
@@ -2973,7 +2950,7 @@ note_online_to_local(Eina_List* new_notes)
       defaultnote->Note_Sync_Data.uid =
         eina_stringshare_add(data_get->Note_Sync_Data.uid);
       defaultnote->Note_Sync_Data.categories =
-        eina_stringshare_add(data_get->Note_Sync_Data.categories);
+        eina_stringshare_add("");
       defaultnote->Note_Sync_Data.online = (int*)1;
       defaultnote->text_color = 0;
 
@@ -3177,7 +3154,7 @@ _enotes_new()
   defaultnote->Note_Sync_Data.uid =
     eina_stringshare_add(eina_strbuf_string_get(newbuf));
   defaultnote->Note_Sync_Data.categories =
-    eina_stringshare_add(eina_stringshare_add("Default"));
+    eina_stringshare_add(eina_stringshare_add(""));
   defaultnote->Note_Sync_Data.online = (int*)0;
   eina_strbuf_free(newbuf);
 
@@ -3229,6 +3206,7 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
 #endif
+  
 
   //     enotes_init();
   _my_conf_descriptor_init();
@@ -3285,7 +3263,22 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
         enotes_win_setup(list_data);
       }
     }
-  } else {
+    
+   int x = 0;
+   Eina_List *c1;
+   My_Conf_Type_Cat* c;
+   c = calloc(1, sizeof(My_Conf_Type_Cat));
+   
+   EINA_LIST_FOREACH(cat_list_settings, c1, c)
+   {
+   if(c->cat_selected == 1)
+      x++;
+   }
+    
+   if(x == 0)
+      _open_settings(list_data, NULL, NULL, NULL);
+       
+   } else {
     printf("Dont't start Enotes twice - closing ...\nIf no other instance is "
            "running, please remove ~/.config/enotes/enotes_running.pid\n");
     goto end_double_start;
