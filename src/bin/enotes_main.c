@@ -2763,7 +2763,7 @@ enotes_win_setup(Note* list_data)
     ly,
     EVAS_CALLBACK_KEY_DOWN,
     key_down,
-    list_values); // TODO: CALLBACK sollte auf obj win gehen. bug in efl
+    list_values);
 
   evas_object_event_callback_add(
     entry_notecontent, EVAS_CALLBACK_MOUSE_WHEEL, _mouse_wheel, list_text);
