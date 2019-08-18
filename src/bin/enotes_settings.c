@@ -298,7 +298,7 @@ catlist_to_catlisteet()
       Elm_Object_Item *lit;
       
       cat_list_settings = NULL;
-
+printf("test1\n");
       EINA_LIST_FOREACH((Eina_List*) cat_list_new, l, lit)
       {
          My_Conf_Type_Cat* new;
@@ -414,8 +414,7 @@ _it_clicked_cb(void *data, Evas_Object *li EINA_UNUSED,
                   {
                                     EINA_LIST_FOREACH((Eina_List*)cat_list_selected_note, l2, lit1)
                                     {
-                                       if((strcmp(elm_object_item_text_get(lit), elm_object_item_text_get(lit1)) == 0) /*|| (strcmp(elm_object_item_text_get(lit1), "") == 0)*/) // wenn die note die gleiche cat hat, dann anzeigen, 
-                                                                                                                                                                             //ODER wenn die note keine cat hat, auch anzeigen
+                                       if((strcmp(elm_object_item_text_get(lit), elm_object_item_text_get(lit1)) == 0)
                                        {
                                           evas_object_show(win);
                                           z = 1;
@@ -428,10 +427,10 @@ _it_clicked_cb(void *data, Evas_Object *li EINA_UNUSED,
             evas_object_hide(win);
       }
       
-//       if(eina_list_count((Eina_List*)cat_list_selected_settings) == 0) // select first list item to avoid hiding all notes -> no way to come back to enotes
-//       {
-//          elm_list_item_selected_set(elm_list_first_item_get(data), EINA_TRUE);
-//       }
+      if(eina_list_count((Eina_List*)cat_list_selected_settings) == 0) // select first list item to avoid hiding all notes -> no way to come back to enotes
+      {
+         elm_list_item_selected_set(elm_list_first_item_get(data), EINA_TRUE);
+      }
 }
 
 
@@ -1031,9 +1030,7 @@ _open_settings(void* data,
 
    
 	evas_object_event_callback_add(win, EVAS_CALLBACK_MOUSE_OUT, catlist_to_catlisteet, NULL);
-   
-   
-    evas_object_event_callback_add(win, EVAS_CALLBACK_KEY_DOWN, _esc_check, NULL);
+   evas_object_event_callback_add(list, EVAS_CALLBACK_KEY_DOWN, _esc_check, NULL);
     
    _fill_list_to_notes();
    
