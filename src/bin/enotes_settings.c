@@ -386,6 +386,9 @@ _it_clicked_cb(void *data, Evas_Object *li EINA_UNUSED,
          Evas_Object *cat_list = eina_list_nth(list_values, 9);
          const Eina_List *cat_list_selected_note = NULL;
          int z = 0;
+         int x, y;
+         evas_object_geometry_get(win, &x, &y, NULL, NULL);
+         printf("X: %i - Y: %i\n", x, y);
 
             
             cat_list_selected_note = elm_list_selected_items_get(cat_list);
@@ -393,12 +396,14 @@ _it_clicked_cb(void *data, Evas_Object *li EINA_UNUSED,
 
             if(eina_list_count((Eina_List*)elm_list_items_get(list)) == 0)
             {
+               evas_object_move(win, x, y);
                evas_object_show(win);
                continue;
             }
             
             if((eina_list_count((Eina_List*)cat_list_selected_note) == 0) && (eina_list_count((Eina_List*)cat_list_selected_settings) != 0)) // show if note has no Categorie
             {
+               evas_object_move(win, x, y);
                evas_object_show(win);
                continue;
             }
@@ -414,8 +419,9 @@ _it_clicked_cb(void *data, Evas_Object *li EINA_UNUSED,
                   {
                                     EINA_LIST_FOREACH((Eina_List*)cat_list_selected_note, l2, lit1)
                                     {
-                                       if((strcmp(elm_object_item_text_get(lit), elm_object_item_text_get(lit1)) == 0)
+                                       if((strcmp(elm_object_item_text_get(lit), elm_object_item_text_get(lit1)) == 0))
                                        {
+                                          evas_object_move(win, x, y);
                                           evas_object_show(win);
                                           z = 1;
                                           continue;
@@ -443,8 +449,14 @@ _showall_clicked_cb(void *data EINA_UNUSED, Evas_Object *li EINA_UNUSED,
                
       EINA_LIST_FOREACH(enotes_all_objects_list, l, list_values) // LISTE DER OBJEKTE DURCHGEHEN
       {
-         printf("SHOW ALL\n");
+         int z = 0;
+         int x, y;
+         
          Evas_Object *win = eina_list_nth(list_values, 0);
+         evas_object_geometry_get(win, &x, &y, NULL, NULL);
+         printf("X: %i - Y: %i\n", x, y);
+         printf("SHOW ALL\n");
+         evas_object_move(win, x, y);
          evas_object_show(win);
       }
       
@@ -704,7 +716,7 @@ _open_settings(void* data,
                   evas_object_show(bx);
 
                   evas_object_smart_callback_add(list_all, "clicked", _showall_clicked_cb, NULL);
-                  evas_object_smart_callback_add(list_all, "clicked", _it_clicked_select_all_cb, list);
+//                   evas_object_smart_callback_add(list_all, "clicked", _it_clicked_select_all_cb, list);
    elm_object_content_set(categories_frame, bx);
 	evas_object_data_set(tb_settings, "categories_frame", categories_frame);
 /// CATEGORIES FRAME END ///   
