@@ -1,7 +1,9 @@
 This is a note program witten in c using efl
 
 save all relevant infos automaticly 
-when you leave the note with the mouse! 
+when you leave a note with the mouse!
+
+with category support
 
 ￼ click on "tape" to move the note
 ￼ click bottom right corner to resize

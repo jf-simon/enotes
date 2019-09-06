@@ -10,7 +10,6 @@
  * and finally your private one. */
 
 #include "enotes.h"
-#include "/home/simon/efl_src/efl/src/lib/elementary/elm_systray_eo.h"
 
 #define COPYRIGHT                                                              \
   "Copyright © 2017 Simon Tischer <simon@t-tischer.de> for the enotes app  "  \
@@ -169,33 +168,36 @@ _my_conf_descriptor_init(void)
   EET_DATA_DESCRIPTOR_ADD_BASIC(                                               \
     _my_conf_sub_descriptor_del, My_Conf_Type_Del, #member, member, eet_type)
 
-  MY_CONF_SUB_DEL_ADD_BASIC(note_name, EET_T_STRING);
-  MY_CONF_SUB_DEL_ADD_BASIC(id, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(x, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(y, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(h, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(w, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(h_m, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(w_m, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(h_mtmp, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(w_mtmp, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(h_cs, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(w_cs, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(h_cstmp, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(w_cstmp, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(color_r, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(color_g, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(color_b, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(color_a, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(text_color, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(tcolor, EET_T_STRING);
-  MY_CONF_SUB_DEL_ADD_BASIC(text_size, EET_T_INT);
-  MY_CONF_SUB_DEL_ADD_BASIC(iconify, EET_T_UCHAR);
-  MY_CONF_SUB_DEL_ADD_BASIC(sticky, EET_T_UCHAR);
-  MY_CONF_SUB_DEL_ADD_BASIC(menu, EET_T_STRING);
-  MY_CONF_SUB_DEL_ADD_BASIC(blur, EET_T_STRING);
-  MY_CONF_SUB_DEL_ADD_BASIC(theme, EET_T_STRING);
-  MY_CONF_SUB_DEL_ADD_BASIC(note_text, EET_T_STRING);
+  // Note values
+  MY_CONF_SUB_DEL_ADD_BASIC(note_name, EET_T_STRING);                         // Note name
+  MY_CONF_SUB_DEL_ADD_BASIC(id, EET_T_INT);                                   // unique note id
+  MY_CONF_SUB_DEL_ADD_BASIC(x, EET_T_INT);                                    // x coodinate of the note window
+  MY_CONF_SUB_DEL_ADD_BASIC(y, EET_T_INT);                                    // y coodinate of the note window
+  MY_CONF_SUB_DEL_ADD_BASIC(h, EET_T_INT);                                    // hight of the note window
+  MY_CONF_SUB_DEL_ADD_BASIC(w, EET_T_INT);                                    // width of the note window
+  MY_CONF_SUB_DEL_ADD_BASIC(h_m, EET_T_INT);                                  // hight of the note window with open menu
+  MY_CONF_SUB_DEL_ADD_BASIC(w_m, EET_T_INT);                                  // width of the note window with open menu
+  MY_CONF_SUB_DEL_ADD_BASIC(h_mtmp, EET_T_INT);                               // hight (tmp) of the note window with open menu 
+  MY_CONF_SUB_DEL_ADD_BASIC(w_mtmp, EET_T_INT);                               // width (tmp) of the note window with open menu 
+  MY_CONF_SUB_DEL_ADD_BASIC(h_cs, EET_T_INT);                                 // hidth of the note window with open menu AND colorselector
+  MY_CONF_SUB_DEL_ADD_BASIC(w_cs, EET_T_INT);                                 // width of the note window with open menu AND colorselector
+  MY_CONF_SUB_DEL_ADD_BASIC(h_cstmp, EET_T_INT);                              // hight (tmp) of the note window with open menu AND colorselector
+  MY_CONF_SUB_DEL_ADD_BASIC(w_cstmp, EET_T_INT);                              // width (tmp) of the note window with open menu AND colorselector
+  MY_CONF_SUB_DEL_ADD_BASIC(color_r, EET_T_INT);                              // background RGBA value red
+  MY_CONF_SUB_DEL_ADD_BASIC(color_g, EET_T_INT);                              // background RGBA value green
+  MY_CONF_SUB_DEL_ADD_BASIC(color_b, EET_T_INT);                              // background RGBA value blue
+  MY_CONF_SUB_DEL_ADD_BASIC(color_a, EET_T_INT);                              // background RGBA value alpha
+  MY_CONF_SUB_DEL_ADD_BASIC(text_color, EET_T_INT);                           // not used
+  MY_CONF_SUB_DEL_ADD_BASIC(tcolor, EET_T_STRING);                            // textcolor format #ffba00ff #RRGGBBAA
+  MY_CONF_SUB_DEL_ADD_BASIC(text_size, EET_T_INT);                            // textsize in pixel
+  MY_CONF_SUB_DEL_ADD_BASIC(iconify, EET_T_UCHAR);                            // 1 = iconified 0 = visible
+  MY_CONF_SUB_DEL_ADD_BASIC(sticky, EET_T_UCHAR);                             // 1 = sticky 0 = not sticky
+  MY_CONF_SUB_DEL_ADD_BASIC(menu, EET_T_STRING);                              // 1 = menu is visile 0 = not visible
+  MY_CONF_SUB_DEL_ADD_BASIC(blur, EET_T_STRING);                              // 1 = note is blurd  0 = not blured
+  MY_CONF_SUB_DEL_ADD_BASIC(theme, EET_T_STRING);                             // at the moment there are 3 themes supportet in theme "layout1" "layout2" "layout3"
+  MY_CONF_SUB_DEL_ADD_BASIC(note_text, EET_T_STRING);                         // Note content text
+  
+  // Note online values
   MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.etag, EET_T_STRING);
   MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.prodid, EET_T_STRING);
   MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.created, EET_T_STRING);
@@ -211,6 +213,7 @@ _my_conf_descriptor_init(void)
   MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.online, EET_T_INT);
   MY_CONF_SUB_DEL_ADD_BASIC(Note_Sync_Data.categories, EET_T_STRING);
   
+  // Setting values
   MY_CONF_SUB_CAT_ADD_BASIC(cat_name, EET_T_STRING);
   MY_CONF_SUB_CAT_ADD_BASIC(cat_selected, EET_T_UCHAR);
   
@@ -473,7 +476,7 @@ enotes_win_help(void* data,
 
   elm_win_title_set(win, gettext("eNotes Help"));
   elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
-  elm_win_borderless_set(win, EINA_TRUE);
+  elm_win_borderless_set(win, EINA_FALSE);
   elm_win_alpha_set(win, EINA_TRUE);
   elm_win_autodel_set(win, EINA_TRUE);
 
@@ -860,13 +863,13 @@ void _hide_show_all_notes(void *data, Evas_Object *obj, void *event_info EINA_UN
    if(all_hidden == EINA_TRUE)
    {
       all_hidden = EINA_FALSE;
-      elm_obj_systray_status_set(item, 1);
+      elm_systray_status_set(item, 1);
       elm_object_item_part_text_set(data, NULL, "hide all notes");
    }
    else
    {
       all_hidden = EINA_TRUE;
-      elm_obj_systray_status_set(item, 2);
+      elm_systray_status_set(item, 2);
       elm_object_item_part_text_set(data, NULL, "show all notes");
    }
 }
@@ -2368,24 +2371,38 @@ _popup_delete_cb(void* data,
 }
 
 static void
-_tg_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
+_text_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
+{
+  Eina_List* tg_change = data;
+//   Evas_Object* background = eina_list_nth(tg_change, 0);
+  Evas_Object* cs = eina_list_nth(tg_change, 1);
+  Evas_Object* entry_title = eina_list_nth(tg_change, 2);
+  int r, g, b, a;
+  const char* str;
+
+
+//    str = get_text_color1(entry_title);
+//    sscanf(str, "%02x%02x%02x%02x", &r, &g, &b, &a);
+//    evas_color_argb_premul(a, &r, &g, &b);
+//    elm_colorselector_color_set(cs, r, g, b, a);
+
+}
+
+
+static void
+_background_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
 {
   Eina_List* tg_change = data;
   Evas_Object* background = eina_list_nth(tg_change, 0);
   Evas_Object* cs = eina_list_nth(tg_change, 1);
-  Evas_Object* entry_title = eina_list_nth(tg_change, 2);
+//   Evas_Object* entry_title = eina_list_nth(tg_change, 2);
   int r, g, b, a;
 
-  if (!elm_check_state_get(obj)) {
+
     evas_object_color_get(background, &r, &g, &b, &a);
     evas_color_argb_premul(a, &r, &g, &b);
     elm_colorselector_color_set(cs, r, g, b, a);
-  } else {
-    const char* str = get_text_color1(entry_title);
-    sscanf(str, "%02x%02x%02x%02x", &r, &g, &b, &a);
-    evas_color_argb_premul(a, &r, &g, &b);
-    elm_colorselector_color_set(cs, r, g, b, a);
-  }
+
 }
 
 
@@ -2421,7 +2438,7 @@ enotes_win_setup(Note* list_data)
   snprintf(buf,
            sizeof(buf),
            "%s/themes/entry_theme.edj",
-           elm_app_data_dir_get()); // OVERLAY OF ENTRY SCROLLER BUG
+           elm_app_data_dir_get()); // OVERLAY OF ENTRY SCROLLER THEME
   elm_theme_overlay_add(NULL, buf);
   
   elm_win_resize_object_add(win, ly);
@@ -2468,6 +2485,7 @@ enotes_win_setup(Note* list_data)
   evas_object_size_hint_align_set(entry_title, 1.0, 1.0);
   elm_object_part_content_set(ly, "name_content", entry_title);
 
+ 
   // BACKGROUND SELECT //
   Evas_Object* background;
 
@@ -2476,7 +2494,7 @@ enotes_win_setup(Note* list_data)
     background, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   evas_object_size_hint_align_set(background, EVAS_HINT_FILL, EVAS_HINT_FILL);
 
-  /* Fix Alpha pre multiplication by edje */
+  // Fix Alpha pre multiplication by edje 
   r = list_data->color_r;
   g = list_data->color_g;
   b = list_data->color_b;
@@ -2489,24 +2507,46 @@ enotes_win_setup(Note* list_data)
   elm_object_part_content_set(ly, "note_swallow", background);
   // BACKGROUND SELECT END//
 
+  
   Evas_Object *bx, *cs, *bt, *bt1;
   Evas_Object *tg, *cat_text;
 
+  
   Eina_List* tg_change = NULL;
   tg_change = eina_list_append(tg_change, background);
 
+  
   bx = elm_box_add(win);
   evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, 0);
   evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, 0);
-  //    evas_object_size_hint_min_set(bx, 400, 400);
   evas_object_show(bx);
 
+   ////////////////////////////////////// TEST 
+  Evas_Object *tb, *list_color_settings;
+  
+   Elm_Object_Item *tb_it;
+   
+   tb = elm_toolbar_add(win);
+   elm_toolbar_homogeneous_set(tb, EINA_TRUE);
+   elm_toolbar_shrink_mode_set(tb, ELM_TOOLBAR_SHRINK_SCROLL);
+   evas_object_size_hint_weight_set(tb, 1.0, 0.0);
+   evas_object_size_hint_align_set(tb, EVAS_HINT_FILL, 0.0);
+
+
+
+   
+  elm_box_pack_end(bx, tb);
+   evas_object_show(tb);
+
+   ///////////////
+  
+  
   tg = elm_check_add(bx);
   elm_object_style_set(tg, "toggle");
   elm_object_text_set(tg, gettext("Change color for: "));
   elm_object_part_text_set(tg, "on", gettext("Textcolor"));
   elm_object_part_text_set(tg, "off", gettext("Background"));
-  evas_object_smart_callback_add(tg, "changed", _tg_changed_cb, tg_change);
+//   evas_object_smart_callback_add(tg, "changed", _tg_changed_cb, tg_change);
   elm_box_pack_end(bx, tg);
   evas_object_show(tg);
 
@@ -2544,6 +2584,7 @@ enotes_win_setup(Note* list_data)
   elm_box_pack_end(bx, cs);
   evas_object_show(cs);
 
+  tg_change = eina_list_append(tg_change, background);
   tg_change = eina_list_append(tg_change, cs);
   tg_change = eina_list_append(tg_change, entry_title);
 
@@ -2631,10 +2672,15 @@ enotes_win_setup(Note* list_data)
    evas_object_size_hint_align_set(bt_save, EVAS_HINT_FILL, EVAS_HINT_FILL);
    elm_object_text_set(bt_save, "Save categories");
    evas_object_smart_callback_add(bt_save, "clicked", NULL, NULL); // TODO FIX BUTTON 
-   evas_object_show(bt_save);
+//    evas_object_show(bt_save);
    elm_box_pack_end(bx, bt_save);
   
 
+   tb_it = elm_toolbar_item_append(tb, NULL, "Background", _background_changed_cb, tg_change);
+   elm_toolbar_item_selected_set(tb_it, EINA_TRUE);
+   tb_it = elm_toolbar_item_append(tb, NULL, "Text", _text_changed_cb, tg_change);
+   
+   
   elm_object_part_content_set(ly, "color_swallow", bx);
 
   // COLOR SELECT END //
@@ -2996,7 +3042,7 @@ note_online_to_local(Eina_List* new_notes)
 }
 
 void
-_enotes_new()
+_enotes_new()     // create a new note an fill in all default datas
 {
   Note* defaultnote;
   defaultnote = calloc(1, sizeof(Note));
@@ -3160,7 +3206,7 @@ _enotes_new()
 
   note_list = eina_list_append(note_list, defaultnote);
 
-  enotes_win_setup(defaultnote);
+  enotes_win_setup(defaultnote); // show the note
 }
 
 /*
@@ -3237,6 +3283,8 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
            "%s/enotes/enotes_running.pid",
            config_path);
 
+  printf("PID: %d: \n", getpid());
+  
   if (!ecore_file_exists(enotes_running)) {
     FILE* fp;
 
@@ -3245,20 +3293,19 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
 
     fp = fopen(enotes_running, "w");
     fprintf(fp,
-            "%s",
             "If this file exists, a enotes instance is running.\nIf no other "
             "instance is running, please remove this file, if you have "
-            "problems starting enotes");
+            "problems starting enotes | PID: %d", getpid());
     fclose(fp);
     
     enotes_systray(NULL, NULL, NULL);
     
-    all_hidden = EINA_FALSE;
+    all_hidden = EINA_FALSE; // Bit for hide/show all activ notes via the systray icons -> make sure we make all visible at startup
    
-   if (eina_list_count(note_list) == 0) {
+   if (eina_list_count(note_list) == 0) { // if no note is in list, create one
       _enotes_new();
     } else {
-      EINA_LIST_FOREACH(note_list, l, list_data)
+      EINA_LIST_FOREACH(note_list, l, list_data) //show all notes saved in the list
       {
         enotes_win_setup(list_data);
       }
@@ -3276,7 +3323,7 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
    }
     
    if(x == 0)
-      _open_settings(list_data, NULL, NULL, NULL);
+      _open_settings(list_data, NULL, NULL, NULL); // open settings that the user see the empty, or non selected categories list and can choose one. This helps to avoid enotes running without a window
        
    } else {
     printf("Dont't start Enotes twice - closing ...\nIf no other instance is "

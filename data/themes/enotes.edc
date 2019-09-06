@@ -16,6 +16,7 @@ images.image: "help.png" COMP;
 images.image: "done.png" COMP;
 images.image: "open.png" COMP;
 images.image: "status.png" COMP;
+images.image: "categories.png" COMP;
 
 collections {
   group {
@@ -24,6 +25,7 @@ collections {
       part {
       name: "note";
       mouse_events: 1;
+      scale: 1;
         description {
             state: "default" 0.0;
             aspect_preference: BOTH;
@@ -39,6 +41,7 @@ collections {
       part {
       name: "note";
       mouse_events: 1;
+      scale: 1;
         description {
             state: "default" 0.0;
             aspect_preference: BOTH;
@@ -54,6 +57,7 @@ collections {
       part {
       name: "note";
       mouse_events: 1;
+      scale: 1;
         description {
             state: "default" 0.0;
             aspect_preference: BOTH;
@@ -77,6 +81,7 @@ collections {
     "layout1";
     parts {
       part {
+      scale: 1;
       name: "clip";
       type: RECT;
         description {
@@ -89,6 +94,7 @@ collections {
       name: "rect_overleft";
       type: RECT;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state:"default" 0.0;
@@ -98,7 +104,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 130;
+            rel2.offset: 0 150;
         }
         description {
             state: "on" 0.0;
@@ -107,7 +113,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: -20 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 130;
+            rel2.offset: 0 150;
         }
       }
 
@@ -116,6 +122,7 @@ collections {
       name: "new_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -145,6 +152,7 @@ collections {
       name: "iconify_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -174,6 +182,7 @@ collections {
       name: "delete_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -203,6 +212,7 @@ collections {
       name: "cs_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -226,13 +236,13 @@ collections {
             image.normal: "cs.png";
         }
       }
-
-      // HELP ICON //
-
+      
+      // CATEGORIES //
       part {
-      name: "help_icon";
+      name: "categories_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -242,8 +252,8 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: 0 106;
-            image.normal: "help.png";
+            rel2.offset: -3 86;
+            image.normal: "categories.png";
         }
         description {
             state: "on" 0.0;
@@ -253,16 +263,17 @@ collections {
             rel1.offset: -19 88;
             rel2.relative: 0 0;
             rel2.offset: -3 106;
-            image.normal: "help.png";
+            image.normal: "categories.png";
         }
       }
 
-      // CLOSE ICON //
+      // HELP ICON //
 
       part {
-      name: "close_icon";
+      name: "help_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -273,7 +284,7 @@ collections {
             rel1.offset: 0 108;
             rel2.relative: 0 0;
             rel2.offset: 0 126;
-            image.normal: "close.png";
+            image.normal: "help.png";
         }
         description {
             state: "on" 0.0;
@@ -283,6 +294,37 @@ collections {
             rel1.offset: -19 108;
             rel2.relative: 0 0;
             rel2.offset: -3 126;
+            image.normal: "help.png";
+        }
+      }
+
+      // CLOSE ICON //
+
+      part {
+      name: "close_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 126;
+            rel2.relative: 0 0;
+            rel2.offset: 0 146;
+            image.normal: "close.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 126;
+            rel2.relative: 0 0;
+            rel2.offset: -3 146;
             image.normal: "close.png";
         }
       }
@@ -291,6 +333,7 @@ collections {
       name: "note_swallow";
       type: SWALLOW;
       mouse_events: 1;
+      scale: 1;
       clip_to:"clip";
         description {
             state: "default" 0.0;
@@ -303,6 +346,7 @@ collections {
       part {
       name: "shadow_corner";
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -317,6 +361,7 @@ collections {
       part {
       name: "shadow_right";
       mouse_events: 0;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -331,6 +376,7 @@ collections {
       part {
       name: "shadow_bottom";
       mouse_events: 0;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -347,6 +393,7 @@ collections {
       name: "pin_swallow";
       type: SWALLOW;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -360,6 +407,7 @@ collections {
       part {
       name: "content";
       type: SWALLOW;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -373,6 +421,7 @@ collections {
       part {
       name: "name_content";
       type: SWALLOW;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -386,6 +435,7 @@ collections {
       part {
       name: "status";
       type: IMAGE;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -430,6 +480,7 @@ collections {
       part {
       name: "tape";
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -446,6 +497,7 @@ collections {
       name: "rect_over";
       type: RECT;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -461,6 +513,7 @@ collections {
       part {
       name: "color_swallow";
       type: SWALLOW;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -543,6 +596,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
+            target: "categories_icon";
             transition: LINEAR 0.3;
       }
       program {
@@ -556,6 +610,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
+            target: "categories_icon";
             transition: LINEAR 0.3;
       }
 
@@ -1597,7 +1652,7 @@ collections {
             rel2.relative: 0 1;
             rel2.offset: 0 -12;
             image.normal: "status.png";
-            visible: 0;
+            visible: 1;
         }
         description {
             state: "on" 0.0;

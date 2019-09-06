@@ -15,6 +15,11 @@
 #include <Elementary.h>
 #include <Elementary_Cursor.h>
 
+
+#define EFL_BETA_API_SUPPORT
+#include <elm_systray.h>
+#undef EFL_BETA_API_SUPPORT
+
 #include "gettext.h"
 #include <Ecore_X.h>
    

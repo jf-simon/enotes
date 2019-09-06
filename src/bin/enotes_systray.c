@@ -3,7 +3,7 @@
 // time with EO either.
 #include "enotes.h"
 // #include "elm_systray.h"
-#include "/home/simon/efl_src/efl/src/lib/elementary/elm_systray_eo.h"
+// #include "/home/simon/efl_src/efl/src/lib/elementary/elm_systray_eo.h"
 
 #define WIDTH  320
 #define HEIGHT 160
@@ -29,8 +29,7 @@ _ev_handler(void *data EINA_UNUSED,
 
 //    printf("systray ready event\n");
 
-   ret = elm_obj_systray_register(item);
-
+   ret = elm_systray_register(item);
 //    printf("Item Registration: ");
 //    if (ret)
 //      printf("OK!\n");
@@ -97,21 +96,23 @@ enotes_systray()
    
    elm_menu_item_add(it, NULL, "window-close", "Close Enotes", _enotes_exit, NULL);
 
-   // Status Notifier Item Handler
-   item = efl_add(ELM_SYSTRAY_CLASS, win);
+   // Status Notifier Item Handler   
+   item = elm_systray_add(win);
+
    
    char buf[1024];
    snprintf(buf, sizeof(buf), "%s/images/enotes.png", elm_app_data_dir_get());
-   elm_obj_systray_icon_name_set(item, buf);
+   elm_systray_icon_name_set(item, buf);
    
    char buf1[1024];
    snprintf(buf1, sizeof(buf1), "%s/images/enotes_bw.png", elm_app_data_dir_get());
-   elm_obj_systray_att_icon_name_set(item, buf1);
+   elm_systray_att_icon_name_set(item, buf1);
    
-   elm_obj_systray_menu_set(item, it);
+   elm_systray_menu_set(item, it);
    
    if(ci_systray == EINA_TRUE)
-      elm_obj_systray_status_set(item, 0);
+      elm_systray_status_set(item, 0);
+      
 
 //    evas_object_resize(win, WIDTH, HEIGHT);
 //    evas_object_show(win);
