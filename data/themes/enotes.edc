@@ -535,6 +535,32 @@ collections {
             rel2.offset: -15 -40;
         }
       }
+      
+      part {
+      name: "categories_swallow";
+      type: SWALLOW;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 0;
+            rel.to: "note_swallow";
+            rel2.relative: 0 0;
+            rel2.offset: 0 0;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel1.offset: 15 15;
+            rel.to: "note_swallow";
+            rel2.relative: 1 1;
+            rel2.offset: -15 -40;
+        }
+      }
 
       // COLOR OF NOTE END //
     }
@@ -683,6 +709,7 @@ collections {
             get_state(PART:"color_swallow", st, 30, vl);
 
             if (strcmp(st, "on")) {
+               set_state(PART:"categories_swallow", "default", 0.0);
                set_state(PART:"color_swallow", "on", 0.0);
                emit("swallow_cs", "1");
             }
@@ -693,6 +720,29 @@ collections {
         }
       }
       // COLOR SELECT END //
+      
+      // CATEGORIES SELECT //
+      program {
+      name: "mouse_click_categoriesselector";
+      signal: "mouse,clicked,1";
+      source: "categories_icon";
+        script {
+            new st[31];
+            new Float: vl;
+            get_state(PART:"categories_swallow", st, 30, vl);
+
+            if (strcmp(st, "on")) {
+               set_state(PART:"color_swallow", "default", 0.0);
+               set_state(PART:"categories_swallow", "on", 0.0);
+               emit("swallow_cs", "2");
+            }
+            if (strcmp(st, "default")) {
+               set_state(PART:"categories_swallow", "default", 0.0);
+               emit("unswallow_cs", "2");
+            }
+        }
+      }
+      // CATEGORIES SELECT END //
 
       // BLUR  //
       program {
@@ -1117,6 +1167,31 @@ collections {
 
       part {
       name: "color_swallow";
+      type: SWALLOW;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 0;
+            rel.to: "note_swallow";
+            rel2.relative: 0 0;
+            rel2.offset: 0 0;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel1.offset: 15 15;
+            rel.to: "note_swallow";
+            rel2.relative: 1 1;
+            rel2.offset: -15 -40;
+        }
+      }
+      
+      part {
+      name: "categories_swallow";
       type: SWALLOW;
       clip_to: "clip";
         description {

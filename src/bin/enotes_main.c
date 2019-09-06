@@ -339,11 +339,12 @@ get_text_color(Elm_Entry* entry)
 }
 
 const char*
-get_text_color1(Elm_Entry* entry)
+get_text_color1(Evas_Object* entry)
 {
   char **split, **split1;
   const char* style;
   style = elm_entry_text_style_user_peek(entry);
+  printf("STYLE: %s\n", style);
 
   split = eina_str_split(style, "color=#", 0);
   split1 = eina_str_split(split[1], " ", 0);
@@ -1968,15 +1969,19 @@ void
 _swallow_cs(void* data,
             Evas_Object* obj EINA_UNUSED,
             const char* emission EINA_UNUSED,
-            const char* source EINA_UNUSED)
+            const char* source)
 {
   Eina_List* list_values = data;
   Evas_Object* ly = eina_list_nth(list_values, 5);
   Evas_Object* bx = eina_list_nth(list_values, 9);
+  Evas_Object* bx1 = eina_list_nth(list_values, 10);
 
   save_enotes_all_objects(list_values, NULL, NULL, "2");
 
-  elm_object_part_content_set(ly, "color_swallow", bx);
+  if(!strcmp(source, "1"))
+      elm_object_part_content_set(ly, "color_swallow", bx);
+  else if(!strcmp(source, "2"))
+     elm_object_part_content_set(ly, "categories_swallow", bx1);
 
   save_enotes_all_objects(list_values, NULL, NULL, "5");
 
@@ -1987,14 +1992,20 @@ void
 _unswallow_cs(void* data,
               Evas_Object* obj EINA_UNUSED,
               const char* emission EINA_UNUSED,
-              const char* source EINA_UNUSED)
+              const char* source)
 {
   Eina_List* list_values = data;
   Evas_Object* win = eina_list_nth(list_values, 2);
   int* id = eina_list_nth(list_values, 3);
   Evas_Object* ly = eina_list_nth(list_values, 5);
 
-  elm_object_part_content_unset(ly, "color_swallow");
+  printf("SOURCE: %s\n", source);
+  
+  
+  if(!strcmp(source, "1"))
+      elm_object_part_content_unset(ly, "color_swallow");
+  else if(!strcmp(source, "2"))
+     elm_object_part_content_unset(ly, "categories_swallow");
 
   _delete_dialogs_cs(NULL, NULL, NULL, NULL);
 
@@ -2371,38 +2382,28 @@ _popup_delete_cb(void* data,
 }
 
 static void
-_text_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
+_tg_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
 {
   Eina_List* tg_change = data;
-//   Evas_Object* background = eina_list_nth(tg_change, 0);
+  Evas_Object* background = eina_list_nth(tg_change, 0);
   Evas_Object* cs = eina_list_nth(tg_change, 1);
   Evas_Object* entry_title = eina_list_nth(tg_change, 2);
   int r, g, b, a;
   const char* str;
 
-
-//    str = get_text_color1(entry_title);
-//    sscanf(str, "%02x%02x%02x%02x", &r, &g, &b, &a);
-//    evas_color_argb_premul(a, &r, &g, &b);
-//    elm_colorselector_color_set(cs, r, g, b, a);
-
-}
-
-
-static void
-_background_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
-{
-  Eina_List* tg_change = data;
-  Evas_Object* background = eina_list_nth(tg_change, 0);
-  Evas_Object* cs = eina_list_nth(tg_change, 1);
-//   Evas_Object* entry_title = eina_list_nth(tg_change, 2);
-  int r, g, b, a;
-
-
-    evas_object_color_get(background, &r, &g, &b, &a);
-    evas_color_argb_premul(a, &r, &g, &b);
-    elm_colorselector_color_set(cs, r, g, b, a);
-
+   if(elm_check_state_get(obj) == EINA_TRUE)
+   {
+      str = get_text_color1(entry_title);
+      sscanf(str, "%02x%02x%02x%02x", &r, &g, &b, &a);
+      evas_color_argb_premul(a, &r, &g, &b);
+      elm_colorselector_color_set(cs, r, g, b, a);
+   }
+   else
+   {
+      evas_object_color_get(background, &r, &g, &b, &a);
+      evas_color_argb_premul(a, &r, &g, &b);
+      elm_colorselector_color_set(cs, r, g, b, a);
+   }
 }
 
 
@@ -2508,37 +2509,18 @@ enotes_win_setup(Note* list_data)
   // BACKGROUND SELECT END//
 
   
-  Evas_Object *bx, *cs, *bt, *bt1;
+  Evas_Object *bx, *cs, *bt, *bt1, *bx1;
   Evas_Object *tg, *cat_text;
 
   
   Eina_List* tg_change = NULL;
-  tg_change = eina_list_append(tg_change, background);
+//   tg_change = eina_list_append(tg_change, background);
 
   
   bx = elm_box_add(win);
   evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, 0);
-  evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, 0);
+  evas_object_size_hint_align_set(bx, 0, 0);
   evas_object_show(bx);
-
-   ////////////////////////////////////// TEST 
-  Evas_Object *tb, *list_color_settings;
-  
-   Elm_Object_Item *tb_it;
-   
-   tb = elm_toolbar_add(win);
-   elm_toolbar_homogeneous_set(tb, EINA_TRUE);
-   elm_toolbar_shrink_mode_set(tb, ELM_TOOLBAR_SHRINK_SCROLL);
-   evas_object_size_hint_weight_set(tb, 1.0, 0.0);
-   evas_object_size_hint_align_set(tb, EVAS_HINT_FILL, 0.0);
-
-
-
-   
-  elm_box_pack_end(bx, tb);
-   evas_object_show(tb);
-
-   ///////////////
   
   
   tg = elm_check_add(bx);
@@ -2546,7 +2528,6 @@ enotes_win_setup(Note* list_data)
   elm_object_text_set(tg, gettext("Change color for: "));
   elm_object_part_text_set(tg, "on", gettext("Textcolor"));
   elm_object_part_text_set(tg, "off", gettext("Background"));
-//   evas_object_smart_callback_add(tg, "changed", _tg_changed_cb, tg_change);
   elm_box_pack_end(bx, tg);
   evas_object_show(tg);
 
@@ -2588,23 +2569,11 @@ enotes_win_setup(Note* list_data)
   tg_change = eina_list_append(tg_change, cs);
   tg_change = eina_list_append(tg_change, entry_title);
 
-  // create List for Evas_Objects and other "win" values
-  Eina_List* list_values = NULL;
-  list_values = eina_list_append(list_values, entry_notecontent);
-  list_values = eina_list_append(list_values, cs);
-  list_values = eina_list_append(list_values, win);
-  list_values = eina_list_append(list_values, &list_data->id);
-  list_values = eina_list_append(list_values, entry_title);
-  list_values = eina_list_append(list_values, ly);
-  list_values = eina_list_append(list_values, &list_data->text_color);
-  list_values = eina_list_append(list_values, &list_data->text_size);
-  list_values = eina_list_append(list_values, background);
-  list_values = eina_list_append(list_values, bx);
+
 
   bt = elm_button_add(bx);
   elm_object_text_set(bt, gettext("Save colorset as default"));
   evas_object_size_hint_align_set(bt, 0.5, 0);
-  evas_object_smart_callback_add(bt, "clicked", _bt_colorset_save, list_values);
   elm_box_pack_end(bx, bt);
   evas_object_show(bt);
 
@@ -2612,11 +2581,9 @@ enotes_win_setup(Note* list_data)
   elm_object_text_set(bt1, gettext("Set colorset to all notes"));
   evas_object_size_hint_align_set(bt1, 0.5, 0);
 
-  evas_object_smart_callback_add(
-    bt1, "clicked", _bt_colorset_to_all, list_values);
   elm_box_pack_end(bx, bt1);
   evas_object_show(bt1);
-  
+ /* 
   o = elm_separator_add(bx);
   evas_object_size_hint_weight_set(o, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   elm_separator_horizontal_set(o, EINA_TRUE);
@@ -2674,17 +2641,96 @@ enotes_win_setup(Note* list_data)
    evas_object_smart_callback_add(bt_save, "clicked", NULL, NULL); // TODO FIX BUTTON 
 //    evas_object_show(bt_save);
    elm_box_pack_end(bx, bt_save);
-  
-
-   tb_it = elm_toolbar_item_append(tb, NULL, "Background", _background_changed_cb, tg_change);
-   elm_toolbar_item_selected_set(tb_it, EINA_TRUE);
-   tb_it = elm_toolbar_item_append(tb, NULL, "Text", _text_changed_cb, tg_change);
-   
+*/
    
   elm_object_part_content_set(ly, "color_swallow", bx);
 
   // COLOR SELECT END //
+  
+  //CATEGORIES START //
+  
+  bx1 = elm_box_add(win);
+  evas_object_size_hint_weight_set(bx1, EVAS_HINT_EXPAND, 0);
+  evas_object_size_hint_align_set(bx1, EVAS_HINT_FILL, 0);
+  evas_object_show(bx1);
+  
 
+  cat_text = elm_label_add(bx1);
+  elm_object_text_set(cat_text, "select categories for THIS note");
+  elm_box_pack_end(bx1, cat_text);
+  evas_object_show(cat_text);
+  
+  Evas_Object *list1 = elm_list_add(bx1);
+  elm_list_multi_select_set(list1, EINA_TRUE);
+  elm_list_multi_select_mode_set(list1, ELM_OBJECT_MULTI_SELECT_MODE_DEFAULT);
+  evas_object_size_hint_weight_set(list1, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+  evas_object_size_hint_align_set(list1, EVAS_HINT_FILL, EVAS_HINT_FILL);
+
+  elm_list_mode_set(list1, ELM_LIST_EXPAND);
+                  Eina_List *l;
+                  Elm_Object_Item *it;
+                  My_Conf_Type_Cat* new;
+                  new = calloc(1, sizeof(My_Conf_Type_Cat));
+                  
+
+                  EINA_LIST_FOREACH(cat_list_settings, l, new)
+                  {
+                     it = elm_list_item_append(list1, new->cat_name, NULL, NULL, NULL, list1);
+                              
+                     char **arr;
+                     int i;
+                              
+                     arr = eina_str_split(list_data->Note_Sync_Data.categories, ",", 0);
+
+                     if(arr == NULL)
+                        return;
+
+                     for (i = 0; arr[i]; i++)
+                     {
+                        if(strcmp(arr[i], new->cat_name) == 0)
+                           elm_list_item_selected_set(it, EINA_TRUE);
+                     }
+                  }
+                  
+  elm_list_go(list1);
+  
+  evas_object_show(list1);  
+  elm_box_pack_end(bx1, list1);
+
+  
+  
+   bt_save = elm_button_add(bx1);
+   evas_object_size_hint_weight_set(bt_save, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(bt_save, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   elm_object_text_set(bt_save, "Save categories");
+   evas_object_smart_callback_add(bt_save, "clicked", NULL, NULL); // TODO FIX BUTTON 
+//    evas_object_show(bt_save);
+   elm_box_pack_end(bx1, bt_save);
+
+   
+  elm_object_part_content_set(ly, "categories_swallow", bx1);
+
+  // CATEGORIES SELECT END //  
+
+  // create List for Evas_Objects and other "win" values
+  Eina_List* list_values = NULL;
+  list_values = eina_list_append(list_values, entry_notecontent);
+  list_values = eina_list_append(list_values, cs);
+  list_values = eina_list_append(list_values, win);
+  list_values = eina_list_append(list_values, &list_data->id);
+  list_values = eina_list_append(list_values, entry_title);
+  list_values = eina_list_append(list_values, ly);
+  list_values = eina_list_append(list_values, &list_data->text_color);
+  list_values = eina_list_append(list_values, &list_data->text_size);
+  list_values = eina_list_append(list_values, background);
+  list_values = eina_list_append(list_values, bx);
+  list_values = eina_list_append(list_values, bx1);
+  
+  
+  evas_object_smart_callback_add(bt1, "clicked", _bt_colorset_to_all, list_values);
+
+  evas_object_smart_callback_add(bt, "clicked", _bt_colorset_save, list_values);  
+  
   // CALLBACK NEW/ICONIFY/DELETE NOTES //
   edje_object_signal_callback_add(edje_obj, "new", "new", _enotes_new, NULL);
   edje_object_signal_callback_add(
@@ -2712,6 +2758,9 @@ enotes_win_setup(Note* list_data)
   list_text = eina_list_append(list_text, &list_data->text_size);
   list_text = eina_list_append(list_text, entry_title);
   list_text = eina_list_append(list_text, ly);
+  
+  
+
 
   // CALLBACK für die Schriftgröße
   char buf_entry_notecontent[PATH_MAX];
@@ -2742,18 +2791,13 @@ enotes_win_setup(Note* list_data)
     edje_obj, "help", "help", enotes_win_help, list_values);
 
   // CALLBACK für _unswallow_cs
-  edje_object_signal_callback_add(
-    edje_obj, "unswallow_cs", "1", _unswallow_cs, list_values);
-  edje_object_signal_callback_add(
-    edje_obj, "unswallow_cs", "1", _show_entry_notecontent, list_values);
+  edje_object_signal_callback_add(edje_obj, "unswallow_cs", "*", _unswallow_cs, list_values);
+  edje_object_signal_callback_add(edje_obj, "unswallow_cs", "*", _show_entry_notecontent, list_values);
 
   // CALLBACK für _swallow_cs
-  edje_object_signal_callback_add(
-    edje_obj, "swallow_cs", "1", _swallow_cs, list_values);
-  edje_object_signal_callback_add(
-    edje_obj, "swallow_cs", "1", _hide_entry_notecontent, list_values);
-  edje_object_signal_callback_add(
-    edje_obj, "swallow_cs", "1", _disable_bt1, bt1);
+  edje_object_signal_callback_add(edje_obj, "swallow_cs", "*", _swallow_cs, list_values);
+  edje_object_signal_callback_add(edje_obj, "swallow_cs", "*", _hide_entry_notecontent, list_values);
+  edje_object_signal_callback_add(edje_obj, "swallow_cs", "*", _disable_bt1, bt1);
 
   // CALLBACK für resize_menu_on
   edje_object_signal_callback_add(
@@ -2796,6 +2840,9 @@ enotes_win_setup(Note* list_data)
   //     save_enotes_all_objects, NULL);
   evas_object_event_callback_add(
     win, EVAS_CALLBACK_MOUSE_OUT, save_enotes_all_objects, NULL);
+  
+  
+  evas_object_smart_callback_add(tg, "changed", _tg_changed_cb, tg_change);
 
   // callback for key down/hide/show text //
   // create List for text size and text color
