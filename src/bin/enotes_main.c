@@ -457,6 +457,11 @@ _delete_dialogs_cs(void* data,
                "default"))
       edje_object_signal_emit(data, "mouse,clicked,1", "cs_icon");
   }
+  if (data != NULL) {
+    if (strcmp(edje_object_part_state_get(data, "categories_swallow", NULL),
+               "default"))
+      edje_object_signal_emit(data, "mouse,clicked,1", "categories_icon");
+  }
 }
 
 void
@@ -1980,12 +1985,13 @@ _swallow_cs(void* data,
 
   if(!strcmp(source, "1"))
       elm_object_part_content_set(ly, "color_swallow", bx);
-  else if(!strcmp(source, "2"))
+  
+  if(!strcmp(source, "2"))
      elm_object_part_content_set(ly, "categories_swallow", bx1);
 
   save_enotes_all_objects(list_values, NULL, NULL, "5");
 
-  _delete_dialogs_cs(NULL, NULL, NULL, NULL);
+  _delete_dialogs_cs(NULL, NULL, NULL, NULL); // close all open dialogs like "close enotes" or "delete note"
 }
 
 void
@@ -2004,10 +2010,11 @@ _unswallow_cs(void* data,
   
   if(!strcmp(source, "1"))
       elm_object_part_content_unset(ly, "color_swallow");
-  else if(!strcmp(source, "2"))
-     elm_object_part_content_unset(ly, "categories_swallow");
+  
+  if(!strcmp(source, "2"))
+      elm_object_part_content_unset(ly, "categories_swallow");
 
-  _delete_dialogs_cs(NULL, NULL, NULL, NULL);
+  _delete_dialogs_cs(NULL, NULL, NULL, NULL); // close all open dialogs like "close enotes" or "delete note"
 
   Eina_List* l;
   Note* list_data2;
@@ -2064,7 +2071,10 @@ resize_menu_off(void* data,
 
   Eina_List* l;
   Note* list_data2;
-  _unswallow_cs(data, NULL, NULL, NULL);
+  
+  _unswallow_cs(data, NULL, NULL, "1"); // unswallow colorselector
+  _unswallow_cs(data, NULL, NULL, "2"); // unswallow categories selector
+  
   _show_entry_notecontent(data, NULL, NULL, NULL);
 
   EINA_LIST_FOREACH(note_list, l, list_data2)
@@ -2543,9 +2553,9 @@ enotes_win_setup(Note* list_data)
   elm_colorselector_palette_color_add(cs, 253, 232, 82, 255);
   elm_colorselector_palette_color_add(cs, 255, 186, 0, 255);
   elm_colorselector_palette_color_add(cs, 223, 147, 37, 255);
-  elm_colorselector_palette_color_add(cs, 238, 119, 99, 255);
-  elm_colorselector_palette_color_add(cs, 164, 182, 166, 255);
-  elm_colorselector_palette_color_add(cs, 146, 175, 29, 255);
+//   elm_colorselector_palette_color_add(cs, 238, 119, 99, 255);
+//   elm_colorselector_palette_color_add(cs, 164, 182, 166, 255);
+//   elm_colorselector_palette_color_add(cs, 146, 175, 29, 255);
   elm_colorselector_palette_color_add(cs, 41, 68, 59, 255);
   elm_colorselector_palette_color_add(cs, 0, 109, 128, 255);
   elm_colorselector_palette_color_add(cs, 11, 54, 71, 255);
@@ -2656,7 +2666,7 @@ enotes_win_setup(Note* list_data)
   
 
   cat_text = elm_label_add(bx1);
-  elm_object_text_set(cat_text, "select categories for THIS note");
+  elm_object_text_set(cat_text, "Select categories for this note");
   elm_box_pack_end(bx1, cat_text);
   evas_object_show(cat_text);
   
@@ -2694,10 +2704,11 @@ enotes_win_setup(Note* list_data)
                   
   elm_list_go(list1);
   
+  evas_object_event_callback_add(list1, EVAS_CALLBACK_KEY_DOWN, _esc_check, NULL);
   evas_object_show(list1);  
   elm_box_pack_end(bx1, list1);
 
-  
+ /* 
   
    bt_save = elm_button_add(bx1);
    evas_object_size_hint_weight_set(bt_save, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
@@ -2705,7 +2716,7 @@ enotes_win_setup(Note* list_data)
    elm_object_text_set(bt_save, "Save categories");
    evas_object_smart_callback_add(bt_save, "clicked", NULL, NULL); // TODO FIX BUTTON 
 //    evas_object_show(bt_save);
-   elm_box_pack_end(bx1, bt_save);
+   elm_box_pack_end(bx1, bt_save);*/
 
    
   elm_object_part_content_set(ly, "categories_swallow", bx1);

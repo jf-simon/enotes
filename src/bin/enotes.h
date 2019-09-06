@@ -214,3 +214,9 @@ _fill_list_to_notes();
 void
 _it_clicked_cb(void *data, Evas_Object *li,
                  void *event_info EINA_UNUSED);
+
+void
+_esc_check(void* data EINA_UNUSED,
+              Evas* e EINA_UNUSED,
+              Evas_Object* obj EINA_UNUSED,
+              void* event_info);
