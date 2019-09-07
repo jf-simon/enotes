@@ -16,7 +16,8 @@ src = [
   'enotes_caldav_get.c',
   'enotes_caldav_put.c',
   'enotes_caldav_del.c',
-  'enotes_settings.c'
+  'enotes_settings.c',
+  'enotes_help.c'
 ]
 executable('enotes', 
   src,
