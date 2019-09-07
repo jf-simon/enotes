@@ -151,6 +151,8 @@ Eo *item;
 Elm_Object_Item *menu_it3;
 Evas_Object *it;
 
+Evas_Object* help_win;
+
 void
 _put_local_data(void* data EINA_UNUSED,
                 Evas_Object* obj EINA_UNUSED,
@@ -220,3 +222,26 @@ _esc_check(void* data EINA_UNUSED,
               Evas* e EINA_UNUSED,
               Evas_Object* obj EINA_UNUSED,
               void* event_info);
+
+void
+enotes_win_help(void* data,
+                Evas_Object* obj EINA_UNUSED,
+                const char* em EINA_UNUSED,
+                const char* src EINA_UNUSED);
+
+void
+enotes_win_help_close(void* data,
+                      Evas* e EINA_UNUSED,
+                      Evas_Object* obj EINA_UNUSED,
+                      void* event_info EINA_UNUSED);
+void
+_delete_dialogs_cs(void* data,
+                   Evas* e EINA_UNUSED,
+                   Evas_Object* obj EINA_UNUSED,
+                   void* event_info EINA_UNUSED);
+
+void
+_close_all2(void* data EINA_UNUSED,
+            Evas* e EINA_UNUSED,
+            Evas_Object* obj EINA_UNUSED,
+            void* event_info);
