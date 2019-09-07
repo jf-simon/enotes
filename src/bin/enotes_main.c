@@ -1437,12 +1437,40 @@ _insert_done_icon(void* data,
 {
   Evas_Object* entry_notecontent = data;
   int pos;
+  const char *select_text1;
+  const char *select_text;
+  
   if (elm_object_focus_get(entry_notecontent)) {
     pos = elm_entry_cursor_pos_get(entry_notecontent);
+    
     elm_entry_cursor_line_begin_set(entry_notecontent);
-    elm_entry_entry_insert(entry_notecontent,
-                           "<item relsize=24x24 vsize=full href=done></item> ");
-    elm_entry_cursor_pos_set(entry_notecontent, pos + 2);
+    
+    elm_entry_select_region_set(entry_notecontent, elm_entry_cursor_pos_get(entry_notecontent), elm_entry_cursor_pos_get(entry_notecontent)+2);
+    select_text = elm_entry_selection_get(entry_notecontent);
+    elm_entry_cursor_line_begin_set(entry_notecontent);
+    
+    if(select_text != NULL)
+    {
+         if(!strcmp(select_text, "<item relsize=24x24 vsize=full href=open></item> "))
+         {
+            elm_entry_entry_insert(entry_notecontent, "<item relsize=24x24 vsize=full href=done></item> ");
+            elm_entry_cursor_pos_set(entry_notecontent, pos);
+         }
+         else if((!strcmp(select_text, "")) || (strcmp(select_text, "<item relsize=24x24 vsize=full href=done></item> ")))
+         {
+            elm_entry_select_none(entry_notecontent);
+            elm_entry_cursor_line_begin_set(entry_notecontent);
+            elm_entry_entry_insert(entry_notecontent, "<item relsize=24x24 vsize=full href=done></item> ");
+            elm_entry_cursor_line_end_set(entry_notecontent);
+         }
+    }
+    else
+    {
+            elm_entry_entry_insert(entry_notecontent, "<item relsize=24x24 vsize=full href=done></item> ");
+            elm_entry_cursor_line_end_set(entry_notecontent);
+    }
+    elm_entry_select_none(entry_notecontent);
+    elm_entry_cursor_line_end_set(entry_notecontent);
   }
 }
 
@@ -1453,10 +1481,43 @@ _insert_open_icon(void* data,
                   const char* src EINA_UNUSED)
 {
   Evas_Object* entry_notecontent = data;
-
-  if (elm_object_focus_get(entry_notecontent))
-    elm_entry_entry_insert(entry_notecontent,
-                           "<item relsize=24x24 vsize=full href=open></item> ");
+  int pos;
+  const char *select_text1;
+  const char *select_text;
+  
+  if (elm_object_focus_get(entry_notecontent)) {
+    pos = elm_entry_cursor_pos_get(entry_notecontent);
+    
+    elm_entry_cursor_line_begin_set(entry_notecontent);
+    
+    elm_entry_select_region_set(entry_notecontent, elm_entry_cursor_pos_get(entry_notecontent), elm_entry_cursor_pos_get(entry_notecontent)+2);
+    select_text = elm_entry_selection_get(entry_notecontent);
+    elm_entry_cursor_line_begin_set(entry_notecontent);
+    
+    if(select_text != NULL)
+    {
+            if(!strcmp(select_text, "<item relsize=24x24 vsize=full href=done></item> "))
+            {
+               elm_entry_entry_insert(entry_notecontent, "<item relsize=24x24 vsize=full href=open></item> ");
+               elm_entry_cursor_pos_set(entry_notecontent, pos);
+            }
+            else if((!strcmp(select_text, "")) || (strcmp(select_text, "<item relsize=24x24 vsize=full href=open></item> ")))
+            {
+               elm_entry_select_none(entry_notecontent);
+               elm_entry_cursor_line_begin_set(entry_notecontent);
+               elm_entry_entry_insert(entry_notecontent, "<item relsize=24x24 vsize=full href=open></item> ");
+               elm_entry_cursor_line_end_set(entry_notecontent);
+            }
+    }
+    else
+    {
+            elm_entry_entry_insert(entry_notecontent, "<item relsize=24x24 vsize=full href=open></item> ");
+            elm_entry_cursor_line_end_set(entry_notecontent);
+    }
+    
+    elm_entry_select_none(entry_notecontent);
+    elm_entry_cursor_line_end_set(entry_notecontent);
+  }
 }
 
 static void
@@ -2797,7 +2858,7 @@ enotes_win_setup(Note* list_data)
   //     edje_object_signal_callback_add(edje_obj, "size", "decrease",
   //     _textsize_change_cb_decrease, list_text);
 
-  // CALLBACK für done Icon
+  // CALLBACK für Help Icon
   edje_object_signal_callback_add(
     edje_obj, "help", "help", enotes_win_help, list_values);
 
