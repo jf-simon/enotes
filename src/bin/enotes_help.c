@@ -5,17 +5,28 @@
 int help_on;
 
 
+void
+enotes_win_help_close1(void *data, Evas_Object *o, const char *emission, const char *source)
+{   
+  printf("CLOSE HELP\n");
+  help_on = 0;
+  evas_object_del(data);
+  help_win = NULL;
+}
+
 
 void
 enotes_win_help_close(void* data,
                       Evas* e EINA_UNUSED,
                       Evas_Object* obj EINA_UNUSED,
                       void* event_info EINA_UNUSED)
-{
+{   
+  printf("CLOSE HELP\n");
   help_on = 0;
   evas_object_del(data);
   help_win = NULL;
 }
+
 
 void
 key_down_help(void* data EINA_UNUSED,
@@ -25,7 +36,6 @@ key_down_help(void* data EINA_UNUSED,
 {
   Evas_Event_Key_Down* ev = event_info;
   const char* k = ev->keyname;
-
   if ((!strcmp(k, "Escape")) || (!strcmp(k, "F1"))) {
     if (help_win != NULL)
       enotes_win_help_close(help_win, NULL, NULL, NULL);
@@ -68,7 +78,7 @@ enotes_win_help(void* data,
 
   elm_win_title_set(win, gettext("eNotes Help"));
   elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
-  elm_win_borderless_set(win, EINA_FALSE);
+  elm_win_borderless_set(win, EINA_TRUE);
   elm_win_alpha_set(win, EINA_TRUE);
   elm_win_autodel_set(win, EINA_TRUE);
 
@@ -400,7 +410,6 @@ enotes_win_help(void* data,
   elm_image_file_set(ic, buf1, NULL);
   evas_object_size_hint_weight_set(ic, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
   evas_object_size_hint_align_set(ic, EVAS_HINT_FILL, EVAS_HINT_FILL);
-  evas_object_event_callback_add(ic, EVAS_CALLBACK_MOUSE_UP, _close_all2, win1);
 
   elm_table_pack(tb, ic, 15, 1, 1, 1);
   evas_object_show(ic);
@@ -415,9 +424,11 @@ enotes_win_help(void* data,
   evas_object_show(lb);
 
   elm_object_part_content_set(ly, "table", tb);
-
+  
   evas_object_event_callback_add(
-    win, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
+    ly, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
+
+  elm_layout_signal_callback_add(ly, "close_help", "close_help", enotes_win_help_close1, win);
 
   if (help_on != 1) {
     evas_object_size_hint_align_set(win, 0.5, 0);
@@ -429,6 +440,8 @@ enotes_win_help(void* data,
     elm_object_focus_set(win, EINA_FALSE);
     help_win = win;
     help_on = 1;
+    
+  
   } else {
     enotes_win_help_close(help_win, NULL, NULL, NULL);
   }
