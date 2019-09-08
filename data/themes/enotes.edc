@@ -17,6 +17,7 @@ images.image: "done.png" COMP;
 images.image: "open.png" COMP;
 images.image: "status.png" COMP;
 images.image: "categories.png" COMP;
+images.image: "close_help.png" COMP;
 
 collections {
   group {
@@ -252,7 +253,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: -3 86;
+            rel2.offset: -3 106;
             image.normal: "categories.png";
         }
         description {
@@ -312,7 +313,7 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 126;
+            rel1.offset: 0 128;
             rel2.relative: 0 0;
             rel2.offset: 0 146;
             image.normal: "close.png";
@@ -322,14 +323,14 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 126;
+            rel1.offset: -19 128;
             rel2.relative: 0 0;
             rel2.offset: -3 146;
             image.normal: "close.png";
         }
       }
 
-      part {
+      part { // main swallow part für entry_notecontent
       name: "note_swallow";
       type: SWALLOW;
       mouse_events: 1;
@@ -2039,8 +2040,51 @@ collections {
             rel2.offset: -10 0;
          }
       }
+      
+      // CLOSE ICON  HELP//
+      part {
+      name: "close_icon_help";
+      type: IMAGE;
+      mouse_events: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            visible: 1;
+            color: 255 255 255 255;
+            rel1.relative: 1 0;
+            rel1.offset: -30 0;
+            rel2.relative: 1 0;
+            rel2.offset: 0 30;
+            image.normal: "close_help.png";
+        }
+        description {
+            state: "off" 0.0;
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 1 0;
+            rel1.offset: -30 0;
+            rel2.relative: 1 0;
+            rel2.offset: 0 30;
+            image.normal: "close_help.png";
+        }
+      }
     }
-    programs {}
+    programs {
+      program {
+      name: "close_help_win";
+      signal: "mouse,clicked,1";
+      source: "close_icon_help";
+      action: SIGNAL_EMIT "close_help" "close_help";
+      }
+//       program {
+//             name: "close_help_win1";
+//             source: "close_icon_help";
+//             signal: "mouse,clicked,1";
+//             action: STATE_SET "off" 0.0;
+//             target: "close_icon_help";
+//       }
+       
+   }
   }
 /// END LAYOUT HELP WIN /// 
 }
