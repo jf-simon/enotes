@@ -971,7 +971,7 @@ _layout_change(void* data,
   evas_object_show(entry_notecontent);
 }
 
-static Evas_Object*
+Evas_Object*
 item_provider(void* images EINA_UNUSED,
               Evas_Object* entry_notecontent,
               const char* item)

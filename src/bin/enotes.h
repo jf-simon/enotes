@@ -245,3 +245,8 @@ _close_all2(void* data EINA_UNUSED,
             Evas* e EINA_UNUSED,
             Evas_Object* obj EINA_UNUSED,
             void* event_info);
+
+Evas_Object*
+item_provider(void* images EINA_UNUSED,
+              Evas_Object* entry_notecontent,
+              const char* item);

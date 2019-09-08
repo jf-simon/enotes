@@ -316,7 +316,7 @@ catlist_to_catlisteet()
       Elm_Object_Item *lit;
       
       cat_list_settings = NULL;
-printf("test1\n");
+      printf("test1\n");
       EINA_LIST_FOREACH((Eina_List*) cat_list_new, l, lit)
       {
          My_Conf_Type_Cat* new;
@@ -339,7 +339,7 @@ _fill_list_to_notes() //put the settings cat list to each note settings
    Eina_List *l1;
    EINA_LIST_FOREACH(enotes_all_objects_list, l1, list_values) // LISTE DER OBJEKTE DURCHGEHEN
    {
-      Evas_Object* list_notes = eina_list_nth(list_values, 9);
+      Evas_Object* list_notes = eina_list_nth(list_values, 9); // List mit allen Kategorien welcher der Note zugeordnet sind
       Eina_List *tmp = NULL;
 
       Elm_Object_Item *lit, *lit_tmp, *it;
@@ -349,28 +349,28 @@ _fill_list_to_notes() //put the settings cat list to each note settings
 //       const Eina_List *cat_list_items = NULL;
       const Eina_List *cat_list_selected_items = NULL;
       
-      cat_list_settings = elm_list_items_get(list);
+      cat_list_settings = elm_list_items_get(list); //  Kategorien Liste der Settings auswählen
       
 //       cat_list_items = elm_list_items_get(list_notes);
       
-      cat_list_selected_items = elm_list_selected_items_get(list_notes);
+      cat_list_selected_items = elm_list_selected_items_get(list_notes);//  SELEKTIERTE Kategorien Liste der Settings auswählen
 
 
-         EINA_LIST_FOREACH((Eina_List*)cat_list_selected_items, l_tmp, lit_tmp)
+         EINA_LIST_FOREACH((Eina_List*)cat_list_selected_items, l_tmp, lit_tmp) // Lister der SELEKTIERTE Kategorien Liste der Settings durchgehen
          {
-            tmp = eina_list_append(tmp, elm_object_item_text_get(lit_tmp));
+            tmp = eina_list_append(tmp, elm_object_item_text_get(lit_tmp)); //name der SELEKTIERTEN ITEMS in Eina_List tmp speichern
          }
 
-      elm_list_clear(list_notes);
+      elm_list_clear(list_notes); // liste löschen
 
-      EINA_LIST_FOREACH((Eina_List*)cat_list_settings, l, lit)
+      EINA_LIST_FOREACH((Eina_List*)cat_list_settings, l, lit)//  Kategorien Liste der Settings durchgehen
       {
-            it = elm_list_item_append(list_notes, elm_object_item_text_get(lit), NULL, NULL, NULL, list_notes);
+            it = elm_list_item_append(list_notes, elm_object_item_text_get(lit), NULL, NULL, NULL, list_notes); //neuer eintrag in die Lister einer NOTE hinzufügen
 
             const char *name;
-            EINA_LIST_FOREACH(tmp, l_tmp, name)
+            EINA_LIST_FOREACH(tmp, l_tmp, name) //Lister den SELEKTIERTEN ITEM aus den Settings durchgehen und...
             {
-               if(strcmp(elm_object_item_text_get(lit), name) == 0)
+               if(strcmp(elm_object_item_text_get(lit), name) == 0) // falls der aktuelle eintrag in den Settings seletiert ist. dann auch in den Notes selektieren so bekommt die Note ihre Kategorien zugeordnet
                {
                   elm_list_item_selected_set(it, EINA_TRUE);
                }
@@ -378,7 +378,7 @@ _fill_list_to_notes() //put the settings cat list to each note settings
       }
       printf("\n\n");
       
-      elm_list_go(list_notes);
+      elm_list_go(list_notes); // liste aktuallisieren
    }
 }
 
@@ -799,9 +799,16 @@ _open_settings(void* data,
 
 //                   elm_list_scroller_policy_set(list, ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO);
                      
+
+                  
                   EINA_LIST_FOREACH(cat_list_settings, l, new)
-                  {
-                     it = elm_list_item_append(list, new->cat_name, NULL, NULL, NULL, NULL);
+                  { 
+                     Evas_Object *testtest = elm_label_add(list);
+                     elm_object_text_set(testtest, "3 Notes");
+                     evas_object_color_set(testtest, 255, 255, 255, 255);
+                     evas_object_show(testtest);
+                  
+                     it = elm_list_item_append(list, new->cat_name, NULL, testtest, NULL, NULL);
                      elm_list_item_selected_set(it, new->cat_selected);
                   }
                   elm_list_go(list);
@@ -1074,6 +1081,7 @@ _open_settings(void* data,
                   evas_object_size_hint_align_set(bx, EVAS_HINT_FILL, EVAS_HINT_FILL);
 
                   en_help = elm_entry_add(bx);
+                  elm_entry_item_provider_append(en_help, item_provider, NULL);
                   elm_config_context_menu_disabled_set(EINA_FALSE);
                   elm_entry_scrollable_set(en_help, EINA_TRUE);
                   elm_object_text_set(en_help,  "Welcome to eNotes! <br><br>"
