@@ -837,7 +837,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 10;
             rel2.relative: 0 0;
-            rel2.offset: 0 26;
+            rel2.offset: 20 26;
             image.normal: "new.png";
         }
         description {
@@ -867,7 +867,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 28;
             rel2.relative: 0 0;
-            rel2.offset: 0 46;
+            rel2.offset: 20 46;
             image.normal: "iconify.png";
         }
         description {
@@ -897,7 +897,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 48;
             rel2.relative: 0 0;
-            rel2.offset: 0 66;
+            rel2.offset: 20 66;
             image.normal: "delete.png";
         }
         description {
@@ -927,7 +927,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 68;
             rel2.relative: 0 0;
-            rel2.offset: -3 86;
+            rel2.offset: 20 86;
             image.normal: "cs.png";
         }
         description {
@@ -957,7 +957,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: -3 106;
+            rel2.offset: 20 106;
             image.normal: "categories.png";
         }
         description {
@@ -988,7 +988,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 108;
             rel2.relative: 0 0;
-            rel2.offset: 0 126;
+            rel2.offset: 20 126;
             image.normal: "help.png";
         }
         description {
@@ -1019,7 +1019,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 128;
             rel2.relative: 0 0;
-            rel2.offset: 0 146;
+            rel2.offset: 20 146;
             image.normal: "close.png";
         }
         description {
