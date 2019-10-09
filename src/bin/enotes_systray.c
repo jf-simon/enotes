@@ -24,11 +24,11 @@ _ev_handler(void *data EINA_UNUSED,
             int type EINA_UNUSED,
             void *event EINA_UNUSED)
 {
-   Eina_Bool ret;
+//    Eina_Bool ret;
 
 //    printf("systray ready event\n");
 
-   ret = elm_systray_register(item);
+   elm_systray_register(item);
 //    printf("Item Registration: ");
 //    if (ret)
 //      printf("OK!\n");

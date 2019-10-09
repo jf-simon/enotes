@@ -34,6 +34,7 @@ key_down_help(void* data EINA_UNUSED,
               Evas_Object* obj EINA_UNUSED,
               void* event_info)
 {
+   printf("key_down_help\n");
   Evas_Event_Key_Down* ev = event_info;
   const char* k = ev->keyname;
   if ((!strcmp(k, "Escape")) || (!strcmp(k, "F1"))) {
@@ -74,9 +75,9 @@ enotes_win_help(void* data,
 
   Evas_Object* edje_obj = elm_layout_edje_get(ly);
 
-  win = elm_win_add(NULL, "Enote HELP", ELM_WIN_BASIC);
+  win = elm_win_add(NULL, gettext("enotes Help"), ELM_WIN_BASIC);
 
-  elm_win_title_set(win, gettext("eNotes Help"));
+  elm_win_title_set(win, gettext("enotes Help"));
   elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
   elm_win_borderless_set(win, EINA_TRUE);
   elm_win_alpha_set(win, EINA_TRUE);
@@ -107,7 +108,7 @@ enotes_win_help(void* data,
     lb, "anchor,clicked", _anchor_clicked_cb, NULL);
   elm_object_text_set(
     lb,
-    gettext("<bigger>eNotes help!</bigger><br>"
+    gettext("<bigger>enotes help!</bigger><br>"
             "<b>Download and updates: <a "
             "href=anc-02>https://github.com/jf-simon/enotes</a> "
             "Author: Simon Tischer [jf_simon on irc #e.de]</b>"));
@@ -426,7 +427,7 @@ enotes_win_help(void* data,
   elm_object_part_content_set(ly, "table", tb);
   
   evas_object_event_callback_add(
-    ly, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
+    win, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
 
   elm_layout_signal_callback_add(ly, "close_help", "close_help", enotes_win_help_close1, win);
 

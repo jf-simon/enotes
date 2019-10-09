@@ -145,6 +145,11 @@ Eina_List* cat_list_settings;
 
 char enotes_running[PATH_MAX];
 Eina_Bool all_hidden;
+Evas_Object* win_s;
+Evas_Object *categories_frame;
+Evas_Object *bx_c;
+Evas_Object *test;
+Evas_Object *text;
 Evas_Object *list;
 Evas_Object *list_all;
 Eo *item;
@@ -250,3 +255,11 @@ Evas_Object*
 item_provider(void* images EINA_UNUSED,
               Evas_Object* entry_notecontent,
               const char* item);
+void
+fill_list_in_settings();
+
+void
+fill_list_in_settings1(void* data EINA_UNUSED,
+               Evas_Object* obj EINA_UNUSED,
+               const char* em EINA_UNUSED,
+               const char* src EINA_UNUSED);
