@@ -1,8 +1,8 @@
 i18n = import('i18n')
 i18n.gettext('enotes',
-             languages: [
-                'de'
-             ],
+             #languages: [
+              #  'de'
+             #],
              args: [
                 '--keyword=_',
                 '--keyword=d_:1',

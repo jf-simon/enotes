@@ -7,145 +7,288 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enotes 0.0.1\n"
 "Report-Msgid-Bugs-To: enlightenment-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-09-02 15:34+0200\n"
+"POT-Creation-Date: 2019-09-09 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-Basepath: ../src/bin\n"
 "X-Poedit-SearchPath-0: enotes_main.c\n"
+"X-Poedit-SearchPath-1: .\n"
 
-#: enotes_main.c:349
+#: enotes_help.c:78
+msgid "Enote HELP"
+msgstr ""
+
+#: enotes_help.c:80 enotes_main_neu.c:357 enotes_main_privat.c:357
 msgid "eNotes Help"
 msgstr ""
 
-#: enotes_main.c:380
+#: enotes_help.c:111 enotes_main_neu.c:387 enotes_main_privat.c:387
 msgid "<bigger>eNotes help!</bigger><br><b>Download and updates: <a href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer [jf_simon on irc #e.de]</b>"
 msgstr ""
 
-#: enotes_main.c:405
+#: enotes_help.c:134 enotes_main_neu.c:412 enotes_main_privat.c:412
 msgid "Dismiss dialogs"
 msgstr ""
 
-#: enotes_main.c:425
+#: enotes_help.c:154 enotes_main_neu.c:432 enotes_main_privat.c:432
 msgid "Show/hide<br>this help"
 msgstr ""
 
-#: enotes_main.c:444
+#: enotes_help.c:172 enotes_main_neu.c:451 enotes_main_privat.c:451
 msgid "Blur text"
 msgstr ""
 
-#: enotes_main.c:464
+#: enotes_help.c:192 enotes_main_neu.c:471 enotes_main_privat.c:471
 msgid "Insert done icon"
 msgstr ""
 
-#: enotes_main.c:483
+#: enotes_help.c:210 enotes_main_neu.c:490 enotes_main_privat.c:490
 msgid "Insert important icon"
 msgstr ""
 
-#: enotes_main.c:503
+#: enotes_help.c:229 enotes_main_neu.c:510 enotes_main_privat.c:510
 msgid "Create a new note"
 msgstr ""
 
-#: enotes_main.c:522
+#: enotes_help.c:247 enotes_main_neu.c:529 enotes_main_privat.c:529
 msgid "Delete selected note"
 msgstr ""
 
-#: enotes_main.c:541
+#: enotes_help.c:265 enotes_main_neu.c:548 enotes_main_privat.c:548
 msgid "Set note sticky"
 msgstr ""
 
-#: enotes_main.c:561
+#: enotes_help.c:284 enotes_main_neu.c:568 enotes_main_privat.c:568
 msgid "Iconify note"
 msgstr ""
 
-#: enotes_main.c:581
+#: enotes_help.c:303 enotes_main_neu.c:588 enotes_main_privat.c:588
 msgid "Toogle designs"
 msgstr ""
 
-#: enotes_main.c:601
+#: enotes_help.c:322 enotes_main_neu.c:608 enotes_main_privat.c:608
 msgid "Write backup<br>textfile"
 msgstr ""
 
-#: enotes_main.c:620
+#: enotes_help.c:342
+msgid "Start Sync"
+msgstr ""
+
+#: enotes_help.c:362
+msgid "Settings"
+msgstr ""
+
+#: enotes_help.c:381 enotes_main_neu.c:627 enotes_main_privat.c:627
 msgid "Toogle menu"
 msgstr ""
 
-#: enotes_main.c:642
+#: enotes_help.c:401 enotes_main_neu.c:649 enotes_main_privat.c:649
 msgid "Close enotes"
 msgstr ""
 
-#: enotes_main.c:662
-msgid "in/decrease front<br>ctrl+0 to reset"
+#: enotes_help.c:420 enotes_main_neu.c:669 enotes_main_privat.c:669
+msgid "in/decrease font<br>ctrl+0 to reset"
 msgstr ""
 
-#: enotes_main.c:813 enotes_main.c:922
+#: enotes_main.c:607 enotes_main.c:712 enotes_main_neu.c:819
+#: enotes_main_neu.c:923 enotes_main_privat.c:819 enotes_main_privat.c:923
 msgid "File written to:"
 msgstr ""
 
-#: enotes_main.c:828 enotes_main.c:937
+#: enotes_main.c:622 enotes_main.c:727 enotes_main_neu.c:834
+#: enotes_main_neu.c:938 enotes_main_privat.c:834 enotes_main_privat.c:938
+#: enotes_settings.c:595
 msgid "close"
 msgstr ""
 
-#: enotes_main.c:834 enotes_main.c:943
+#: enotes_main.c:629 enotes_main.c:734 enotes_main_neu.c:840
+#: enotes_main_neu.c:944 enotes_main_privat.c:840 enotes_main_privat.c:944
 msgid "open"
 msgstr ""
 
-#: enotes_main.c:969
+#: enotes_main.c:762 enotes_main_neu.c:1072 enotes_main_privat.c:1072
 msgid "What do you want to write to file?"
 msgstr ""
 
-#: enotes_main.c:977
+#: enotes_main.c:770 enotes_main_neu.c:1080 enotes_main_privat.c:1080
 msgid "all notes"
 msgstr ""
 
-#: enotes_main.c:984
+#: enotes_main.c:778 enotes_main_neu.c:1087 enotes_main_privat.c:1087
 msgid "this note"
 msgstr ""
 
-#: enotes_main.c:1001
+#: enotes_main.c:796 enotes_main_neu.c:1104 enotes_main_privat.c:1104
 msgid "cancel"
 msgstr ""
 
-#: enotes_main.c:1716
+#: enotes_main.c:1752 enotes_main_neu.c:1862 enotes_main_privat.c:1862
 msgid "Close enotes?"
 msgstr ""
 
-#: enotes_main.c:1724 enotes_main.c:1994
+#: enotes_main.c:1760 enotes_main.c:1994 enotes_main_neu.c:1870
+#: enotes_main_neu.c:2205 enotes_main_privat.c:1870 enotes_main_privat.c:2393
 msgid "No"
 msgstr ""
 
-#: enotes_main.c:1730 enotes_main.c:2001
+#: enotes_main.c:1766 enotes_main.c:2000 enotes_main_neu.c:1876
+#: enotes_main_neu.c:2211 enotes_main_privat.c:1876 enotes_main_privat.c:2399
 msgid "Yes"
 msgstr ""
 
-#: enotes_main.c:1986
-msgid "Delete this note?"
+#: enotes_main.c:1974
+#, c-format
+msgid "<custom color=#ff0000>Delete</custom> note<br>'%s'"
 msgstr ""
 
-#: enotes_main.c:2175
+#: enotes_main.c:2170 enotes_main_neu.c:2468 enotes_main_privat.c:2656
 msgid "Change color for: "
 msgstr ""
 
-#: enotes_main.c:2176
+#: enotes_main.c:2171 enotes_main_neu.c:2469 enotes_main_privat.c:2657
 msgid "Textcolor"
 msgstr ""
 
-#: enotes_main.c:2177
+#: enotes_main.c:2172 enotes_main_neu.c:2470 enotes_main_privat.c:2658
 msgid "Background"
 msgstr ""
 
-#: enotes_main.c:2233
+#: enotes_main.c:2217 enotes_main_neu.c:2526 enotes_main_privat.c:2714
 msgid "Save colorset as default"
 msgstr ""
 
-#: enotes_main.c:2240
+#: enotes_main.c:2223 enotes_main_neu.c:2533 enotes_main_privat.c:2721
 msgid "Set colorset to all notes"
 msgstr ""
 
-#: enotes_main.c:2427
-msgid "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note for you automaticly <br>when you leave the note with the mouse! <br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></item> click bottom right corner to resize<br><item relsize=24x24 vsize=full href=done></item> On the left size you have a little menu, klick on the gray rect to open/close it<br><item relsize=24x24 vsize=full href=done></item> Use Mouse Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard size<br><item relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Dismiss dialogs and colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></item> &quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full href=done></item> &quot;F3&quot; adds <item relsize=24x24 vsize=full href=done></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; creates a new note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F9&quot; toogle designs<br/><item relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + m&quot; toogle menu<br/><br/>Have fun! <br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc #e.de]"
+#: enotes_main.c:2301
+msgid "Select categories for this note"
+msgstr ""
+
+#: enotes_main.c:2769 enotes_settings.c:1087
+msgid "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note for you automaticly <br>when you leave the note with the mouse! <br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></item> click bottom right corner to resize<br><item relsize=24x24 vsize=full href=done></item> On the left size you have a little menu, klick on the gray rect to open/close it<br><item relsize=24x24 vsize=full href=done></item> Use Mouse Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard size<br><item relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Dismiss dialogs and colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></item> &quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full href=done></item> &quot;F3&quot; adds <item relsize=24x24 vsize=full href=done></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; creates a new note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F9&quot; toggle designs<br/><item relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + m&quot; toggle menu<br/><br/>Have fun! <br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc.freenode.net #e.de]"
+msgstr ""
+
+#: enotes_main.c:3019
+#, c-format
+msgid ""
+"Dont't start Enotes twice - closing ...\n"
+"If no other instance is running, please remove ~/.config/enotes/enotes_running.pid\n"
+msgstr ""
+
+#: enotes_main_neu.c:2197 enotes_main_privat.c:2385
+msgid "Delete this note?"
+msgstr ""
+
+#: enotes_main_neu.c:2753 enotes_main_privat.c:2941
+msgid "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note for you automaticly <br>when you leave the note with the mouse! <br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></item> click bottom right corner to resize<br><item relsize=24x24 vsize=full href=done></item> On the left size you have a little menu, klick on the gray rect to open/close it<br><item relsize=24x24 vsize=full href=done></item> Use Mouse Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard size<br><item relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Dismiss dialogs and colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></item> &quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full href=done></item> &quot;F3&quot; adds <item relsize=24x24 vsize=full href=done></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; creates a new note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 vsize=full href=done></item> &quot;F9&quot; toggle designs<br/><item relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + m&quot; toggle menu<br/><br/>Have fun! <br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc #e.de]"
+msgstr ""
+
+#: enotes_settings.c:488
+msgid "Show all"
+msgstr ""
+
+#: enotes_settings.c:572
+msgid "Add new category:"
+msgstr ""
+
+#: enotes_settings.c:589
+msgid "add"
+msgstr ""
+
+#: enotes_settings.c:672 enotes_settings_org.c:126
+msgid "eNotes Settings"
+msgstr ""
+
+#: enotes_settings.c:689 enotes_settings.c:745
+msgid "Categories"
+msgstr ""
+
+#: enotes_settings.c:693
+msgid "Sync"
+msgstr ""
+
+#: enotes_settings.c:696 enotes_settings.c:1147
+msgid "Advanced"
+msgstr ""
+
+#: enotes_settings.c:699
+msgid "Help"
+msgstr ""
+
+#: enotes_settings.c:702
+msgid "Notes"
+msgstr ""
+
+#: enotes_settings.c:755
+msgid "Select Categories to show:<br><small>[Notes with no categories are always shown]</small>"
+msgstr ""
+
+#: enotes_settings.c:762
+msgid "Show all notes"
+msgstr ""
+
+#: enotes_settings.c:846
+msgid "Add"
+msgstr ""
+
+#: enotes_settings.c:859
+msgid "Delete selected"
+msgstr ""
+
+#: enotes_settings.c:912
+msgid "Server URL:"
+msgstr ""
+
+#: enotes_settings.c:938
+msgid "Enter caldav server url with calendar name"
+msgstr ""
+
+#: enotes_settings.c:949
+msgid "Calendar Name:"
+msgstr ""
+
+#: enotes_settings.c:958
+msgid "Enter Calendar Name"
+msgstr ""
+
+#: enotes_settings.c:978
+msgid "Enter username"
+msgstr ""
+
+#: enotes_settings.c:998
+msgid "Enter Password"
+msgstr ""
+
+#: enotes_settings.c:1009
+msgid "Refresh intervall:"
+msgstr ""
+
+#: enotes_settings.c:1038
+msgid "manual sync [F11]"
+msgstr ""
+
+#: enotes_settings.c:1049 enotes_settings_org.c:286
+msgid "save and check user data"
+msgstr ""
+
+#: enotes_settings.c:1157
+msgid "Systray Icon"
+msgstr ""
+
+#: enotes_settings.c:1167
+msgid "Disable Systray Icon"
+msgstr ""
+
+#: enotes_settings.c:1179
+msgid "Note Look"
+msgstr ""
+
+#: enotes_settings.c:1189
+msgid "Show Window Border"
 msgstr ""

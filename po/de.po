@@ -6,158 +6,180 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enotes 0.0.1\n"
 "Report-Msgid-Bugs-To: enlightenment-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-09-02 15:36+0200\n"
-"PO-Revision-Date: 2017-09-02 15:39+0200\n"
+"POT-Creation-Date: 2019-09-21 20:46+0200\n"
+"PO-Revision-Date: 2019-09-21 20:47+0200\n"
 "Last-Translator: \n"
-"Language-Team: Simon \"jf_simon\" Tischer <simon@t-tischer.de>\n"
+"Language-Team: Simon Tischer\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-Basepath: ../src/bin\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: enotes_main.c\n"
+"X-Poedit-SearchPath-1: enotes.h\n"
+"X-Poedit-SearchPath-2: enotes_caldav.c\n"
+"X-Poedit-SearchPath-3: enotes_caldav_check.c\n"
+"X-Poedit-SearchPath-4: enotes_caldav_del.c\n"
+"X-Poedit-SearchPath-5: enotes_caldav_get.c\n"
+"X-Poedit-SearchPath-6: enotes_caldav_put.c\n"
+"X-Poedit-SearchPath-7: enotes_help.c\n"
+"X-Poedit-SearchPath-8: enotes_main.c\n"
+"X-Poedit-SearchPath-9: enotes_private.h\n"
+"X-Poedit-SearchPath-10: enotes_settings.c\n"
+"X-Poedit-SearchPath-11: enotes_systray.c\n"
 
-#: enotes_main.c:349
-msgid "eNotes Help"
-msgstr "eNotes Hilfe"
+#: enotes_help.c:78 enotes_help.c:80
+msgid "enotes Help"
+msgstr "enotes Hilfe"
 
-#: enotes_main.c:380
+#: enotes_help.c:111
 msgid ""
-"<bigger>eNotes help!</bigger><br><b>Download and updates: <a "
+"<bigger>enotes help!</bigger><br><b>Download and updates: <a "
 "href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer "
 "[jf_simon on irc #e.de]</b>"
 msgstr ""
-"<bigger>eNotes Hilfe!</bigger><br><b>Download und Aktualisierungen: <a "
-"href=anc-02>https://github.com/jf-simon/enotes</a> Autor: Simon Tischer "
+"<bigger>enotes Hilfe!</bigger><br><b>Download und Updates: <a "
+"href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer "
 "[jf_simon on irc #e.de]</b>"
 
-#: enotes_main.c:405
+#: enotes_help.c:134
 msgid "Dismiss dialogs"
-msgstr "Dialoge schließen"
+msgstr "Dialog schließen"
 
-#: enotes_main.c:425
+#: enotes_help.c:154
 msgid "Show/hide<br>this help"
-msgstr "Zeige/verstecke<br>diese Hilfe"
+msgstr "Diese Hilfe anzeigen/verstecken"
 
-#: enotes_main.c:444
+#: enotes_help.c:172
 msgid "Blur text"
-msgstr "Text verwischen"
+msgstr "Text verschwischen"
 
-#: enotes_main.c:464
+#: enotes_help.c:192
 msgid "Insert done icon"
-msgstr "Erledigt Symbol einfügen"
+msgstr "DONE Symbol einfügen"
 
-#: enotes_main.c:483
+#: enotes_help.c:210
 msgid "Insert important icon"
-msgstr "Wichtig Symbol einfügen"
+msgstr "WICHTIG Symbol einfügen"
 
-#: enotes_main.c:503
+#: enotes_help.c:229
 msgid "Create a new note"
 msgstr "Neue Notiz erstellen"
 
-#: enotes_main.c:522
+#: enotes_help.c:247
 msgid "Delete selected note"
 msgstr "Ausgewählte Notiz löschen"
 
-#: enotes_main.c:541
+#: enotes_help.c:265
 msgid "Set note sticky"
-msgstr "Notiz sticky setzen"
+msgstr "Notiz anheften"
 
-#: enotes_main.c:561
+#: enotes_help.c:284
 msgid "Iconify note"
 msgstr "Notiz minimieren"
 
-#: enotes_main.c:581
+#: enotes_help.c:303
 msgid "Toogle designs"
 msgstr "Aussehen wechseln"
 
-#: enotes_main.c:601
+#: enotes_help.c:322
 msgid "Write backup<br>textfile"
-msgstr "Text Sicherung<br>erstellen"
+msgstr "Datensicher schreiben<br>Textdatei"
 
-#: enotes_main.c:620
+#: enotes_help.c:342
+msgid "Start Sync"
+msgstr "Synchronisierung starten"
+
+#: enotes_help.c:362
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: enotes_help.c:381
 msgid "Toogle menu"
-msgstr "Menü ein/ausblenden"
+msgstr "Menü an/aus"
 
-#: enotes_main.c:642
+#: enotes_help.c:401
 msgid "Close enotes"
-msgstr "enotes beenden"
+msgstr "enotes schließen"
 
-#: enotes_main.c:662
-msgid "in/decrease front<br>ctrl+0 to reset"
-msgstr ""
-"Schriftgröße ändern<br>\n"
-"strg+0 für Standard"
+#: enotes_help.c:420
+msgid "in/decrease font<br>ctrl+0 to reset"
+msgstr "Schrift vergrößern/verkleiner<br>strg+0 um zurückzusetzen"
 
-#: enotes_main.c:813 enotes_main.c:922
+#: enotes_main.c:607 enotes_main.c:712
 msgid "File written to:"
-msgstr "Datei geschrieben nach:"
+msgstr "Datei schreiben nach:"
 
-#: enotes_main.c:828 enotes_main.c:937
+#: enotes_main.c:622 enotes_main.c:727 enotes_settings.c:596
 msgid "close"
 msgstr "Schließen"
 
-#: enotes_main.c:834 enotes_main.c:943
+#: enotes_main.c:629 enotes_main.c:734
 msgid "open"
 msgstr "Öffnen"
 
-#: enotes_main.c:969
+#: enotes_main.c:762
 msgid "What do you want to write to file?"
-msgstr "Was willst du speichern?"
+msgstr "Was möchtest du sichern?"
 
-#: enotes_main.c:977
+#: enotes_main.c:770
 msgid "all notes"
 msgstr "Alle Notizen"
 
-#: enotes_main.c:984
+#: enotes_main.c:778
 msgid "this note"
 msgstr "Diese Notiz"
 
-#: enotes_main.c:1001
+#: enotes_main.c:796
 msgid "cancel"
 msgstr "Abbrechen"
 
-#: enotes_main.c:1716
+#: enotes_main.c:1752
 msgid "Close enotes?"
-msgstr "eNotes beenden?"
+msgstr "Enotes schließen?"
 
-#: enotes_main.c:1724 enotes_main.c:1994
+#: enotes_main.c:1760 enotes_main.c:1994
 msgid "No"
 msgstr "Nein"
 
-#: enotes_main.c:1730 enotes_main.c:2001
+#: enotes_main.c:1766 enotes_main.c:2000
 msgid "Yes"
 msgstr "Ja"
 
-#: enotes_main.c:1986
-msgid "Delete this note?"
-msgstr "Diese Notiz löschen?"
+#: enotes_main.c:1974
+#, c-format
+msgid "<custom color=#ff0000>Delete</custom> note<br>'%s'"
+msgstr "<custom color=#ff0000>Notiz</custom> '%s'<br>löschen?"
 
-#: enotes_main.c:2175
+#: enotes_main.c:2172
 msgid "Change color for: "
 msgstr "Farbe ändern für: "
 
-#: enotes_main.c:2176
+#: enotes_main.c:2173
 msgid "Textcolor"
 msgstr "Textfarbe"
 
-#: enotes_main.c:2177
+#: enotes_main.c:2174
 msgid "Background"
 msgstr "Hintergrund"
 
-#: enotes_main.c:2233
+#: enotes_main.c:2219
 msgid "Save colorset as default"
 msgstr "Farbauswahl als Standard speichern"
 
-#: enotes_main.c:2240
+#: enotes_main.c:2225
 msgid "Set colorset to all notes"
 msgstr "Farbauswahl für alle Notizen übernehmen"
 
-#: enotes_main.c:2427
+#: enotes_main.c:2303
+msgid "Select categories for this note"
+msgstr "Kategorien für die Notiz"
+
+#: enotes_main.c:2774
 msgid ""
-"Welcome to eNotes! <br><br>Type your text here, <br>i will save the note for "
+"Welcome to enotes! <br><br>Type your text here, <br>i will save the note for "
 "you automaticly <br>when you leave the note with the mouse! <br><br><item "
 "relsize=24x24 vsize=full href=done></item> click on &quot;tape&quot; to move "
 "the note<br><item relsize=24x24 vsize=full href=done></item> click bottom "
@@ -171,161 +193,187 @@ msgid ""
 "vsize=full href=done></item> &quot;F2&quot; Blur text<br><item relsize=24x24 "
 "vsize=full href=done></item> &quot;F3&quot; adds <item relsize=24x24 "
 "vsize=full href=done></item><br/><item relsize=24x24 vsize=full href=done></"
-"item> &quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></"
+"item> &quot;F4&quot; adds <item relsize=24x24 vsize=full href=open></"
 "item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; "
 "creates a new note<br/><item relsize=24x24 vsize=full href=done></item> "
 "&quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></"
 "item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full "
 "href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 "
-"vsize=full href=done></item> &quot;F9&quot; toogle designs<br/><item "
+"vsize=full href=done></item> &quot;F9&quot; toggle designs<br/><item "
 "relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup "
 "textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + "
 "q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></item> "
-"&quot;crtl + m&quot; toogle menu<br/><br/>Have fun! <br><br>Download and "
+"&quot;crtl + m&quot; toggle menu<br/><br/>Have fun! <br><br>Download and "
 "updates:<br><a href=anc-02>https://github.com/jf-simon/enotes</"
-"a><br><br>Author: Simon Tischer [jf_simon on irc #e.de]"
+"a><br><br>Author: Simon Tischer [jf_simon on irc.freenode.net #e.de]"
 msgstr ""
-"Willkommen zu eNotes!<br><br>Schreibe deinen Text hier hinein, <br>ich werde "
-"ihn automatisch für dich speichern, <br>wenn du mit der Maus die Notiz "
-"verlässt! <br><br><item relsize=24x24 vsize=full href=done></item> klick auf "
-"&quot;tape&quot; um die Notiz zu verschieben<br><item relsize=24x24 "
-"vsize=full href=done></item> klick auf die untere rechte Ecke um die Größe "
-"zu ändern<br><item relsize=24x24 vsize=full href=done></item> Auf der linken "
-"Seite hast du ein kleines Menü. Du kannst es mit einem Klick auf das graue "
-"Rechteck öffnen/schließen<br><item relsize=24x24 vsize=full href=done></"
-"item> Nutze das Mausrad + STRG Um die Schrift zu verkleinern/vergrößern. "
-"Oder STRG+0 um die auf die standard Größe zu wechseln<br><item relsize=24x24 "
-"vsize=full href=done></item> &quot;ESC&quot; schließt Dialoge und die "
-"Farbauswahl<br><item relsize=24x24 vsize=full href=done></item> &quot;"
-"F1&quot; Zeigt/verbirgt die Hilfe<br><item relsize=24x24 vsize=full "
-"href=done></item> &quot;F2&quot; verwischt den Text<br><item relsize=24x24 "
-"vsize=full href=done></item> &quot;F3&quot; fügt <item relsize=24x24 "
-"vsize=full href=done></item> ein<br/><item relsize=24x24 vsize=full "
-"href=done></item> &quot;F4&quot; fügt <item relsize=24x24 vsize=full "
-"href=important></item> ein<br/><item relsize=24x24 vsize=full href=done></"
-"item> &quot;F5&quot; erstellt eine neue Notiz<br/><item relsize=24x24 "
-"vsize=full href=done></item> &quot;F6&quot; löscht die Notiz<br/><item "
-"relsize=24x24 vsize=full href=done></item> &quot;F7&quot; setzt die Notiz "
+
+#: enotes_main.c:3024
+#, c-format
+msgid ""
+"Dont't start enotes twice - closing ...\n"
+"If no other instance is running, please remove ~/.config/enotes/"
+"enotes_running.pid\n"
+msgstr ""
+
+#: enotes_settings.c:489
+msgid "Show all"
+msgstr "Alle anzeigen"
+
+#: enotes_settings.c:573
+msgid "Add new category:"
+msgstr "Neue Kategorie hinzufügen:"
+
+#: enotes_settings.c:590
+msgid "add"
+msgstr "Hinzufügen"
+
+#: enotes_settings.c:692
+#, c-format
+msgid "<color=white>%i Notes</color>"
+msgstr "<color=white>%i Notizen</color>"
+
+#: enotes_settings.c:731
+msgid "eNotes Settings"
+msgstr "enotes Einstellungen"
+
+#: enotes_settings.c:748 enotes_settings.c:813
+msgid "Categories"
+msgstr "Kategorien"
+
+#: enotes_settings.c:752
+msgid "Sync"
+msgstr "Synchronisierung"
+
+#: enotes_settings.c:755 enotes_settings.c:1222
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: enotes_settings.c:758
+msgid "Help"
+msgstr "Hilfe"
+
+#: enotes_settings.c:761
+msgid "Notes"
+msgstr "Notizen"
+
+#: enotes_settings.c:823
+msgid ""
+"Select Categories to show:<br><small>[Notes with no categories are always "
+"shown]</small>"
+msgstr ""
+"Kategorien auswählen:<br><small>[Notizen ohne Kategorie werden immer "
+"angezeigt]</small>"
+
+#: enotes_settings.c:830
+msgid "Show all notes"
+msgstr "Alle Notizen anzeigen"
+
+#: enotes_settings.c:922
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: enotes_settings.c:935
+msgid "Delete selected"
+msgstr "Markierte löschen"
+
+#: enotes_settings.c:988
+msgid "Server URL:"
+msgstr "Server URL:"
+
+#: enotes_settings.c:1014
+msgid "Enter caldav server url with calendar name"
+msgstr "Caldav Server URL und Kalendername eingeben"
+
+#: enotes_settings.c:1025
+msgid "Calendar Name:"
+msgstr "Kalendername:"
+
+#: enotes_settings.c:1034
+msgid "Enter Calendar Name"
+msgstr "Kalendername eigeben"
+
+#: enotes_settings.c:1054
+msgid "Enter username"
+msgstr "Benutzername eingeben"
+
+#: enotes_settings.c:1074
+msgid "Enter Password"
+msgstr "Passwort eingeben"
+
+#: enotes_settings.c:1085
+msgid "Refresh intervall:"
+msgstr "Aktualisierungsintervall:"
+
+#: enotes_settings.c:1114
+msgid "manual sync [F11]"
+msgstr "Manueller Sync [F11]"
+
+#: enotes_settings.c:1125
+msgid "save and check user data"
+msgstr "Nutzerdaten speichern und prüfen"
+
+#: enotes_settings.c:1163
+msgid ""
+"Welcome to enotes! <br><br>i will save the note for you automaticly <br>when "
+"you leave the note with the mouse! <br><br><item relsize=24x24 vsize=full "
+"href=done></item> click on &quot;tape&quot; to move the note<br><item "
+"relsize=24x24 vsize=full href=done></item> click bottom right corner to "
+"resize<br><item relsize=24x24 vsize=full href=done></item> On the left size "
+"you have a little menu, klick on the gray rect to open/close it<br><item "
+"relsize=24x24 vsize=full href=done></item> Use Mouse Scolling + CTRL to "
+"decrease/increase the font. Or STRG+0 to use standard size<br><item "
+"relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Dismiss dialogs "
+"and colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+"F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></item> "
+"&quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full href=done></item> "
+"&quot;F3&quot; adds <item relsize=24x24 vsize=full href=done></item><br/"
+"><item relsize=24x24 vsize=full href=done></item> &quot;F4&quot; adds <item "
+"relsize=24x24 vsize=full href=open></item><br/><item relsize=24x24 "
+"vsize=full href=done></item> &quot;F5&quot; creates a new note<br/><item "
+"relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/"
+"><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set "
 "sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;F8&quot; "
-"minimiert die Notiz<br/><item relsize=24x24 vsize=full href=done></item> "
-"&quot;F9&quot; wechselt zwischen dem Aussehen<br/><item relsize=24x24 "
-"vsize=full href=done></item> &quot;F10&quot; schreibt eine Backup "
-"Textdatei<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + "
-"q&quot; beendet enotes<br/><item relsize=24x24 vsize=full href=done></item> "
-"&quot;crtl + m&quot; zeigt/versteckt das Menü<br/><br/>Hab Spaß! "
-"<br><br>Download und Aktualisierungen:<br><a href=anc-02>https://github.com/"
-"jf-simon/enotes</a><br><br>Autor: Simon Tischer [jf_simon on irc #e.de]"
+"iconify note<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
+"F9&quot; toggle designs<br/><item relsize=24x24 vsize=full href=done></item> "
+"&quot;F10&quot; Write backup textfile<br/><item relsize=24x24 vsize=full "
+"href=done></item> &quot;ctrl + q&quot; quits enotes<br/><item relsize=24x24 "
+"vsize=full href=done></item> &quot;crtl + m&quot; toggle menu<br/><br/>Have "
+"fun! <br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-"
+"simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc.freenode.net "
+"#e.de]"
+msgstr ""
 
-#~ msgid "<b>Dismiss dialogs</b>"
-#~ msgstr "<b>Dialoge schließen</b>"
+#: enotes_settings.c:1232
+msgid "Systray Icon"
+msgstr "Systray Symbol"
 
-#~ msgid "<b>Show/hide<br>this help</b>"
-#~ msgstr "<b>Zeige/verstecke<br>diese Hilfe</b>"
+#: enotes_settings.c:1242
+msgid "Disable Systray Icon"
+msgstr "Systray Symbol deaktivieren"
 
-#~ msgid "<b>Blur text</b>"
-#~ msgstr "<b>Text verwischen</b>"
+#: enotes_settings.c:1254
+msgid "Note Look"
+msgstr "Notiz Aussehen"
 
-#~ msgid "<b>Insert done icon</b>"
-#~ msgstr "<b>Erledigt Symbol einfügen</b>"
+#: enotes_settings.c:1264
+msgid "Show Window Border"
+msgstr "Fensterrahmen anzeigen"
 
-#~ msgid "<b>Insert important icon</b>"
-#~ msgstr "<b>Wichtig Symbol einfügen</b>"
-
-#~ msgid "<b>Create a new note</b>"
-#~ msgstr "<b>Neuen Notiz erstellen</b>"
-
-#~ msgid "<b>Delete selected note</b>"
-#~ msgstr "<b>Ausgewählten Notiz löschen</b>"
-
-#~ msgid "<b>Set note sticky</b>"
-#~ msgstr "<b>Notz sticky setzen</b>"
-
-#~ msgid "<b>Iconify note</b>"
-#~ msgstr "<b>Notiz minimieren</b>"
-
-#~ msgid "<b>Toogle designs</b>"
-#~ msgstr "<b>Aussehen wechseln</b>"
-
-#~ msgid "<b>Write backup<br>textfile</b>"
-#~ msgstr "<b>Text Sicherung<br>erstellen</b>"
-
-#~ msgid "<b>Toogle menu</b>"
-#~ msgstr "<b>Menü ein/ausblenden</b>"
-
-#~ msgid "<b>Close enotes</b>"
-#~ msgstr "<b>eNotes beenden</b>"
-
-#~ msgid ""
-#~ "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note "
-#~ "for you automaticly <br>when you leave the note with the mouse! "
-#~ "<br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;"
-#~ "tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></"
-#~ "item> click bottom right corner to resize<br><item relsize=24x24 "
-#~ "vsize=full href=done></item> On the left size you have a little "
-#~ "menu<br><item relsize=24x24 vsize=full href=done></item> Use Mouse "
-#~ "Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard "
-#~ "size<br><item relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; "
-#~ "Dismiss dialogs and colorselector<br><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F1&quot; Show/hide help<br><item relsize=24x24 "
-#~ "vsize=full href=done></item> &quot;F2&quot; Blur text<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F3&quot; adds <item "
-#~ "relsize=24x24 vsize=full href=done></item><br/><item relsize=24x24 "
-#~ "vsize=full href=done></item> &quot;F4&quot; adds <item relsize=24x24 "
-#~ "vsize=full href=important></item><br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F5&quot; creates a new note<br/><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/"
-#~ "><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set "
-#~ "sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "F8&quot; iconify note<br/><item relsize=24x24 vsize=full href=done></"
-#~ "item> &quot;F9&quot; toogle designs<br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F10&quot; Write backup textfile<br/><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; quits "
-#~ "enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + "
-#~ "m&quot; toogle menu<br/><br/>Have fun! <br><br>Download and updates:"
-#~ "<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: "
-#~ "Simon Tischer [jf_simon on irc #e.de]"
-#~ msgstr ""
-#~ "Willkommen zu eNotes!<br><br>Schreibe deinen Text hier hinein, <br>ich "
-#~ "werde ihn automatisch für dich speichern, <br>wenn du mit der Maus die "
-#~ "Notiz verlässt! <br><br><item relsize=24x24 vsize=full href=done></item> "
-#~ "klick auf &quot;tape&quot; um die Notiz zu verschieben<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> klick auf die untere rechte "
-#~ "Ecke um die Größe zu ändern<br><item relsize=24x24 vsize=full href=done></"
-#~ "item> Auf der linken Seite hast du ein kleines Menü. Du kannst es mit "
-#~ "einem Klick auf das graue Rechteck öffnen/schließen<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> Nutze das Mausrad + STRG Um "
-#~ "die Schrift zu verkleinern/vergrößern. Oder STRG+0 um die auf die "
-#~ "standard Größe zu wechseln<br><item relsize=24x24 vsize=full href=done></"
-#~ "item> &quot;ESC&quot; schließt Dialoge und die Farbauswahl<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F1&quot; Zeigt/verbirgt "
-#~ "die Hilfe<br><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "F2&quot; verwischt den Text<br><item relsize=24x24 vsize=full href=done></"
-#~ "item> &quot;F3&quot; fügt <item relsize=24x24 vsize=full href=done></"
-#~ "item> ein<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "F4&quot; fügt <item relsize=24x24 vsize=full href=important></item> "
-#~ "ein<br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; "
-#~ "erstellt eine neue Notiz<br/><item relsize=24x24 vsize=full href=done></"
-#~ "item> &quot;F6&quot; löscht die Notiz<br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F7&quot; setzt die Notiz sticky<br/><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F8&quot; minimiert die "
-#~ "Notiz<br/><item relsize=24x24 vsize=full href=done></item> &quot;F9&quot; "
-#~ "wechselt zwischen dem Aussehen<br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F10&quot; schreibt eine Backup Textdatei<br/"
-#~ "><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; "
-#~ "beendet enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "crtl + m&quot; zeigt/versteckt das Menü<br/><br/>Hab Spaß! "
-#~ "<br><br>Download und Aktualisierungen:<br><a href=anc-02>https://github."
-#~ "com/jf-simon/enotes</a><br><br>Autor: Simon Tischer [jf_simon on irc #e."
-#~ "de]"
+#~ msgid "eNotes Help"
+#~ msgstr "enotes Hilfe"
 
 #~ msgid ""
 #~ "<bigger>eNotes help!</bigger><br><b>Download and updates: <a "
-#~ "href=anc-02>https://github.com/jf-simon/enotes</a> Author Simon Tischer "
+#~ "href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer "
 #~ "[jf_simon on irc #e.de]</b>"
 #~ msgstr ""
-#~ "<bigger>eNotes Hilfe!</bigger><br><b>Herunterladen und Aktualisierungen: "
-#~ "<a href=anc-02>https://github.com/jf-simon/enotes</a> Author Simon "
-#~ "Tischer [jf_simon on irc #e.de]</b>"
+#~ "<bigger>enotes Hilfe!</bigger><br><b>Download und Updates: <a "
+#~ "href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer "
+#~ "[jf_simon on irc #e.de]</b>"
+
+#~ msgid "Delete this note?"
+#~ msgstr "Diese Notiz löschen?"
 
 #~ msgid ""
 #~ "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note "
@@ -333,58 +381,196 @@ msgstr ""
 #~ "<br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;"
 #~ "tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></"
 #~ "item> click bottom right corner to resize<br><item relsize=24x24 "
-#~ "vsize=full href=done></item> On the left size you have a little "
-#~ "menu<br><item relsize=24x24 vsize=full href=done></item> Use Mouse "
-#~ "Scolling + CTRL to decrease/increase the font. Or STRG+0 to use standard "
-#~ "size<br><item relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; "
-#~ "Dismiss dialogs and colorselector<br><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F1&quot; Show/hide help<br><item relsize=24x24 "
-#~ "vsize=full href=done></item> &quot;F2&quot; Blur text<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F3&quot; adds <item "
-#~ "relsize=24x24 vsize=full href=done></item><br/><item relsize=24x24 "
-#~ "vsize=full href=done></item> &quot;F4&quot; adds <item relsize=24x24 "
-#~ "vsize=full href=important></item><br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F5&quot; creates a new note<br/><item "
+#~ "vsize=full href=done></item> On the left size you have a little menu, "
+#~ "klick on the gray rect to open/close it<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> Use Mouse Scolling + CTRL to decrease/increase the "
+#~ "font. Or STRG+0 to use standard size<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;ESC&quot; Dismiss dialogs and "
+#~ "colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F3&quot; adds <item relsize=24x24 vsize=full "
+#~ "href=done></item><br/><item relsize=24x24 vsize=full href=done></item> "
+#~ "&quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></"
+#~ "item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; "
+#~ "creates a new note<br/><item relsize=24x24 vsize=full href=done></item> "
+#~ "&quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F9&quot; toggle designs<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup "
+#~ "textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl "
+#~ "+ q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;crtl + m&quot; toggle menu<br/><br/>Have fun! "
+#~ "<br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-"
+#~ "simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc #e.de]"
+#~ msgstr ""
+#~ "Wilkommen zu eNotes! <br><br>Tippe hier deinen Text hinein <br>ich werde "
+#~ "ihn automatisch speichern <br>wenn du mit der Maus die Notiz verlässt! "
+#~ "<br><br><item relsize=24x24 vsize=full href=done></item> klicke auf den "
+#~ "&quot;Klebestreifen&quot; um die Notiz zu verschieben<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> klicke unten recht auf die "
+#~ "Ecke um die Größe der Notiz zu ändern<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> Auf der linken Seite hast du ein kleine Menü. Klicke "
+#~ "auf das kleine graue Rechteck um es zu öffnen/schließen<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> Nutze das Mausrad + STRG um "
+#~ "die Schriftgröße zu ändern. STRG+0 setzt sie zurück<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Schließt alle "
+#~ "Dialoge<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F1&quot; Zeigt/Schließt die Hilfe<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F2&quot; Text verschwimmen<br><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F3&quot; fügt <item relsize=24x24 "
+#~ "vsize=full href=done></item>hinzu<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F4&quot; fügt <item relsize=24x24 vsize=full "
+#~ "href=open></item>hinzu<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F5&quot; neue Notiz<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F6&quot; löscht die Notiz<br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F7&quot; Heftet die Notiz auf alle "
+#~ "Desktops an<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F8&quot; Notiz minimieren<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F9&quot; Aussehen ändern<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F10&quot; Text Sicherung erstellen<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; schließt "
+#~ "enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + "
+#~ "m&quot; Menu anzeigen/verstecken<br/><br/>Hab Spaß! <br><br>Download und "
+#~ "Updates:<br><a href=anc-02>https://github.com/jf-simon/enotes</"
+#~ "a><br><br>Author: Simon Tischer [jf_simon on irc.freenode.net #e.de]"
+
+#~ msgid "enote Help"
+#~ msgstr "enotes Help"
+
+#~ msgid ""
+#~ "Dont't start Enotes twice - closing ...\n"
+#~ "If no other instance is running, please remove ~/.config/enotes/"
+#~ "enotes_running.pid\n"
+#~ msgstr ""
+#~ "Dont't start Enotes twice - closing ...\n"
+#~ "If no other instance is running, please remove ~/.config/enotes/"
+#~ "enotes_running.pid\n"
+
+#~ msgid ""
+#~ "Welcome to eNotes! <br><br>i will save the note for you automaticly "
+#~ "<br>when you leave the note with the mouse! <br><br><item relsize=24x24 "
+#~ "vsize=full href=done></item> click on &quot;tape&quot; to move the "
+#~ "note<br><item relsize=24x24 vsize=full href=done></item> click bottom "
+#~ "right corner to resize<br><item relsize=24x24 vsize=full href=done></"
+#~ "item> On the left size you have a little menu, klick on the gray rect to "
+#~ "open/close it<br><item relsize=24x24 vsize=full href=done></item> Use "
+#~ "Mouse Scolling + CTRL to decrease/increase the font. Or STRG+0 to use "
+#~ "standard size<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "ESC&quot; Dismiss dialogs and colorselector<br><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F1&quot; Show/hide help<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F2&quot; Blur "
+#~ "text<br><item relsize=24x24 vsize=full href=done></item> &quot;F3&quot; "
+#~ "adds <item relsize=24x24 vsize=full href=done></item><br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F4&quot; adds <item "
+#~ "relsize=24x24 vsize=full href=open></item><br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F5&quot; creates a new note<br/><item "
 #~ "relsize=24x24 vsize=full href=done></item> &quot;F6&quot; delete note<br/"
 #~ "><item relsize=24x24 vsize=full href=done></item> &quot;F7&quot; set "
 #~ "sticky<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
 #~ "F8&quot; iconify note<br/><item relsize=24x24 vsize=full href=done></"
-#~ "item> &quot;F9&quot; toogle designs<br/><item relsize=24x24 vsize=full "
+#~ "item> &quot;F9&quot; toggle designs<br/><item relsize=24x24 vsize=full "
 #~ "href=done></item> &quot;F10&quot; Write backup textfile<br/><item "
 #~ "relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; quits "
 #~ "enotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;crtl + "
-#~ "m&quot; toogle menu<br/><br/>Have fun! <br><br>Download and updates:"
-#~ "<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author "
-#~ "Simon Tischer [jf_simon on irc #e.de]"
+#~ "m&quot; toggle menu<br/><br/>Have fun! <br><br>Download and updates:"
+#~ "<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: "
+#~ "Simon Tischer [jf_simon on irc.freenode.net #e.de]"
 #~ msgstr ""
-#~ "Willkommen zu eNotes! <br><br>Schreibe deinen Text hier hinein, <br>ich "
-#~ "werde ihn automatisch für dich speichern, <br>wenn du mit der Maus die "
-#~ "Notiz verlässt! <br><br><item relsize=24x24 vsize=full href=done></item> "
-#~ "klick auf &quot;tape&quot; um die Notiz zu verschieben<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> klick auf die untere rechte "
-#~ "Ecke um die Größe zu ändern<br><item relsize=24x24 vsize=full href=done></"
-#~ "item> Auf der linken Seite hast du ein kleines Menü<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> Nutze das Mausrad + STRG Um "
-#~ "die Schrift zu verkleinern/vergrößern. Oder STRG+0 um auf die standard "
-#~ "Größe zu wechseln<br><item relsize=24x24 vsize=full href=done></item> "
-#~ "&quot;ESC&quot; schließt Dialoge und die Farbauswahl<br><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F1&quot; Zeigt/verbirgt "
-#~ "die Hilfe<br><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "F2&quot; verwischt den Text<br><item relsize=24x24 vsize=full href=done></"
-#~ "item> &quot;F3&quot; fügt <item relsize=24x24 vsize=full href=done></"
-#~ "item>ein<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "F4&quot; fügt <item relsize=24x24 vsize=full href=important></item>ein<br/"
-#~ "><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; erstellt "
-#~ "eine neue Notiz<br/><item relsize=24x24 vsize=full href=done></item> "
-#~ "&quot;F6&quot; löscht die Notiz<br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F7&quot; setzt die Notiz sticky<br/><item "
-#~ "relsize=24x24 vsize=full href=done></item> &quot;F8&quot; minimiert die "
-#~ "Notiz<br/><item relsize=24x24 vsize=full href=done></item> &quot;F9&quot; "
-#~ "wechselt zwischen dem Aussehen<br/><item relsize=24x24 vsize=full "
-#~ "href=done></item> &quot;F10&quot; schreibt eine Backup Textdatei<br/"
-#~ "><item relsize=24x24 vsize=full href=done></item> &quot;STRG + q&quot; "
-#~ "beendet eNotes<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
-#~ "STRG + m&quot; zeigt/versteckt das Menü<br/><br/>Hab Spaß! "
-#~ "<br><br>Download und Aktualisierungen:<br><a href=anc-02>https://github."
-#~ "com/jf-simon/enotes</a><br><br>Autor: Simon Tischer [jf_simon on irc #e."
-#~ "de]"
+#~ "Wilkommen zu eNotes! <br><br>Sich werde die Notiz automatisch speichern "
+#~ "<br>wenn du mit der Maus die Notiz verlässt! <br><br><item relsize=24x24 "
+#~ "vsize=full href=done></item> klicke auf den &quot;Klebestreifen&quot; um "
+#~ "die Notiz zu verschieben<br><item relsize=24x24 vsize=full href=done></"
+#~ "item> klicke unten recht auf die Ecke um die Größe der Notiz zu "
+#~ "ändern<br><item relsize=24x24 vsize=full href=done></item> Auf der linken "
+#~ "Seite hast du ein kleine Menü. Klicke auf das kleine graue Rechteck um es "
+#~ "zu öffnen/schließen<br><item relsize=24x24 vsize=full href=done></item> "
+#~ "Nutze das Mausrad + STRG um die Schriftgröße zu ändern. STRG+0 setzt sie "
+#~ "zurück<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "ESC&quot; Schließt alle Dialoge<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F1&quot; Zeigt/Schließt die Hilfe<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F2&quot; Text "
+#~ "verschwimmen<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F3&quot; fügt <item relsize=24x24 vsize=full href=done></item>hinzu<br/"
+#~ "><item relsize=24x24 vsize=full href=done></item> &quot;F4&quot; fügt "
+#~ "<item relsize=24x24 vsize=full href=open></item>hinzu<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F5&quot; neue Notiz<br/"
+#~ "><item relsize=24x24 vsize=full href=done></item> &quot;F6&quot; löscht "
+#~ "die Notiz<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F7&quot; Heftet die Notiz auf alle Desktops an<br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F8&quot; Notiz minimieren<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F9&quot; Aussehen "
+#~ "ändern<br/><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F10&quot; Text Sicherung erstellen<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;ctrl + q&quot; schließt enotes<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;crtl + m&quot; Menu "
+#~ "anzeigen/verstecken<br/><br/>Hab Spaß! <br><br>Download und Updates:"
+#~ "<br><a href=anc-02>https://github.com/jf-simon/enotes</a><br><br>Author: "
+#~ "Simon Tischer [jf_simon on irc.freenode.net #e.de]"
+
+#~ msgid ""
+#~ "Welcome to eNotes! <br><br>Type your text here, <br>i will save the note "
+#~ "for you automaticly <br>when you leave the note with the mouse! "
+#~ "<br><br><item relsize=24x24 vsize=full href=done></item> click on &quot;"
+#~ "tape&quot; to move the note<br><item relsize=24x24 vsize=full href=done></"
+#~ "item> click bottom right corner to resize<br><item relsize=24x24 "
+#~ "vsize=full href=done></item> On the left size you have a little menu, "
+#~ "klick on the gray rect to open/close it<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> Use Mouse Scolling + CTRL to decrease/increase the "
+#~ "font. Or STRG+0 to use standard size<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;ESC&quot; Dismiss dialogs and "
+#~ "colorselector<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F1&quot; Show/hide help<br><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F2&quot; Blur text<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F3&quot; adds <item relsize=24x24 vsize=full "
+#~ "href=done></item><br/><item relsize=24x24 vsize=full href=done></item> "
+#~ "&quot;F4&quot; adds <item relsize=24x24 vsize=full href=important></"
+#~ "item><br/><item relsize=24x24 vsize=full href=done></item> &quot;F5&quot; "
+#~ "creates a new note<br/><item relsize=24x24 vsize=full href=done></item> "
+#~ "&quot;F6&quot; delete note<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F7&quot; set sticky<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F8&quot; iconify note<br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F9&quot; toggle designs<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F10&quot; Write backup "
+#~ "textfile<br/><item relsize=24x24 vsize=full href=done></item> &quot;ctrl "
+#~ "+ q&quot; quits enotes<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;crtl + m&quot; toggle menu<br/><br/>Have fun! "
+#~ "<br><br>Download and updates:<br><a href=anc-02>https://github.com/jf-"
+#~ "simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc.freenode."
+#~ "net #e.de]"
+#~ msgstr ""
+#~ "Wilkommen zu eNotes! <br><br>Tippe hier deinen Text hinein <br>ich werde "
+#~ "ihn automatisch speichern <br>wenn du mit der Maus die Notiz verlässt! "
+#~ "<br><br><item relsize=24x24 vsize=full href=done></item> klicke auf den "
+#~ "&quot;Klebestreifen&quot; um die Notiz zu verschieben<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> klicke unten recht auf die "
+#~ "Ecke um die Größe der Notiz zu ändern<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> Auf der linken Seite hast du ein kleine Menü. Klicke "
+#~ "auf das kleine graue Rechteck um es zu öffnen/schließen<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> Nutze das Mausrad + STRG um "
+#~ "die Schriftgröße zu ändern. STRG+0 setzt sie zurück<br><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;ESC&quot; Schließt alle "
+#~ "Dialoge<br><item relsize=24x24 vsize=full href=done></item> &quot;"
+#~ "F1&quot; Zeigt/Schließt die Hilfe<br><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F2&quot; Text verschwimmen<br><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F3&quot; fügt <item relsize=24x24 "
+#~ "vsize=full href=done></item>hinzu<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F4&quot; fügt <item relsize=24x24 vsize=full "
+#~ "href=important></item>hinzu<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F5&quot; neue Notiz<br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F6&quot; löscht die Notiz<br/><item "
+#~ "relsize=24x24 vsize=full href=done></item> &quot;F7&quot; Heftet die "
+#~ "Notiz auf alle Desktops an<br/><item relsize=24x24 vsize=full href=done></"
+#~ "item> &quot;F8&quot; Notiz minimieren<br/><item relsize=24x24 vsize=full "
+#~ "href=done></item> &quot;F9&quot; Aussehen ändern<br/><item relsize=24x24 "
+#~ "vsize=full href=done></item> &quot;F10&quot; Text Sicherung erstellen<br/"
+#~ "><item relsize=24x24 vsize=full href=done></item> &quot;ctrl + q&quot; "
+#~ "schließt enotes<br/><item relsize=24x24 vsize=full href=done></item> "
+#~ "&quot;crtl + m&quot; Menu anzeigen/verstecken<br/><br/>Hab Spaß! "
+#~ "<br><br>Download und Updates:<br><a href=anc-02>https://github.com/jf-"
+#~ "simon/enotes</a><br><br>Author: Simon Tischer [jf_simon on irc.freenode."
+#~ "net #e.de]"
+
+#~ msgid "Enote HELP"
+#~ msgstr "Enotes HILFE"
