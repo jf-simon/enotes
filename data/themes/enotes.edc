@@ -583,6 +583,7 @@ collections {
             }
             if (strcmp(st, "default")) {
                set_state(PART:"color_swallow", "default", 0.0);
+               set_state(PART:"categories_swallow", "default", 0.0);
                run_program(PROGRAM:"mouse_out_rect_overleft");
                emit("resize_menu_off", "1");
             }
@@ -1488,6 +1489,7 @@ collections {
     "layout3";
     parts {
       part {
+      scale: 1;
       name: "clip";
       type: RECT;
         description {
@@ -1500,6 +1502,7 @@ collections {
       name: "rect_overleft";
       type: RECT;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state:"default" 0.0;
@@ -1509,7 +1512,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 130;
+            rel2.offset: 20 150;
         }
         description {
             state: "on" 0.0;
@@ -1518,7 +1521,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: -20 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 130;
+            rel2.offset: 0 150;
         }
       }
 
@@ -1527,6 +1530,7 @@ collections {
       name: "new_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1536,7 +1540,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 10;
             rel2.relative: 0 0;
-            rel2.offset: 0 26;
+            rel2.offset: 20 26;
             image.normal: "new.png";
         }
         description {
@@ -1556,6 +1560,7 @@ collections {
       name: "iconify_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1565,7 +1570,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 28;
             rel2.relative: 0 0;
-            rel2.offset: 0 46;
+            rel2.offset: 20 46;
             image.normal: "iconify.png";
         }
         description {
@@ -1585,16 +1590,17 @@ collections {
       name: "delete_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
             rel.to: "note_swallow";
-            visible:0;
+            visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
             rel1.offset: 0 48;
             rel2.relative: 0 0;
-            rel2.offset: 0 66;
+            rel2.offset: 20 66;
             image.normal: "delete.png";
         }
         description {
@@ -1614,6 +1620,7 @@ collections {
       name: "cs_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1623,7 +1630,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 68;
             rel2.relative: 0 0;
-            rel2.offset: -3 86;
+            rel2.offset: 20 86;
             image.normal: "cs.png";
         }
         description {
@@ -1637,13 +1644,13 @@ collections {
             image.normal: "cs.png";
         }
       }
-
-      // HELP ICON //
-
+      
+      // CATEGORIES //
       part {
-      name: "help_icon";
+      name: "categories_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1653,8 +1660,8 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: 0 106;
-            image.normal: "help.png";
+            rel2.offset: 20 106;
+            image.normal: "categories.png";
         }
         description {
             state: "on" 0.0;
@@ -1664,6 +1671,37 @@ collections {
             rel1.offset: -19 88;
             rel2.relative: 0 0;
             rel2.offset: -3 106;
+            image.normal: "categories.png";
+        }
+      }
+
+      // HELP ICON //
+
+      part {
+      name: "help_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 108;
+            rel2.relative: 0 0;
+            rel2.offset: 20 126;
+            image.normal: "help.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 108;
+            rel2.relative: 0 0;
+            rel2.offset: -3 126;
             image.normal: "help.png";
         }
       }
@@ -1674,6 +1712,7 @@ collections {
       name: "close_icon";
       type: IMAGE;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1681,9 +1720,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 108;
+            rel1.offset: 0 128;
             rel2.relative: 0 0;
-            rel2.offset: 0 126;
+            rel2.offset: 20 146;
             image.normal: "close.png";
         }
         description {
@@ -1691,17 +1730,18 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 108;
+            rel1.offset: -19 128;
             rel2.relative: 0 0;
-            rel2.offset: -3 126;
+            rel2.offset: -3 146;
             image.normal: "close.png";
         }
       }
 
-      part {
+      part { // main swallow part für entry_notecontent
       name: "note_swallow";
       type: SWALLOW;
       mouse_events: 1;
+      scale: 1;
       clip_to:"clip";
         description {
             state: "default" 0.0;
@@ -1714,6 +1754,7 @@ collections {
       part {
       name: "shadow_corner";
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1728,6 +1769,7 @@ collections {
       part {
       name: "shadow_right";
       mouse_events: 0;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1742,6 +1784,7 @@ collections {
       part {
       name: "shadow_bottom";
       mouse_events: 0;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1758,6 +1801,7 @@ collections {
       name: "pin_swallow";
       type: SWALLOW;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1771,6 +1815,7 @@ collections {
       part {
       name: "content";
       type: SWALLOW;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1784,6 +1829,7 @@ collections {
       part {
       name: "name_content";
       type: SWALLOW;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1797,6 +1843,7 @@ collections {
       part {
       name: "status";
       type: IMAGE;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1806,7 +1853,7 @@ collections {
             rel2.relative: 0 1;
             rel2.offset: 0 -12;
             image.normal: "status.png";
-            visible: 1;
+            visible: 0;
         }
         description {
             state: "on" 0.0;
@@ -1841,6 +1888,7 @@ collections {
       part {
       name: "tape";
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1848,7 +1896,7 @@ collections {
             rel1.offset: -50 0;
             rel2.relative: 0.5 0.0;
             rel2.offset: 50 24;
-            image.normal: "alpha.png";
+            image.normal: "alpha.png"; // set an invisible image to make "mouse move" possible to move window
         }
       }
 
@@ -1857,6 +1905,7 @@ collections {
       name: "rect_over";
       type: RECT;
       mouse_events: 1;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1872,6 +1921,33 @@ collections {
       part {
       name: "color_swallow";
       type: SWALLOW;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 0;
+            rel.to: "note_swallow";
+            rel2.relative: 0 0;
+            rel2.offset: 0 0;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel1.offset: 15 15;
+            rel.to: "note_swallow";
+            rel2.relative: 1 1;
+            rel2.offset: -15 -40;
+        }
+      }
+      
+      part {
+      name: "categories_swallow";
+      type: SWALLOW;
+      scale: 1;
       clip_to: "clip";
         description {
             state: "default" 0.0;
@@ -1954,6 +2030,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
+            target: "categories_icon";
             transition: LINEAR 0.3;
       }
       program {
@@ -1967,6 +2044,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
+            target: "categories_icon";
             transition: LINEAR 0.3;
       }
 
@@ -2039,6 +2117,7 @@ collections {
             get_state(PART:"color_swallow", st, 30, vl);
 
             if (strcmp(st, "on")) {
+               set_state(PART:"categories_swallow", "default", 0.0);
                set_state(PART:"color_swallow", "on", 0.0);
                emit("swallow_cs", "1");
             }
@@ -2049,6 +2128,29 @@ collections {
         }
       }
       // COLOR SELECT END //
+      
+      // CATEGORIES SELECT //
+      program {
+      name: "mouse_click_categoriesselector";
+      signal: "mouse,clicked,1";
+      source: "categories_icon";
+        script {
+            new st[31];
+            new Float: vl;
+            get_state(PART:"categories_swallow", st, 30, vl);
+
+            if (strcmp(st, "on")) {
+               set_state(PART:"color_swallow", "default", 0.0);
+               set_state(PART:"categories_swallow", "on", 0.0);
+               emit("swallow_cs", "2");
+            }
+            if (strcmp(st, "default")) {
+               set_state(PART:"categories_swallow", "default", 0.0);
+               emit("unswallow_cs", "2");
+            }
+        }
+      }
+      // CATEGORIES SELECT END //
 
       // BLUR  //
       program {
@@ -2083,6 +2185,709 @@ collections {
   }
   
 /// END LAYOUT3 ///
+
+/// START LAYOUT4 ///
+  group {
+  name:
+    "layout4";
+    parts {
+      part {
+      scale: 1;
+      name: "clip";
+      type: RECT;
+        description {
+            state: "default" 0.0;
+        }
+      }
+
+      // TRANSPARENT RECT FOR BUTTON LEFT//
+      part {
+      name: "rect_overleft";
+      type: RECT;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state:"default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 8;
+            rel2.relative: 0 0;
+            rel2.offset: 20 150;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 200;
+            rel1.relative: 0 0;
+            rel1.offset: -20 8;
+            rel2.relative: 0 0;
+            rel2.offset: 0 150;
+        }
+      }
+
+      // NEW ICON //
+      part {
+      name: "new_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 10;
+            rel2.relative: 0 0;
+            rel2.offset: 20 26;
+            image.normal: "new.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 10;
+            rel2.relative: 0 0;
+            rel2.offset: -3 26;
+            image.normal: "new.png";
+        }
+      }
+
+      // ICONIFY ICON //
+      part {
+      name: "iconify_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 28;
+            rel2.relative: 0 0;
+            rel2.offset: 20 46;
+            image.normal: "iconify.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 28;
+            rel2.relative: 0 0;
+            rel2.offset: -3 46;
+            image.normal: "iconify.png";
+        }
+      }
+
+      // DELETE ICON //
+      part {
+      name: "delete_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 48;
+            rel2.relative: 0 0;
+            rel2.offset: 20 66;
+            image.normal: "delete.png";
+        }
+        description {
+        state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 48;
+            rel2.relative: 0 0;
+            rel2.offset: -3 66;
+            image.normal: "delete.png";
+        }
+      }
+
+      // COLORSELECTOR //
+      part {
+      name: "cs_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 68;
+            rel2.relative: 0 0;
+            rel2.offset: 20 86;
+            image.normal: "cs.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 68;
+            rel2.relative: 0 0;
+            rel2.offset: -3 86;
+            image.normal: "cs.png";
+        }
+      }
+      
+      // CATEGORIES //
+      part {
+      name: "categories_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 88;
+            rel2.relative: 0 0;
+            rel2.offset: 20 106;
+            image.normal: "categories.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 88;
+            rel2.relative: 0 0;
+            rel2.offset: -3 106;
+            image.normal: "categories.png";
+        }
+      }
+
+      // HELP ICON //
+
+      part {
+      name: "help_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 108;
+            rel2.relative: 0 0;
+            rel2.offset: 20 126;
+            image.normal: "help.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 108;
+            rel2.relative: 0 0;
+            rel2.offset: -3 126;
+            image.normal: "help.png";
+        }
+      }
+
+      // CLOSE ICON //
+
+      part {
+      name: "close_icon";
+      type: IMAGE;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            color: 255 255 255 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 128;
+            rel2.relative: 0 0;
+            rel2.offset: 20 146;
+            image.normal: "close.png";
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 255;
+            rel1.relative: 0 0;
+            rel1.offset: -19 128;
+            rel2.relative: 0 0;
+            rel2.offset: -3 146;
+            image.normal: "close.png";
+        }
+      }
+
+      part { // main swallow part für entry_notecontent
+      name: "note_swallow";
+      type: SWALLOW;
+      mouse_events: 1;
+      scale: 1;
+      clip_to:"clip";
+        description {
+            state: "default" 0.0;
+            rel1.relative: 0.0 0.0;
+            rel1.offset: 20 12;
+            rel2.relative: 1.0 1.0;
+            rel2.offset: -20 -15;
+        }
+      }
+      part {
+      name: "shadow_corner";
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 1 1;
+            rel1.offset: 0 0;
+            rel2.relative: 1 1;
+            rel2.offset: 13 14;
+            image.normal: "shadow_corner.png";
+        }
+      }
+      part {
+      name: "shadow_right";
+      mouse_events: 0;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 1 0;
+            rel1.offset: 0 0;
+            rel2.relative: 1 1;
+            rel2.offset: 12 -1;
+            image.normal: "shadow_right.png";
+        }
+      }
+      part {
+      name: "shadow_bottom";
+      mouse_events: 0;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 1;
+            rel1.offset: 0 0;
+            rel2.relative: 1 1;
+            rel2.offset: -1 13;
+            image.normal: "shadow_bottom.png";
+        }
+      }
+
+      part {
+      name: "pin_swallow";
+      type: SWALLOW;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel1.relative: 0.5 0.0;
+            rel1.offset: -50 0;
+            rel2.relative: 0.5 0.0;
+            rel2.offset: 50 24;
+            color: 255 255 255 128;
+        }
+      }
+      part {
+      name: "content";
+      type: SWALLOW;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel1.offset: 20 15;
+            rel2.relative: 1 1;
+            rel2.offset: -15 -30;
+        }
+      }
+      part {
+      name: "name_content";
+      type: SWALLOW;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 1;
+            rel1.offset: 20 3;
+            rel2.relative: 1 1;
+            rel2.offset: -15 -35;
+        }
+      }
+      part {
+      name: "status";
+      type: IMAGE;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "name_content";
+            rel1.relative: 0 1;
+            rel1.offset: -15 -27;
+            rel2.relative: 0 1;
+            rel2.offset: 0 -12;
+            image.normal: "status.png";
+            visible: 0;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "name_content";
+            rel1.relative: 0 1;
+            rel1.offset: -15 -27;
+            rel2.relative: 0 1;
+            rel2.offset: 0 -12;
+            image.normal: "status.png";
+            visible: 1;
+        }
+      }
+      snapshot {
+      name: "blur";
+        description {
+            state: "default" 0.0;
+            visible: 0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel2.relative: 1 1;
+            filter.code: "blurbackground";
+        }
+        description {
+            state: "on" 0.0;
+            visible: 1;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel2.relative: 1 1;
+            filter.code: "blurbackground";
+        }
+      }
+      part {
+      name: "tape";
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel1.relative: 0.5 0.0;
+            rel1.offset: -14 0;
+            rel2.relative: 0.5 0.0;
+            rel2.offset: 10 24;
+            image.normal: "pin.png";
+        }
+      }
+
+      // TRANSPARENT RECT FOR BUTTON //
+      part {
+      name: "rect_over";
+      type: RECT;
+      mouse_events: 1;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            color: 255 255 255 128;
+            rel1.relative: 0 0;
+            rel1.offset: 0 8;
+            rel2.relative: 0 0;
+            rel2.offset: 6 38;
+        }
+      }
+
+      part {
+      name: "color_swallow";
+      type: SWALLOW;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 0;
+            rel.to: "note_swallow";
+            rel2.relative: 0 0;
+            rel2.offset: 0 0;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel1.offset: 15 15;
+            rel.to: "note_swallow";
+            rel2.relative: 1 1;
+            rel2.offset: -15 -40;
+        }
+      }
+      
+      part {
+      name: "categories_swallow";
+      type: SWALLOW;
+      scale: 1;
+      clip_to: "clip";
+        description {
+            state: "default" 0.0;
+            rel.to: "note_swallow";
+            visible: 0;
+            rel1.relative: 0 0;
+            rel1.offset: 0 0;
+            rel.to: "note_swallow";
+            rel2.relative: 0 0;
+            rel2.offset: 0 0;
+        }
+        description {
+            state: "on" 0.0;
+            rel.to: "note_swallow";
+            rel1.relative: 0 0;
+            rel1.offset: 15 15;
+            rel.to: "note_swallow";
+            rel2.relative: 1 1;
+            rel2.offset: -15 -40;
+        }
+      }
+
+      // COLOR OF NOTE END //
+    }
+    programs {
+      // RECT_OVER //
+      program {
+      name: "mouse_in_rect_over";
+      signal: "mouse,clicked,1";
+      source: "rect_over";
+      transition: LINEAR 0.2;
+        script {
+            new st[31];
+            new Float: vl;
+            get_state(PART:"rect_overleft", st, 30, vl);
+
+            if (strcmp(st, "on")) {
+               run_program(PROGRAM:"mouse_in_rect_overleft");
+               emit("resize_menu_on", "1");
+            }
+            if (strcmp(st, "default")) {
+               set_state(PART:"color_swallow", "default", 0.0);
+               run_program(PROGRAM:"mouse_out_rect_overleft");
+               emit("resize_menu_off", "1");
+            }
+        }
+      }
+      // RECT_OVER  //
+      program {
+      name: "mouse_in_rect_over1";
+      signal: "menu_toogle";
+      source: "menu_toogle";
+      transition: LINEAR 0.2;
+        script {
+            new st[31];
+            new Float: vl;
+            get_state(PART:"rect_overleft", st, 30, vl);
+
+            if (strcmp(st, "on")) {
+               run_program(PROGRAM:"mouse_in_rect_overleft");
+               emit("resize_menu_on", "1");
+            }
+            if (strcmp(st, "default")) {
+               set_state(PART:"color_swallow", "default", 0.0);
+               run_program(PROGRAM:"mouse_out_rect_overleft");
+               emit("resize_menu_off", "1");
+            }
+        }
+      }
+
+      // RECT_OVER //
+      program {
+            name: "mouse_in_rect_overleft";
+            action: STATE_SET "on" 0.0;
+            signal: "mouse_in_rect_overleft_in";
+            target: "help_icon";
+            target: "new_icon";
+            target: "iconify_icon";
+            target: "delete_icon";
+            target: "rect_overleft";
+            target: "close_icon";
+            target: "cs_icon";
+            target: "categories_icon";
+            transition: LINEAR 0.3;
+      }
+      program {
+            name: "mouse_out_rect_overleft";
+            action: STATE_SET "default" 0.0;
+            signal: "mouse_in_rect_overleft_out";
+            target: "help_icon";
+            target: "new_icon";
+            target: "iconify_icon";
+            target: "delete_icon";
+            target: "rect_overleft";
+            target: "close_icon";
+            target: "cs_icon";
+            target: "categories_icon";
+            transition: LINEAR 0.3;
+      }
+
+      // BUTTONS //
+      // CLOSE ALL //
+      program {
+            name: "button_cs";
+            signal: "mouse,down,1";
+            source: "cs_icon";
+            action: SIGNAL_EMIT "cs" "cs";
+      }
+      // CLOSE ALL //
+            program {
+            name: "button_close_all";
+            signal: "mouse,down,1";
+            source: "close_icon";
+            action: SIGNAL_EMIT "close" "close";
+      }
+      // SHOW HELP //
+            program {
+            name: "button_help";
+            signal: "mouse,down,1";
+            source: "help_icon";
+            action: SIGNAL_EMIT "help" "help";
+      }
+      // NEW NOTE //
+            program {
+            name: "button_new";
+            signal: "mouse,down,1";
+            source: "new_icon";
+            action: SIGNAL_EMIT "new" "new";
+      }
+      // ICONIFY NOTE //
+            program {
+            name: "button_iconify";
+            signal: "mouse,down,1";
+            source: "iconify_icon";
+            action: SIGNAL_EMIT "iconify" "iconify";
+      }
+      // DELETE NOTE //
+            program {
+            name: "button_delete";
+            signal: "mouse,down,1";
+            source: "delete_icon";
+            action: SIGNAL_EMIT "delete" "delete";
+      }
+      // MOVE NOTE //
+            program {
+            name: "button_win_move";
+            signal: "mouse,down,1";
+            source: "tape";
+            action: SIGNAL_EMIT "move" "move";
+      }
+      // RESIZE NOTE //
+            program {
+            name: "button_win_resize";
+            signal: "mouse,down,1";
+            source: "shadow_corner";
+            action: SIGNAL_EMIT "resize" "resize";
+      }
+
+      // COLOR SELECT //
+      program {
+      name: "mouse_click_colorselector";
+      signal: "mouse,clicked,1";
+      source: "cs_icon";
+        script {
+            new st[31];
+            new Float: vl;
+            get_state(PART:"color_swallow", st, 30, vl);
+
+            if (strcmp(st, "on")) {
+               set_state(PART:"categories_swallow", "default", 0.0);
+               set_state(PART:"color_swallow", "on", 0.0);
+               emit("swallow_cs", "1");
+            }
+            if (strcmp(st, "default")) {
+               set_state(PART:"color_swallow", "default", 0.0);
+               emit("unswallow_cs", "1");
+            }
+        }
+      }
+      // COLOR SELECT END //
+      
+      // CATEGORIES SELECT //
+      program {
+      name: "mouse_click_categoriesselector";
+      signal: "mouse,clicked,1";
+      source: "categories_icon";
+        script {
+            new st[31];
+            new Float: vl;
+            get_state(PART:"categories_swallow", st, 30, vl);
+
+            if (strcmp(st, "on")) {
+               set_state(PART:"color_swallow", "default", 0.0);
+               set_state(PART:"categories_swallow", "on", 0.0);
+               emit("swallow_cs", "2");
+            }
+            if (strcmp(st, "default")) {
+               set_state(PART:"categories_swallow", "default", 0.0);
+               emit("unswallow_cs", "2");
+            }
+        }
+      }
+      // CATEGORIES SELECT END //
+
+      // BLUR  //
+      program {
+            name: "blur_on";
+            signal: "blur_on";
+            action: STATE_SET "on" 0.0;
+            target: "blur";
+      }
+      program {
+            name: "blur_off";
+            signal: "blur_off";
+            action: STATE_SET "default" 0.0;
+            target: "blur";
+      }
+      // SHOW STATUS  //
+      program {
+            name: "show_status";
+            signal: "show_status";
+            action: STATE_SET "on" 0.0;
+            target: "status";
+      }
+      // HIDE STATUS
+      program {
+            name: "hide_status";
+            signal: "hide_status";
+            action: STATE_SET "default" 0.0;
+            target: "status";
+      }
+
+      // BLUR  END //
+    }
+  }
+  
+/// END LAYOUT4 ///
   
 /// START LAYOUT HELP WIN ///
   group { "help";
