@@ -1009,7 +1009,6 @@ _insert_done_icon(void* data,
 {
   Evas_Object* entry_notecontent = data;
   int pos;
-  const char *select_text1;
   const char *select_text;
   
   if (elm_object_focus_get(entry_notecontent)) {
@@ -1054,7 +1053,6 @@ _insert_open_icon(void* data,
 {
   Evas_Object* entry_notecontent = data;
   int pos;
-  const char *select_text1;
   const char *select_text;
   
   if (elm_object_focus_get(entry_notecontent)) {
@@ -1364,22 +1362,22 @@ save_enotes_all_objects(void* data EINA_UNUSED,
           list_data2->Note_Sync_Data.href = eina_stringshare_add("");
        
          Eina_List *l_list;
-         const Eina_List *note_categories = elm_list_selected_items_get(list1);
-         Elm_Object_Item *lit;
+//          const Eina_List *note_categories = elm_list_selected_items_get(list1);
+//          Elm_Object_Item *lit;
          
         
-         Eina_Strbuf *categories_tmp;
-         categories_tmp = eina_strbuf_new();
-         EINA_LIST_FOREACH((Eina_List*)note_categories, l_list, lit)
-         {
-               eina_strbuf_append(categories_tmp, elm_object_item_text_get(lit));
-               eina_strbuf_append(categories_tmp, ",");
-         }
-//          eina_strbuf_remove(categories_tmp, eina_strbuf_length_get(categories_tmp)-1, eina_strbuf_length_get(categories_tmp));
+//          Eina_Strbuf *categories_tmp;
+//          categories_tmp = eina_strbuf_new();
+//          EINA_LIST_FOREACH((Eina_List*)note_categories, l_list, lit)
+//          {
+//                eina_strbuf_append(categories_tmp, elm_object_item_text_get(lit));
+//                eina_strbuf_append(categories_tmp, ",");
+//          }
+// //          eina_strbuf_remove(categories_tmp, eina_strbuf_length_get(categories_tmp)-1, eina_strbuf_length_get(categories_tmp));
 
-         list_data2->Note_Sync_Data.categories = eina_stringshare_add(eina_strbuf_string_get(categories_tmp));
+         list_data2->Note_Sync_Data.categories = eina_stringshare_add(activ_cat);
 
-         eina_strbuf_free(categories_tmp);
+//          eina_strbuf_free(categories_tmp);
 
       }
     }
@@ -2047,18 +2045,18 @@ _tg_changed_cb(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
    }
 }
 
-_test(void *data, Evas_Object *li EINA_UNUSED,
-                 void *event_info EINA_UNUSED) // SHOW/HIDE Notes based on aktive cat list items
-{
-//    printf("CAT CLICKED\n");
-   
-}
+// _test(void *data, Evas_Object *li EINA_UNUSED,
+//                  void *event_info EINA_UNUSED) // SHOW/HIDE Notes based on aktive cat list items
+// {
+// //    printf("CAT CLICKED\n");
+// //    fill_list_in_settings();
+// }
 
 
 static void
 enotes_win_setup(Note* list_data)
 {
-  Evas_Object *win, *ly, *entry_notecontent, *entry_title, *edje_obj, *o, *bt_save;
+  Evas_Object *win, *ly, *entry_notecontent, *entry_title, *edje_obj;
 
   char buf[PATH_MAX];
   int r, g, b, a;
@@ -2158,8 +2156,8 @@ enotes_win_setup(Note* list_data)
   // BACKGROUND SELECT END//
 
   
-  Evas_Object *bx, *cs, *bt, *bt1, *bx1;
-  Evas_Object *tg, *cat_text;
+  Evas_Object *bx, *cs, *bt, *bt1;
+  Evas_Object *tg;
 
   
   Eina_List* tg_change = NULL;
@@ -2297,7 +2295,7 @@ enotes_win_setup(Note* list_data)
   // COLOR SELECT END //
   
   //CATEGORIES START //
-  
+/*  
   bx1 = elm_box_add(win);
   evas_object_size_hint_weight_set(bx1, EVAS_HINT_EXPAND, 0);
   evas_object_size_hint_align_set(bx1, EVAS_HINT_FILL, 0);
@@ -2352,18 +2350,10 @@ enotes_win_setup(Note* list_data)
   evas_object_show(list1);  
   elm_box_pack_end(bx1, list1);
 
- /* 
-  
-   bt_save = elm_button_add(bx1);
-   evas_object_size_hint_weight_set(bt_save, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(bt_save, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   elm_object_text_set(bt_save, "Save categories");
-   evas_object_smart_callback_add(bt_save, "clicked", NULL, NULL); // TODO FIX BUTTON 
-//    evas_object_show(bt_save);
-   elm_box_pack_end(bx1, bt_save);*/
+ 
 
    
-  elm_object_part_content_set(ly, "categories_swallow", bx1);
+  elm_object_part_content_set(ly, "categories_swallow", bx1);*/
 
   // CATEGORIES SELECT END //  
 
@@ -2379,7 +2369,7 @@ enotes_win_setup(Note* list_data)
   list_values = eina_list_append(list_values, &list_data->text_size);
   list_values = eina_list_append(list_values, background);
   list_values = eina_list_append(list_values, bx);
-  list_values = eina_list_append(list_values, bx1);
+//   list_values = eina_list_append(list_values, bx1);
   
   
   evas_object_smart_callback_add(bt1, "clicked", _bt_colorset_to_all, list_values);
@@ -2519,34 +2509,15 @@ enotes_win_setup(Note* list_data)
   elm_entry_item_provider_append(entry_notecontent, item_provider, NULL);
   elm_entry_item_provider_append(entry_title, item_provider, NULL);
 
-        evas_object_hide(win);
-  Eina_List *c1;
-  My_Conf_Type_Cat* c1_data;
-  c1_data = calloc(1, sizeof(My_Conf_Type_Cat));
+  evas_object_hide(win);
+//   Eina_List *c1;
+//   My_Conf_Type_Cat* c1_data;
+//   c1_data = calloc(1, sizeof(My_Conf_Type_Cat));
   
-  // categories check  
-  if(eina_list_count(cat_list_settings) == 0)
+  // categories check
+   if(list_data->Note_Sync_Data.categories == NULL || !strcmp(list_data->Note_Sync_Data.categories, "")  /*|| !strcmp(list_data->Note_Sync_Data.categories, activ_cat)*/)
         evas_object_show(win);
-  else
-  {
-      EINA_LIST_FOREACH(cat_list_settings, c1, c1_data)
-      {
-         if(!strcmp(list_data->Note_Sync_Data.categories, "") || list_data->Note_Sync_Data.categories == NULL)
-         {   
-            evas_object_show(win);
-//             printf("SHOW EMPTY CAT\n");
-         }
-         if(strstr(list_data->Note_Sync_Data.categories, c1_data->cat_name) && c1_data->cat_selected == 1)
-         {
-//             printf("SHOW\n");
-//             printf("list_data->Note_Sync_Data.categories %s\n", list_data->Note_Sync_Data.categories);
-//             printf("c1_data->cat_name %s\n", c1_data->cat_name);
-//             printf("\n\n");
-            evas_object_show(win);
-         }
-      }
-  }
-
+ 
   if (list_data->sticky)
     _enotes_sticky(win, NULL, NULL, NULL);
 
@@ -2569,7 +2540,7 @@ enotes_win_setup(Note* list_data)
   enotes_all_objects = eina_list_append(enotes_all_objects, cs);
   enotes_all_objects = eina_list_append(enotes_all_objects, &list_data->id);
   enotes_all_objects = eina_list_append(enotes_all_objects, &list_data->text_size);
-  enotes_all_objects = eina_list_append(enotes_all_objects, list1);
+//   enotes_all_objects = eina_list_append(enotes_all_objects, list1);
 
   enotes_all_objects_list =
     eina_list_append(enotes_all_objects_list, enotes_all_objects);
@@ -2903,7 +2874,7 @@ _enotes_new()     // create a new note an fill in all default datas
   defaultnote->Note_Sync_Data.uid =
     eina_stringshare_add(eina_strbuf_string_get(newbuf));
   defaultnote->Note_Sync_Data.categories =
-    eina_stringshare_add(eina_stringshare_add(""));
+    eina_stringshare_add(activ_cat);
   defaultnote->Note_Sync_Data.online = (int*)0;
   eina_strbuf_free(newbuf);
 
@@ -2930,6 +2901,55 @@ static const Ecore_Getopt optdesc = {
         ECORE_GETOPT_SENTINEL
     }
 };*/
+Eina_Bool
+check_running_enotes()
+   {
+      FILE* fp;
+      
+      config_path = efreet_config_home_get();
+      snprintf(enotes_running, sizeof(enotes_running), "%s/enotes/enotes_running.pid", config_path);
+ 
+         
+      if (ecore_file_exists(enotes_running)) {
+         char *buffer = 0;
+         long length;
+         fp = fopen(enotes_running, "rb");
+
+         if (fp){
+            fseek (fp, 0, SEEK_END);
+            length = ftell (fp);
+            fseek (fp, 0, SEEK_SET);
+            buffer = malloc (length);
+            if (buffer)
+            {
+               fread (buffer, 1, length, fp);
+            }
+             fclose(fp);
+         }
+         
+         if(kill(atoi(buffer), 0) == 0){
+            return EINA_TRUE;
+         }
+         else{
+            fp = fopen(enotes_running, "w");
+            fprintf(fp, "%d\n", getpid());
+            fclose(fp);
+            return EINA_FALSE;
+         }
+      }
+      else{
+         fp = fopen(enotes_running, "w");
+         fprintf(fp,"%d\n", getpid());
+         fclose(fp);
+         return EINA_FALSE;
+      }
+   }
+   
+void
+_button_clicked_cb(void *data, Evas_Object *li, void *event_info EINA_UNUSED)
+{
+  elm_exit();
+}
 
 EAPI_MAIN int
 elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
@@ -2980,29 +3000,20 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
   Eina_List* l;
   Note* list_data;
 
-  config_path = efreet_config_home_get();
-  snprintf(enotes_running,
-           sizeof(enotes_running),
-           "%s/enotes/enotes_running.pid",
-           config_path);
-
-//   printf("PID: %d: \n", getpid());
   
-  if (!ecore_file_exists(enotes_running)) {
-    FILE* fp;
+  
+  Eina_Bool running_enotes_found;
+  
+  running_enotes_found = check_running_enotes();
 
+      
+  
+  if (running_enotes_found == EINA_FALSE) {
     _home_dir();
     _read_notes_eet();
-
-    fp = fopen(enotes_running, "w");
-    fprintf(fp,
-            "If this file exists, a enotes instance is running.\nIf no other "
-            "instance is running, please remove this file, if you have "
-            "problems starting enotes | PID: %d", getpid());
-    fclose(fp);
     
     enotes_systray(NULL, NULL, NULL);
-    _open_settings(list_data, NULL, NULL, NULL); // open settings that the user see the empty, or non selected categories list and can choose one. This helps to avoid enotes running without a window
+//     _open_settings(list_data, NULL, NULL, NULL); // open settings that the user see the empty, or non selected categories list and can choose one. This helps to avoid enotes running without a window
     all_hidden = EINA_FALSE; // Bit for hide/show all activ notes via the systray icons -> make sure we make all visible at startup
    
    if (eina_list_count(note_list) == 0) { // if no note is in list, create one
@@ -3013,7 +3024,7 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
         enotes_win_setup(list_data);
       }
     }
-    
+  /*  CHECK IF NEEDED
    int x = 0;
    Eina_List *c1;
    My_Conf_Type_Cat* c;
@@ -3027,17 +3038,38 @@ elm_main(int argc EINA_UNUSED, char** argv EINA_UNUSED)
     
    if(x == 0)
       _open_settings(list_data, NULL, NULL, NULL); // open settings that the user see the empty, or non selected categories list and can choose one. This helps to avoid enotes running without a window
-       
+       */
    } else {
-    printf(gettext("Dont't start enotes twice - closing ...\nIf no other instance is "
-           "running, please remove ~/.config/enotes/enotes_running.pid\n"));
-    goto end_double_start;
+      printf(gettext("Dont't start enotes twice - closing ...\nIf no other instance is "
+            "running, please remove ~/.config/enotes/enotes_running.pid\n"));
+      Evas_Object *dia, *lb, *box, *button;
+
+      dia = elm_win_util_standard_add("enotes-info", "Enote Information");
+
+      elm_win_title_set(dia, gettext("enotes Help"));
+      elm_win_autodel_set(dia, EINA_TRUE);
+      elm_win_center(dia, EINA_TRUE, EINA_TRUE);
+
+      box = elm_box_add(dia);
+      evas_object_show(box);
+   
+      lb = elm_label_add(dia);
+      elm_object_text_set(lb, "<b>Another instance of notes is running, please use these</b><br>");
+      evas_object_show(lb);
+      elm_box_pack_end(box, lb);
+      
+      button = elm_button_add(box);
+      elm_object_text_set(button, "Close");
+      evas_object_smart_callback_add(button, "clicked", _button_clicked_cb, NULL);
+      evas_object_show(button);
+      elm_box_pack_end(box, button);
+      
+      evas_object_show(dia);
+      elm_win_resize_object_add(dia, box);
   }
 
   elm_run();
 
-end_double_start:
-  elm_exit();
 
   return 0;
 }

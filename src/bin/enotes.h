@@ -141,6 +141,7 @@ Eina_Bool online_check;
 Eina_Bool ci_sync_enabled;
 Eina_Bool ci_border_enabled;
 const char* cat_settings;
+const char* activ_cat;
 Eina_List* cat_list_settings;
 
 char enotes_running[PATH_MAX];
