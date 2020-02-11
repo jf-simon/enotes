@@ -105,7 +105,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 8;
             rel2.relative: 0 0;
-            rel2.offset: 20 150;
+            rel2.offset: 20 130;
         }
         description {
             state: "on" 0.0;
@@ -114,7 +114,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: -20 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 150;
+            rel2.offset: 0 130;
         }
       }
 
@@ -238,35 +238,35 @@ collections {
         }
       }
       
-      // CATEGORIES //
-      part {
-      name: "categories_icon";
-      type: IMAGE;
-      mouse_events: 1;
-      scale: 1;
-      clip_to: "clip";
-        description {
-            state: "default" 0.0;
-            rel.to: "note_swallow";
-            visible: 0;
-            color: 255 255 255 0;
-            rel1.relative: 0 0;
-            rel1.offset: 0 88;
-            rel2.relative: 0 0;
-            rel2.offset: 20 106;
-            image.normal: "categories.png";
-        }
-        description {
-            state: "on" 0.0;
-            rel.to: "note_swallow";
-            color: 255 255 255 255;
-            rel1.relative: 0 0;
-            rel1.offset: -19 88;
-            rel2.relative: 0 0;
-            rel2.offset: -3 106;
-            image.normal: "categories.png";
-        }
-      }
+//       // CATEGORIES //
+//       part {
+//       name: "categories_icon";
+//       type: IMAGE;
+//       mouse_events: 1;
+//       scale: 1;
+//       clip_to: "clip";
+//         description {
+//             state: "default" 0.0;
+//             rel.to: "note_swallow";
+//             visible: 0;
+//             color: 255 255 255 0;
+//             rel1.relative: 0 0;
+//             rel1.offset: 0 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: 20 106;
+//             image.normal: "categories.png";
+//         }
+//         description {
+//             state: "on" 0.0;
+//             rel.to: "note_swallow";
+//             color: 255 255 255 255;
+//             rel1.relative: 0 0;
+//             rel1.offset: -19 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: -3 106;
+//             image.normal: "categories.png";
+//         }
+//       }
 
       // HELP ICON //
 
@@ -282,9 +282,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 108;
+            rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: 20 126;
+            rel2.offset: 20 106;
             image.normal: "help.png";
         }
         description {
@@ -292,9 +292,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 108;
+            rel1.offset: -19 88;
             rel2.relative: 0 0;
-            rel2.offset: -3 126;
+            rel2.offset: -3 106;
             image.normal: "help.png";
         }
       }
@@ -313,9 +313,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 128;
+            rel1.offset: 0 108;
             rel2.relative: 0 0;
-            rel2.offset: 20 146;
+            rel2.offset: 20 126;
             image.normal: "close.png";
         }
         description {
@@ -323,9 +323,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 128;
+            rel1.offset: -19 108;
             rel2.relative: 0 0;
-            rel2.offset: -3 146;
+            rel2.offset: -3 126;
             image.normal: "close.png";
         }
       }
@@ -624,7 +624,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
       program {
@@ -638,7 +638,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
 
@@ -723,28 +723,28 @@ collections {
       }
       // COLOR SELECT END //
       
-      // CATEGORIES SELECT //
-      program {
-      name: "mouse_click_categoriesselector";
-      signal: "mouse,clicked,1";
-      source: "categories_icon";
-        script {
-            new st[31];
-            new Float: vl;
-            get_state(PART:"categories_swallow", st, 30, vl);
-
-            if (strcmp(st, "on")) {
-               set_state(PART:"color_swallow", "default", 0.0);
-               set_state(PART:"categories_swallow", "on", 0.0);
-               emit("swallow_cs", "2");
-            }
-            if (strcmp(st, "default")) {
-               set_state(PART:"categories_swallow", "default", 0.0);
-               emit("unswallow_cs", "2");
-            }
-        }
-      }
-      // CATEGORIES SELECT END //
+//       // CATEGORIES SELECT //
+//       program {
+//       name: "mouse_click_categoriesselector";
+//       signal: "mouse,clicked,1";
+//       source: "categories_icon";
+//         script {
+//             new st[31];
+//             new Float: vl;
+//             get_state(PART:"categories_swallow", st, 30, vl);
+// 
+//             if (strcmp(st, "on")) {
+//                set_state(PART:"color_swallow", "default", 0.0);
+//                set_state(PART:"categories_swallow", "on", 0.0);
+//                emit("swallow_cs", "2");
+//             }
+//             if (strcmp(st, "default")) {
+//                set_state(PART:"categories_swallow", "default", 0.0);
+//                emit("unswallow_cs", "2");
+//             }
+//         }
+//       }
+//       // CATEGORIES SELECT END //
 
       // BLUR  //
       program {
@@ -810,7 +810,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 8;
             rel2.relative: 0 0;
-            rel2.offset: 20 150;
+            rel2.offset: 20 130;
         }
         description {
             state: "on" 0.0;
@@ -819,7 +819,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: -20 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 150;
+            rel2.offset: 0 130;
         }
       }
 
@@ -943,35 +943,35 @@ collections {
         }
       }
       
-      // CATEGORIES //
-      part {
-      name: "categories_icon";
-      type: IMAGE;
-      mouse_events: 1;
-      scale: 1;
-      clip_to: "clip";
-        description {
-            state: "default" 0.0;
-            rel.to: "note_swallow";
-            visible: 0;
-            color: 255 255 255 0;
-            rel1.relative: 0 0;
-            rel1.offset: 0 88;
-            rel2.relative: 0 0;
-            rel2.offset: 20 106;
-            image.normal: "categories.png";
-        }
-        description {
-            state: "on" 0.0;
-            rel.to: "note_swallow";
-            color: 255 255 255 255;
-            rel1.relative: 0 0;
-            rel1.offset: -19 88;
-            rel2.relative: 0 0;
-            rel2.offset: -3 106;
-            image.normal: "categories.png";
-        }
-      }
+//       // CATEGORIES //
+//       part {
+//       name: "categories_icon";
+//       type: IMAGE;
+//       mouse_events: 1;
+//       scale: 1;
+//       clip_to: "clip";
+//         description {
+//             state: "default" 0.0;
+//             rel.to: "note_swallow";
+//             visible: 0;
+//             color: 255 255 255 0;
+//             rel1.relative: 0 0;
+//             rel1.offset: 0 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: 20 106;
+//             image.normal: "categories.png";
+//         }
+//         description {
+//             state: "on" 0.0;
+//             rel.to: "note_swallow";
+//             color: 255 255 255 255;
+//             rel1.relative: 0 0;
+//             rel1.offset: -19 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: -3 106;
+//             image.normal: "categories.png";
+//         }
+//       }
 
       // HELP ICON //
 
@@ -987,9 +987,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 108;
+            rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: 20 126;
+            rel2.offset: 20 106;
             image.normal: "help.png";
         }
         description {
@@ -997,9 +997,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 108;
+            rel1.offset: -19 88;
             rel2.relative: 0 0;
-            rel2.offset: -3 126;
+            rel2.offset: -3 106;
             image.normal: "help.png";
         }
       }
@@ -1018,9 +1018,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 128;
+            rel1.offset: 0 108;
             rel2.relative: 0 0;
-            rel2.offset: 20 146;
+            rel2.offset: 20 126;
             image.normal: "close.png";
         }
         description {
@@ -1028,9 +1028,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 128;
+            rel1.offset: -19 108;
             rel2.relative: 0 0;
-            rel2.offset: -3 146;
+            rel2.offset: -3 126;
             image.normal: "close.png";
         }
       }
@@ -1327,7 +1327,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
       program {
@@ -1341,7 +1341,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
 
@@ -1426,28 +1426,28 @@ collections {
       }
       // COLOR SELECT END //
       
-      // CATEGORIES SELECT //
-      program {
-      name: "mouse_click_categoriesselector";
-      signal: "mouse,clicked,1";
-      source: "categories_icon";
-        script {
-            new st[31];
-            new Float: vl;
-            get_state(PART:"categories_swallow", st, 30, vl);
-
-            if (strcmp(st, "on")) {
-               set_state(PART:"color_swallow", "default", 0.0);
-               set_state(PART:"categories_swallow", "on", 0.0);
-               emit("swallow_cs", "2");
-            }
-            if (strcmp(st, "default")) {
-               set_state(PART:"categories_swallow", "default", 0.0);
-               emit("unswallow_cs", "2");
-            }
-        }
-      }
-      // CATEGORIES SELECT END //
+//       // CATEGORIES SELECT //
+//       program {
+//       name: "mouse_click_categoriesselector";
+//       signal: "mouse,clicked,1";
+//       source: "categories_icon";
+//         script {
+//             new st[31];
+//             new Float: vl;
+//             get_state(PART:"categories_swallow", st, 30, vl);
+// 
+//             if (strcmp(st, "on")) {
+//                set_state(PART:"color_swallow", "default", 0.0);
+//                set_state(PART:"categories_swallow", "on", 0.0);
+//                emit("swallow_cs", "2");
+//             }
+//             if (strcmp(st, "default")) {
+//                set_state(PART:"categories_swallow", "default", 0.0);
+//                emit("unswallow_cs", "2");
+//             }
+//         }
+//       }
+//       // CATEGORIES SELECT END //
 
       // BLUR  //
       program {
@@ -1512,7 +1512,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 8;
             rel2.relative: 0 0;
-            rel2.offset: 20 150;
+            rel2.offset: 20 130;
         }
         description {
             state: "on" 0.0;
@@ -1521,7 +1521,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: -20 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 150;
+            rel2.offset: 0 130;
         }
       }
 
@@ -1645,35 +1645,35 @@ collections {
         }
       }
       
-      // CATEGORIES //
-      part {
-      name: "categories_icon";
-      type: IMAGE;
-      mouse_events: 1;
-      scale: 1;
-      clip_to: "clip";
-        description {
-            state: "default" 0.0;
-            rel.to: "note_swallow";
-            visible: 0;
-            color: 255 255 255 0;
-            rel1.relative: 0 0;
-            rel1.offset: 0 88;
-            rel2.relative: 0 0;
-            rel2.offset: 20 106;
-            image.normal: "categories.png";
-        }
-        description {
-            state: "on" 0.0;
-            rel.to: "note_swallow";
-            color: 255 255 255 255;
-            rel1.relative: 0 0;
-            rel1.offset: -19 88;
-            rel2.relative: 0 0;
-            rel2.offset: -3 106;
-            image.normal: "categories.png";
-        }
-      }
+//       // CATEGORIES //
+//       part {
+//       name: "categories_icon";
+//       type: IMAGE;
+//       mouse_events: 1;
+//       scale: 1;
+//       clip_to: "clip";
+//         description {
+//             state: "default" 0.0;
+//             rel.to: "note_swallow";
+//             visible: 0;
+//             color: 255 255 255 0;
+//             rel1.relative: 0 0;
+//             rel1.offset: 0 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: 20 106;
+//             image.normal: "categories.png";
+//         }
+//         description {
+//             state: "on" 0.0;
+//             rel.to: "note_swallow";
+//             color: 255 255 255 255;
+//             rel1.relative: 0 0;
+//             rel1.offset: -19 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: -3 106;
+//             image.normal: "categories.png";
+//         }
+//       }
 
       // HELP ICON //
 
@@ -1689,9 +1689,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 108;
+            rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: 20 126;
+            rel2.offset: 20 106;
             image.normal: "help.png";
         }
         description {
@@ -1699,9 +1699,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 108;
+            rel1.offset: -19 88;
             rel2.relative: 0 0;
-            rel2.offset: -3 126;
+            rel2.offset: -3 106;
             image.normal: "help.png";
         }
       }
@@ -1720,9 +1720,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 128;
+            rel1.offset: 0 108;
             rel2.relative: 0 0;
-            rel2.offset: 20 146;
+            rel2.offset: 20 126;
             image.normal: "close.png";
         }
         description {
@@ -1730,9 +1730,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 128;
+            rel1.offset: -19 108;
             rel2.relative: 0 0;
-            rel2.offset: -3 146;
+            rel2.offset: -3 126;
             image.normal: "close.png";
         }
       }
@@ -2030,7 +2030,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
       program {
@@ -2044,7 +2044,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
 
@@ -2129,28 +2129,28 @@ collections {
       }
       // COLOR SELECT END //
       
-      // CATEGORIES SELECT //
-      program {
-      name: "mouse_click_categoriesselector";
-      signal: "mouse,clicked,1";
-      source: "categories_icon";
-        script {
-            new st[31];
-            new Float: vl;
-            get_state(PART:"categories_swallow", st, 30, vl);
-
-            if (strcmp(st, "on")) {
-               set_state(PART:"color_swallow", "default", 0.0);
-               set_state(PART:"categories_swallow", "on", 0.0);
-               emit("swallow_cs", "2");
-            }
-            if (strcmp(st, "default")) {
-               set_state(PART:"categories_swallow", "default", 0.0);
-               emit("unswallow_cs", "2");
-            }
-        }
-      }
-      // CATEGORIES SELECT END //
+//       // CATEGORIES SELECT //
+//       program {
+//       name: "mouse_click_categoriesselector";
+//       signal: "mouse,clicked,1";
+//       source: "categories_icon";
+//         script {
+//             new st[31];
+//             new Float: vl;
+//             get_state(PART:"categories_swallow", st, 30, vl);
+// 
+//             if (strcmp(st, "on")) {
+//                set_state(PART:"color_swallow", "default", 0.0);
+//                set_state(PART:"categories_swallow", "on", 0.0);
+//                emit("swallow_cs", "2");
+//             }
+//             if (strcmp(st, "default")) {
+//                set_state(PART:"categories_swallow", "default", 0.0);
+//                emit("unswallow_cs", "2");
+//             }
+//         }
+//       }
+//       // CATEGORIES SELECT END //
 
       // BLUR  //
       program {
@@ -2215,7 +2215,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: 0 8;
             rel2.relative: 0 0;
-            rel2.offset: 20 150;
+            rel2.offset: 20 130;
         }
         description {
             state: "on" 0.0;
@@ -2224,7 +2224,7 @@ collections {
             rel1.relative: 0 0;
             rel1.offset: -20 8;
             rel2.relative: 0 0;
-            rel2.offset: 0 150;
+            rel2.offset: 0 130;
         }
       }
 
@@ -2348,35 +2348,35 @@ collections {
         }
       }
       
-      // CATEGORIES //
-      part {
-      name: "categories_icon";
-      type: IMAGE;
-      mouse_events: 1;
-      scale: 1;
-      clip_to: "clip";
-        description {
-            state: "default" 0.0;
-            rel.to: "note_swallow";
-            visible: 0;
-            color: 255 255 255 0;
-            rel1.relative: 0 0;
-            rel1.offset: 0 88;
-            rel2.relative: 0 0;
-            rel2.offset: 20 106;
-            image.normal: "categories.png";
-        }
-        description {
-            state: "on" 0.0;
-            rel.to: "note_swallow";
-            color: 255 255 255 255;
-            rel1.relative: 0 0;
-            rel1.offset: -19 88;
-            rel2.relative: 0 0;
-            rel2.offset: -3 106;
-            image.normal: "categories.png";
-        }
-      }
+//       // CATEGORIES //
+//       part {
+//       name: "categories_icon";
+//       type: IMAGE;
+//       mouse_events: 1;
+//       scale: 1;
+//       clip_to: "clip";
+//         description {
+//             state: "default" 0.0;
+//             rel.to: "note_swallow";
+//             visible: 0;
+//             color: 255 255 255 0;
+//             rel1.relative: 0 0;
+//             rel1.offset: 0 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: 20 106;
+//             image.normal: "categories.png";
+//         }
+//         description {
+//             state: "on" 0.0;
+//             rel.to: "note_swallow";
+//             color: 255 255 255 255;
+//             rel1.relative: 0 0;
+//             rel1.offset: -19 88;
+//             rel2.relative: 0 0;
+//             rel2.offset: -3 106;
+//             image.normal: "categories.png";
+//         }
+//       }
 
       // HELP ICON //
 
@@ -2392,9 +2392,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 108;
+            rel1.offset: 0 88;
             rel2.relative: 0 0;
-            rel2.offset: 20 126;
+            rel2.offset: 20 106;
             image.normal: "help.png";
         }
         description {
@@ -2402,9 +2402,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 108;
+            rel1.offset: -19 88;
             rel2.relative: 0 0;
-            rel2.offset: -3 126;
+            rel2.offset: -3 106;
             image.normal: "help.png";
         }
       }
@@ -2423,9 +2423,9 @@ collections {
             visible: 0;
             color: 255 255 255 0;
             rel1.relative: 0 0;
-            rel1.offset: 0 128;
+            rel1.offset: 0 108;
             rel2.relative: 0 0;
-            rel2.offset: 20 146;
+            rel2.offset: 20 126;
             image.normal: "close.png";
         }
         description {
@@ -2433,9 +2433,9 @@ collections {
             rel.to: "note_swallow";
             color: 255 255 255 255;
             rel1.relative: 0 0;
-            rel1.offset: -19 128;
+            rel1.offset: -19 108;
             rel2.relative: 0 0;
-            rel2.offset: -3 146;
+            rel2.offset: -3 126;
             image.normal: "close.png";
         }
       }
@@ -2733,7 +2733,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
       program {
@@ -2747,7 +2747,7 @@ collections {
             target: "rect_overleft";
             target: "close_icon";
             target: "cs_icon";
-            target: "categories_icon";
+//             target: "categories_icon";
             transition: LINEAR 0.3;
       }
 
@@ -2832,28 +2832,28 @@ collections {
       }
       // COLOR SELECT END //
       
-      // CATEGORIES SELECT //
-      program {
-      name: "mouse_click_categoriesselector";
-      signal: "mouse,clicked,1";
-      source: "categories_icon";
-        script {
-            new st[31];
-            new Float: vl;
-            get_state(PART:"categories_swallow", st, 30, vl);
-
-            if (strcmp(st, "on")) {
-               set_state(PART:"color_swallow", "default", 0.0);
-               set_state(PART:"categories_swallow", "on", 0.0);
-               emit("swallow_cs", "2");
-            }
-            if (strcmp(st, "default")) {
-               set_state(PART:"categories_swallow", "default", 0.0);
-               emit("unswallow_cs", "2");
-            }
-        }
-      }
-      // CATEGORIES SELECT END //
+//       // CATEGORIES SELECT //
+//       program {
+//       name: "mouse_click_categoriesselector";
+//       signal: "mouse,clicked,1";
+//       source: "categories_icon";
+//         script {
+//             new st[31];
+//             new Float: vl;
+//             get_state(PART:"categories_swallow", st, 30, vl);
+// 
+//             if (strcmp(st, "on")) {
+//                set_state(PART:"color_swallow", "default", 0.0);
+//                set_state(PART:"categories_swallow", "on", 0.0);
+//                emit("swallow_cs", "2");
+//             }
+//             if (strcmp(st, "default")) {
+//                set_state(PART:"categories_swallow", "default", 0.0);
+//                emit("unswallow_cs", "2");
+//             }
+//         }
+//       }
+//       // CATEGORIES SELECT END //
 
       // BLUR  //
       program {
