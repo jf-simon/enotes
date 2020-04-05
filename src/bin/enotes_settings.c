@@ -11,8 +11,9 @@ int settings_on;
 double step;
 
 Evas_Object* settings_win = NULL;
+
 static void
-_close_settings(void* data,
+_close_settings(void* data EINA_UNUSED,
                 Evas_Object* obj EINA_UNUSED,
                 void* event_info EINA_UNUSED)
 {
@@ -33,30 +34,6 @@ step_size_calculate(double min, double max)
     step = (10.0 / steps);
   return step;
 }
-/*
-void
-category_parse()
-{
-        char category_buf[PATH_MAX];
-        char **arr;
-        int i;
-        printf("CAT %s\n", cat_settings);
-        arr = eina_str_split(cat_settings, ",", 0);
-
-        if(arr == NULL)
-                return;
-        eina_list_free(cat_list);
-
-   for (i = 0; arr[i]; i++)
-        {
-// 		remove_space((char*)arr[i]); // TODO make it working
-                snprintf(category_buf, sizeof(category_buf), "%s", arr[i]);
-                if(strcmp(arr[i], ""))
-                        cat_list = eina_list_append(cat_list, category_buf);
-        }
-
-// 	return eina_strbuf_string_get(tmp);
-}*/
 
 static void
 _toggle_border(void* data, Evas_Object* obj, void* event_info EINA_UNUSED)
@@ -311,215 +288,91 @@ _config_show_sync(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EIN
 void
 catlist_to_catlisteet()
 {
-      Eina_List *l;
-      const Eina_List *cat_list_new;
-      cat_list_new = elm_list_items_get(list);
-      Elm_Object_Item *lit;
+   printf("CATLIST TO CATLIST EET\n");
+   Eina_List *l;
+   const Eina_List *cat_list_new;
+   cat_list_new = elm_list_items_get(list);
+   Elm_Object_Item *lit;
       
-      cat_list_settings = NULL;
-
-      EINA_LIST_FOREACH((Eina_List*) cat_list_new, l, lit)
-      {
-         My_Conf_Type_Cat* new;
-         new = calloc(1, sizeof(My_Conf_Type_Cat));
-         new->cat_name = elm_object_item_text_get(lit);
-         new->cat_selected = elm_list_item_selected_get(lit);
-         
-         if(strcmp(elm_object_item_text_get(lit), "Default"))
-         {
-            cat_list_settings = eina_list_append(cat_list_settings, new);
-         }
-      }
-}
-
-
-void
-_fill_list_to_notes() //put the settings cat list to each note settings
-{
-   Eina_List* list_values;
-   Eina_List *l1;
-   EINA_LIST_FOREACH(enotes_all_objects_list, l1, list_values) // LISTE DER OBJEKTE DURCHGEHEN
+   cat_list_settings = NULL;
+   EINA_LIST_FOREACH((Eina_List*) cat_list_new, l, lit)
    {
-      Evas_Object* list_notes = eina_list_nth(list_values, 9); // List mit allen Kategorien welcher der Note zugeordnet sind
-      Eina_List *tmp = NULL;
+      My_Conf_Type_Cat* new;
+      new = calloc(1, sizeof(My_Conf_Type_Cat));
+      new->cat_name = elm_object_item_text_get(lit);
+      new->cat_selected = elm_list_item_selected_get(lit);
 
-      Elm_Object_Item *lit, *lit_tmp, *it;
-      
-      Eina_List *l, *l_tmp;
-      const Eina_List *cat_list_settings = NULL;
-//       const Eina_List *cat_list_items = NULL;
-      const Eina_List *cat_list_selected_items = NULL;
-      
-      cat_list_settings = elm_list_items_get(list); //  Kategorien Liste der Settings auswählen
-      
-//       cat_list_items = elm_list_items_get(list_notes);
-      
-      cat_list_selected_items = elm_list_selected_items_get(list_notes);//  SELEKTIERTE Kategorien Liste der Settings auswählen
-
-
-         EINA_LIST_FOREACH((Eina_List*)cat_list_selected_items, l_tmp, lit_tmp) // Lister der SELEKTIERTE Kategorien Liste der Settings durchgehen
-         {
-            tmp = eina_list_append(tmp, elm_object_item_text_get(lit_tmp)); //name der SELEKTIERTEN ITEMS in Eina_List tmp speichern
-         }
-
-      elm_list_clear(list_notes); // liste löschen
-
-      EINA_LIST_FOREACH((Eina_List*)cat_list_settings, l, lit)//  Kategorien Liste der Settings durchgehen
-      {
-            it = elm_list_item_append(list_notes, elm_object_item_text_get(lit), NULL, NULL, NULL, list_notes); //neuer eintrag in die Lister einer NOTE hinzufügen
-
-            const char *name;
-            EINA_LIST_FOREACH(tmp, l_tmp, name) //Lister den SELEKTIERTEN ITEM aus den Settings durchgehen und...
-            {
-               if(strcmp(elm_object_item_text_get(lit), name) == 0) // falls der aktuelle eintrag in den Settings seletiert ist. dann auch in den Notes selektieren so bekommt die Note ihre Kategorien zugeordnet
-               {
-                  elm_list_item_selected_set(it, EINA_TRUE);
-               }
-            }
-      }
-      printf("\n\n");
-      
-      elm_list_go(list_notes); // liste aktuallisieren
+      cat_list_settings = eina_list_append(cat_list_settings, new);
    }
 }
 
+static void
+update_visible_notes(Eina_List *tmp)
+{
+      Eina_List *list_values;
+      int id1;
+      Eina_List *l, *l1;
+      
+
+         EINA_LIST_FOREACH(enotes_all_objects_list, l, list_values) // LISTE DER OBJEKTE DURCHGEHEN
+         {
+            Evas_Object *win = eina_list_nth(list_values, 0);
+            int *id = eina_list_nth(list_values, 7);
+            int x = 0, y = 0;
+            evas_object_geometry_get(win, &x, &y, NULL, NULL);
+            int found = 0;
+
+            EINA_LIST_FOREACH(tmp, l1, id1) // LISTE DER OBJEKTE DURCHGEHEN
+            {
+               if(*id == id1)
+               {
+                  printf("show id: %i x:%i - y:%i\n", *id, x, y);
+                  evas_object_show(win);
+                  // TODO REMOVE ITEM IN LIST
+                  found = 1;
+               }
+               
+            }
+            if(found == 0)
+               {
+                  printf("hide id: %i x:%i - y:%i\n", *id, x, y);
+                  evas_object_hide(win);
+               }
+               
+            evas_object_move(win, x, y);
+         }
+}
 
 void
-_it_clicked_cb(void *data, Evas_Object *li, void *event_info EINA_UNUSED) // SHOW/HIDE Notes based on aktive cat list items
+_cat_selected(void *data, Evas_Object *li, void *event_info EINA_UNUSED) // SHOW/HIDE Notes based on aktive cat list items
 {
-   Eina_List* list_values;
+   Note* list_data;
    Eina_List *l;
-   Eina_List *l1, *l2;
+   Eina_List *tmp = NULL;
+   int tmp_id;
    const Eina_List *cat_list_selected_settings = NULL;
    Elm_Object_Item *lit, *lit1;
 
-//    cat_list_selected_settings = elm_list_selected_items_get(data);
    Elm_Object_Item *selected_cat = elm_list_selected_item_get(li);
    activ_cat =  elm_object_item_text_get(selected_cat);
    printf("ACTIV CAT: %s\n", activ_cat);
-
-
-      EINA_LIST_FOREACH(enotes_all_objects_list, l, list_values) // LISTE DER OBJEKTE DURCHGEHEN
-      {
-         Evas_Object *win = eina_list_nth(list_values, 0);
-         Evas_Object *cat_list = eina_list_nth(list_values, 9);
-         Evas_Object *entry_titel = eina_list_nth(list_values, 3);
-//          const Eina_List *cat_list_selected_note = NULL;
-         int z = 0;
-         int x, y;
-         evas_object_geometry_get(win, &x, &y, NULL, NULL);
-//          printf("X: %i - Y: %i %s\n", x, y, elm_object_text_get(entry_titel));
-
-            
-//             cat_list_selected_note = elm_list_selected_items_get(cat_list); //Liste of Cats in the note
-            
-                                      if((strcmp(elm_object_item_text_get(lit), elm_object_item_text_get(lit1)) == 0))
-                                       {
-                                          evas_object_show(win);
-                                          evas_object_move(win, x, y);
-                                          z = 1;
-//                                           printf("Show\n");
-                                          continue;
-                                       }
-
-            if(eina_list_count((Eina_List*)elm_list_items_get(list)) == 0) // Show if no category is defined in settings
-            {
-               evas_object_show(win);
-               evas_object_move(win, x, y);
-               continue;
-            }
-            
-//             if((eina_list_count((Eina_List*)cat_list_selected_note) == 0) && (eina_list_count((Eina_List*)cat_list_selected_settings) != 0)) // show if note has no Categorie
-//             {
-//                evas_object_show(win);
-//                evas_object_move(win, x, y);
-//                continue;
-//             }
-            
-//             if(eina_list_count((Eina_List*)cat_list_selected_settings) == 0)// Show if no category is selected in settings but categories are existent
-//             {
-//                evas_object_hide(win);
-//                continue;
-//             }
-/*
-                  EINA_LIST_FOREACH((Eina_List*)cat_list_selected_settings, l1, lit) // compare cat in settings and notes
-                  {
-                                    EINA_LIST_FOREACH((Eina_List*)cat_list_selected_note, l2, lit1)
-                                    {
-                                       if((strcmp(elm_object_item_text_get(lit), elm_object_item_text_get(lit1)) == 0))
-                                       {
-                                          evas_object_show(win);
-                                          evas_object_move(win, x, y);
-                                          z = 1;
-//                                           printf("Show\n");
-                                          continue;
-                                       }
-                                    }
-                  }  
-            
-            if(z != 1)
-            {
-//                printf("HIDE\n");
-               evas_object_hide(win);
-            }*/
-      }
-      
-//       if(eina_list_count((Eina_List*)cat_list_selected_settings) == 0) // select first list item to avoid hiding all notes -> no way to come back to enotes
-//       {
-//          elm_list_item_selected_set(elm_list_first_item_get(data), EINA_TRUE);
-//       }
-}
-
-/*
-static void
-_showall_clicked_cb(void *data, Evas_Object *li EINA_UNUSED,
-                 void *event_info EINA_UNUSED)
-{
-   Eina_List* list_values;
-   Eina_List *l;
-               
-      EINA_LIST_FOREACH(enotes_all_objects_list, l, list_values) // LISTE DER OBJEKTE DURCHGEHEN
-      {
-         int x, y;
-         
-         Evas_Object *win = eina_list_nth(list_values, 0);
-         evas_object_geometry_get(win, &x, &y, NULL, NULL);
-         printf("X: %i - Y: %i\n", x, y);
-         printf("SHOW ALL\n");
-         evas_object_move(win, x, y);
-         evas_object_show(win);
-      }
-      
-   Eina_List *l1;
-   const Eina_List *cat_list_all = NULL;
-   cat_list_all = elm_list_items_get(data);
-   Elm_Object_Item *lit = NULL;
    
-   EINA_LIST_FOREACH((Eina_List*)cat_list_all, l1, lit)
-   {
-      if(strcmp(elm_object_item_text_get(lit), gettext("Show all")))
-         elm_list_item_selected_set(lit, EINA_TRUE);
-   }
-   elm_list_go(list);
-      
-}*/
+   EINA_LIST_FOREACH(note_list, l, list_data)
+    {
+       if(strcmp(list_data->Note_Sync_Data.categories, activ_cat) == 0)
+       {
+            tmp = eina_list_append(tmp, list_data->id);
+       }
+    }
 
-/*
-static void
-_it_clicked_select_all_cb(void *data, Evas_Object *li EINA_UNUSED,
-                 void *event_info EINA_UNUSED)
-{
-   Eina_List *l;
-   const Eina_List *cat_list_all = NULL;
-   cat_list_all = elm_list_items_get(data);
-   Elm_Object_Item *lit = NULL;
-   EINA_LIST_FOREACH((Eina_List*)cat_list_all, l, lit)
-   {
-      if(strcmp(elm_object_item_text_get(lit), "Show all"))
-         elm_list_item_selected_set(lit, EINA_TRUE);
-   }
-   elm_list_go(list);
-}*/
+   if(eina_list_count(tmp) != 0)
+      update_visible_notes(tmp);
+   else
+      _enotes_new();
+
+   EINA_LIST_FREE(tmp, tmp_id);
+
+}
 
 static void
 _cancel_add_notify(void *data, Evas_Object *li EINA_UNUSED,
@@ -532,13 +385,16 @@ static void
 _add_add_notify(void *data, Evas_Object *li EINA_UNUSED,
                  void *event_info EINA_UNUSED)
 {   
+   // TODO auf vorhandene gleich einträge checken
    if(strcmp(elm_object_text_get(data), ""))
    {
-      elm_list_item_append(list, elm_object_text_get(data), NULL, NULL, NULL, list);// check if the new cat isnt in the list
-      elm_list_go(list);
-      _fill_list_to_notes();
-      elm_object_text_set(data, "");
+      elm_list_item_append(list, elm_object_text_get(data), NULL, NULL, NULL, list);
+      elm_object_text_set(data, ""); // reset entry
+      elm_list_go(list); // update cat list
    }
+   catlist_to_catlisteet();
+//    _enotes_new(); // if cat is empty
+//    fill_list_in_settings();
 }
 
 static void
@@ -548,14 +404,16 @@ _add_add_keydown_notify(void* data,
          void* event_info)
 {
    Evas_Event_Key_Down* ev = event_info;
-  const char* k = ev->key;
-printf("KEYDOWN ADD\n");
+   const char* k = ev->key;
+   Elm_Object_Item *it;
+   printf("KEYDOWN ADD\n");
    
    if(strcmp(elm_object_text_get(data), "") && !strcmp(k, "Return")) // check if the new cat isnt in the list
    {
-      elm_list_item_append(list, elm_object_text_get(data), NULL, NULL, NULL, list);
+      it = elm_list_item_append(list, elm_object_text_get(data), NULL, "1 Notes(s)", NULL, NULL);
+//       it = elm_list_item_append(list, new->cat_name, NULL, lb, NULL, NULL);
       elm_list_go(list);
-      _fill_list_to_notes();
+
       elm_object_text_set(data, "");
    }
    if(!strcmp(k, "Escape")) // check if the new cat isnt in the list
@@ -574,54 +432,60 @@ _it_clicked_add_cb(void *data, Evas_Object *li EINA_UNUSED,
    notify = elm_notify_add(data);
    elm_notify_allow_events_set(notify, EINA_FALSE);
    evas_object_smart_callback_add(notify, "block,clicked", _cancel_add_notify, notify);
-  elm_notify_align_set(notify, 0.5, 0.5);
+   elm_notify_align_set(notify, 0.5, 0.5);
 
-  bx = elm_box_add(notify);
-  elm_box_horizontal_set(bx, EINA_FALSE);
+   bx = elm_box_add(notify);
+   elm_box_horizontal_set(bx, EINA_FALSE);
    elm_object_content_set(notify, bx);
 
-  o = elm_label_add(bx);
-  elm_object_text_set(o, gettext("Add new category:"));
-  evas_object_show(o);
-  elm_box_pack_end(bx, o);
+   o = elm_label_add(bx);
+   elm_object_text_set(o, gettext("Add new category:"));
+   evas_object_show(o);
+   elm_box_pack_end(bx, o);
 
-  en_add = elm_entry_add(bx);
-  evas_object_size_hint_weight_set(en_add, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-  evas_object_size_hint_align_set(en_add, EVAS_HINT_FILL, EVAS_HINT_FILL);
-  elm_entry_editable_set(o, EINA_TRUE);
-  elm_entry_single_line_set(en_add, EINA_TRUE);
+   en_add = elm_entry_add(bx);
+   evas_object_size_hint_weight_set(en_add, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(en_add, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   elm_entry_editable_set(o, EINA_TRUE);
+   elm_entry_single_line_set(en_add, EINA_TRUE);
 //   elm_object_part_text_set(en_add, "elm.guide", "type new category here");
-  evas_object_show(en_add);
-  elm_box_pack_end(bx, en_add);
+   evas_object_show(en_add);
+   elm_box_pack_end(bx, en_add);
 
-  bxv = elm_box_add(notify);
-  elm_box_horizontal_set(bxv, EINA_TRUE);
+   bxv = elm_box_add(notify);
+   elm_box_horizontal_set(bxv, EINA_TRUE);
 
-  o = elm_button_add(bxv);
-  elm_object_text_set(o, gettext("add"));
-  evas_object_smart_callback_add(o, "clicked", _add_add_notify, en_add);
-  evas_object_show(o);
-  elm_box_pack_end(bxv, o);
+   o = elm_button_add(bxv);
+   elm_object_text_set(o, gettext("add"));
+   evas_object_smart_callback_add(o, "clicked", _add_add_notify, en_add);
+   evas_object_show(o);
+   elm_box_pack_end(bxv, o);
 
-  o = elm_button_add(bxv);
-  elm_object_text_set(o, gettext("close"));
-  evas_object_smart_callback_add(o, "clicked", _cancel_add_notify, notify);
-  evas_object_show(o);
-  elm_box_pack_end(bxv, o);
-  evas_object_show(bxv);
+   o = elm_button_add(bxv);
+   elm_object_text_set(o, gettext("close"));
+   evas_object_smart_callback_add(o, "clicked", _cancel_add_notify, notify);
+   evas_object_show(o);
+   elm_box_pack_end(bxv, o);
+   evas_object_show(bxv);
 
-  elm_box_pack_end(bx, bxv);
+   elm_box_pack_end(bx, bxv);
 
-   
-  evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN,  _add_add_keydown_notify, en_add);
-  evas_object_show(notify);
-  evas_object_show(bx);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _add_add_keydown_notify, en_add);
+   evas_object_show(notify);
+   evas_object_show(bx);
    
 }
 
+static void
+_block_clicked_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
+{
+   if (data)
+     evas_object_del(data);
+   evas_object_del(obj);
+}
 
 static void
-_it_clicked_del_cb(void *data, Evas_Object *li EINA_UNUSED,
+_it_clicked_del_final_cb(void *data, Evas_Object *li EINA_UNUSED,
                  void *event_info EINA_UNUSED)
 {
    Eina_List *l;
@@ -637,10 +501,179 @@ _it_clicked_del_cb(void *data, Evas_Object *li EINA_UNUSED,
          elm_object_item_del(lit);
    }
    elm_list_go(list);
-//    _fill_list_to_notes();
-//    _it_clicked_cb(data, NULL, NULL); // update the visible state of all notes, to be sure to display notes without a cat // NOT NEEDED, DEL on a item call "unselect" callback
 }
 
+static void
+_hoversel_clicked_move_notes_cb(void *data, Evas_Object *obj,
+                     void *event_info EINA_UNUSED)
+{
+   Eina_List *l, *tmp = NULL;
+   Note* list_data;
+   int tmp_id;
+   Elm_Object_Item *selected_item;
+
+   selected_item = elm_list_selected_item_get(list);
+
+   EINA_LIST_FOREACH(note_list, l, list_data)
+    {
+       if(strcmp(list_data->Note_Sync_Data.categories, elm_object_item_text_get(selected_item)) == 0)
+       {
+            printf("move ID: %i to: %s\n", list_data->id, elm_object_item_text_get(data));
+            list_data->Note_Sync_Data.categories = eina_stringshare_add(elm_object_item_text_get(data));
+            tmp = eina_list_append(tmp, list_data->id);
+            
+            printf("NEW CAT %s\n", list_data->Note_Sync_Data.categories);
+       }
+    }
+
+   save_enotes_all_objects(NULL, NULL, NULL, "0");
+
+   update_visible_notes(tmp);
+
+   EINA_LIST_FREE(tmp, tmp_id);
+   
+    elm_object_item_del(selected_item);
+//     elm_list_go(list);
+//     catlist_to_catlisteet();
+    fill_list_in_settings(); // Update cat list in settings window
+}
+
+static void
+_hoversel_clicked_delete_notes_cb(void *data, Evas_Object *obj,
+                     void *event_info EINA_UNUSED)
+{
+   printf("Delete button is clicked and 'clicked' callback is called.\n");
+   
+   Eina_List *l, *l1, *tmp = NULL;
+   Note* list_data;
+   int *tmp_id;
+   Elm_Object_Item *selected_item;
+
+   selected_item = elm_list_selected_item_get(list);
+
+   EINA_LIST_FOREACH(note_list, l, list_data)
+    {
+       if(strcmp(list_data->Note_Sync_Data.categories, elm_object_item_text_get(selected_item)) == 0)
+          tmp = eina_list_append(tmp, list_data->id);
+    }
+    
+   elm_object_item_del(selected_item);
+   EINA_LIST_FOREACH(tmp, l1, tmp_id)
+   {
+      _del_local_data(tmp_id);
+   }
+   
+   EINA_LIST_FREE(tmp, tmp_id);
+   printf("TEST DELETE\n");
+   printf("item to delete: %s\n", elm_object_item_text_get(selected_item));
+   
+//    elm_list_go(list);
+//     catlist_to_catlisteet();
+//     save_enotes_all_objects(NULL, NULL, NULL, "0");
+//    fill_list_in_settings(); // Update cat list in settings window
+}
+
+
+static void
+_cat_clicked_del_cb(void *data, Evas_Object *li EINA_UNUSED,
+                 void *event_info EINA_UNUSED)
+{
+   Evas_Object *popup, *btn_d, *btn_c, *box, *lb, *hoversel, *sep;
+   popup = elm_popup_add(data);
+   evas_object_smart_callback_add(popup, "block,clicked", _block_clicked_cb, NULL);
+
+   box = elm_box_add(popup);
+   evas_object_show(box);
+
+   elm_object_part_text_set(popup, "title,text", "Choose your option");
+
+   lb = elm_label_add(box);
+   elm_object_text_set(lb, "Delete Categorie and delete all notes within?");
+   evas_object_show(lb);
+   elm_box_pack_end(box, lb);
+   
+   btn_d = elm_button_add(box);
+   elm_object_text_set(btn_d, "Delete");
+   evas_object_show(btn_d);
+   elm_box_pack_end(box, btn_d);
+   
+   sep = elm_separator_add(box);
+   elm_separator_horizontal_set(sep, EINA_TRUE);
+   evas_object_show(sep);
+   elm_box_pack_end(box, sep);
+   
+   lb = elm_label_add(box);
+   elm_object_text_set(lb, "Move notes to Categorie");
+   evas_object_show(lb);
+   elm_box_pack_end(box, lb);
+   
+   hoversel = elm_hoversel_add(box);
+   elm_hoversel_auto_update_set(hoversel, EINA_TRUE);
+   elm_hoversel_hover_parent_set(hoversel, popup);
+   elm_object_text_set(hoversel, "Categories");
+
+   const Eina_List *l, *items;
+   Elm_Object_Item *list_it, *selected_item, *it;
+
+   items = elm_list_items_get(list);
+   selected_item = elm_list_selected_item_get(list);
+   
+   EINA_LIST_FOREACH(items, l, list_it){
+      Elm_Object_Item *it;
+      if(strcmp(elm_object_item_text_get(list_it), elm_object_item_text_get(selected_item)))
+         it = elm_hoversel_item_add(hoversel, elm_object_item_text_get(list_it), NULL, ELM_ICON_NONE, _hoversel_clicked_move_notes_cb, list_it);
+   }
+   
+   evas_object_show(hoversel);
+   elm_box_pack_end(box, hoversel);
+   
+   sep = elm_separator_add(box);
+   elm_separator_horizontal_set(sep, EINA_TRUE);
+   evas_object_show(sep);
+   elm_box_pack_end(box, sep);
+   
+   lb = elm_label_add(box);
+   elm_object_text_set(lb, "Do nothing and go back");
+   evas_object_show(lb);
+   elm_box_pack_end(box, lb);
+   
+   btn_c = elm_button_add(box);
+   elm_object_text_set(btn_c, "Cancel");
+   evas_object_show(btn_c);
+   elm_box_pack_end(box, btn_c);
+
+   elm_object_content_set(popup, box);
+   evas_object_smart_callback_add(btn_c, "clicked", _block_clicked_cb, popup);
+
+   evas_object_smart_callback_add(btn_d, "clicked", _hoversel_clicked_delete_notes_cb, selected_item);
+
+   evas_object_show(popup);
+}
+
+void
+_key_down_settings(void* data,
+              Evas* e EINA_UNUSED,
+              Evas_Object* obj EINA_UNUSED,
+              void* event_info)
+{
+  Evas_Event_Key_Down* ev = event_info;
+  const char* k = ev->keyname;
+  Eina_Bool ctrl = evas_key_modifier_is_set(ev->modifiers, "Control");
+  printf("keydown win\n");
+   if (ctrl) {
+      if (!strcmp(k, "q")) // close enotes
+      {
+         _close_final(data);
+      }
+   }
+  if (!strcmp(k, "Escape")) {
+    ev->event_flags |= EVAS_EVENT_FLAG_ON_HOLD;
+  }
+  if (!strcmp(k, "F5")) {
+    _enotes_new();
+  }
+
+}
 
 void
 _esc_check(void* data EINA_UNUSED,
@@ -648,12 +681,14 @@ _esc_check(void* data EINA_UNUSED,
               Evas_Object* obj EINA_UNUSED,
               void* event_info)
 {
+  printf("keydown list\n");
   Evas_Event_Key_Down* ev = event_info;
   const char* k = ev->keyname;
-  
+
   if (!strcmp(k, "Escape")) {
     ev->event_flags |= EVAS_EVENT_FLAG_ON_HOLD;
   }
+  
 }
 
 
@@ -662,18 +697,13 @@ count_notes_per_category(const char* cat_name)
 {
    int count = 0;
    Eina_List *l;
-   Note* list_data2;
+   Note* list_data;
    
-   char buf[PATH_MAX];
-                     
-   snprintf(buf, sizeof(buf), "%s,", cat_name); 
-   
-   EINA_LIST_FOREACH(note_list, l, list_data2)
+   EINA_LIST_FOREACH(note_list, l, list_data)
     {
-       if(strstr(list_data2->Note_Sync_Data.categories, buf))
-         count++;
+       if(strcmp(list_data->Note_Sync_Data.categories, cat_name) == 0)
+            count++;
     }
-    
     return count;
 }
 
@@ -681,34 +711,31 @@ count_notes_per_category(const char* cat_name)
 void
 fill_list_in_settings()
 {
-   elm_list_clear(list);
-//    printf("FILL_LIST_IN_SETTINGS\n");
-                  Eina_List *l;
-                  My_Conf_Type_Cat* new;
-                  new = calloc(1, sizeof(My_Conf_Type_Cat));
+   Eina_List *l;
+   My_Conf_Type_Cat* new;
+   new = calloc(1, sizeof(My_Conf_Type_Cat));
 
-                  EINA_LIST_FOREACH(cat_list_settings, l, new)
-                  {
-                     Elm_Object_Item *it;
-                     int count;
-                     char buf[PATH_MAX];
-                     
-                     count = count_notes_per_category(new->cat_name);
-                     snprintf(buf, sizeof(buf), gettext("<color=white>%i Note(s)</color>"), count);
-                     
-                     Evas_Object *lb = elm_label_add(list);
-                     
-                     elm_object_text_set(lb, buf);
-                     evas_object_color_set(lb, 255, 255, 255, 255);
-                     evas_object_show(lb);
-                     
-                  
-                     it = elm_list_item_append(list, new->cat_name, NULL, lb, /*_it_clicked_cb*/NULL, NULL);
-                     elm_list_item_selected_set(it, new->cat_selected);
-                     
-                  }
-                  
-                  elm_list_go(list);
+//    catlist_to_catlisteet();
+   elm_list_clear(list);
+   EINA_LIST_FOREACH(cat_list_settings, l, new)
+   {
+      Elm_Object_Item *it;
+      int count = 0;
+      char buf[PATH_MAX];
+
+      count = count_notes_per_category(new->cat_name);
+      snprintf(buf, sizeof(buf), gettext("<color=white>%i Note(s)</color>"), count);
+
+      Evas_Object *lb = elm_label_add(list);
+      elm_object_text_set(lb, buf);
+      evas_object_color_set(lb, 255, 255, 255, 255);
+      evas_object_show(lb);
+
+      it = elm_list_item_append(list, new->cat_name, NULL, lb, NULL, NULL);
+      elm_list_item_selected_set(it, new->cat_selected);
+
+   }
+   elm_list_go(list);
 }
 
 
@@ -741,10 +768,6 @@ _open_settings(void* data,
 
   if (settings_on != 1) {
    win_s = elm_win_util_standard_add("enotes-settings", "Enote SETTINGS");
-   
-//   win_s = elm_win_add(NULL, "Enote SETTINGS", ELM_WIN_BASIC);
-   
-
    elm_win_title_set(win_s, gettext("eNotes Settings"));
 
    evas_object_smart_callback_add(win_s, "delete,request", _close_settings, win_s);
@@ -778,6 +801,8 @@ _open_settings(void* data,
 	it = elm_list_item_append(list1, gettext("Notes"), NULL, NULL,
                              _config_show_notes, tb_settings);
    elm_list_go(list1);
+   
+   evas_object_event_callback_add(list1, EVAS_CALLBACK_KEY_DOWN, _esc_check, NULL);
    evas_object_show(list1);
    
    
@@ -793,44 +818,20 @@ _open_settings(void* data,
                   evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
                   evas_object_size_hint_align_set(bx, 0, 0);
 
-                    ///////////////TEST
-//                   Eina_List *l1;
-//                   EINA_LIST_FOREACH(enotes_all_objects_list, l1, list_values) // LISTE DER OBJEKTE DURCHGEHEN
-//                   {
-//                               Evas_Object *win1 = eina_list_nth(list_values, 0);
-//                               Evas_Object *entry_titel = eina_list_nth(list_values, 3);
-// /*                              
-//                               Evas *evas = evas_object_evas_get(test);
-//                               Evas_Object* mirror = evas_object_image_filled_add(evas_object_evas_get(win1));
-//                               evas_object_image_source_set(mirror, win1);
-//                               evas_object_image_source_visible_set(mirror, EINA_TRUE);*/
-//                               
-//                               
-//                               
-//                               Evas_Object* mirror = evas_object_image_filled_add(win_s);
-//                               evas_object_image_source_set(mirror, win1);
-// //                               evas_object_image_source_events_set(mirror, EINA_TRUE);
-// 
-//                               Evas_Object* image = elm_popup_add(win_s);
-// //                               elm_image_file_set(image, mirror, NULL);
-//                               evas_object_size_hint_min_set(image, 200, 200);
-//                              
-//                               
-//                         //       evas_object_size_hint_min_set(mirror, 400, 200);
-//                               elm_object_content_set(image, win1);
-//                               
-//                               
-//                               evas_object_show(image);
-//                               evas_object_show(mirror);
-//                               elm_box_pack_end(bx, image);
-//                               
-//                               Evas_Object *text;
-//                               text = elm_label_add(bx);
-//                               elm_object_text_set(text, elm_object_text_get(entry_titel));
-//                               evas_object_show(text);
-//                               elm_box_pack_end(bx, text);
-//       
-//                   }
+                    /////////////TEST
+                  
+                  Note* new;
+                  new = calloc(1, sizeof(Note));
+                  Eina_List *l1;
+                  EINA_LIST_FOREACH(note_list, l1, new) // LISTE DER OBJEKTE DURCHGEHEN
+                  {
+                              Evas_Object *text;
+                              text = elm_label_add(bx);
+                              elm_object_text_set(text, new->note_name);
+                              evas_object_show(text);
+                              elm_box_pack_end(bx, text);
+      
+                  }
                   ///////////////////TEST END
                   
                   evas_object_show(bx);
@@ -851,23 +852,6 @@ _open_settings(void* data,
                   bx_c = elm_box_add(categories_frame);
 //                   evas_object_size_hint_weight_set(bx_c, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
                   evas_object_size_hint_align_set(bx_c, 0, 0);
-/*
-                  lb = elm_label_add(bx_c);
-                  elm_object_text_set(lb, gettext("Select Categories to show:<br><small>[Notes with no categories are always shown]</small>"));
-                  evas_object_show(lb);
-                  elm_box_pack_end(bx_c, lb);
-                  
-//                   Elm_Object_Item *li1;
-                  list_all = elm_button_add(bx_c);
-//                   lb = elm_label_add(list_all);
-                  elm_object_text_set(list_all, gettext("Show all notes"));
-//                   evas_object_show(lb);
-                  elm_box_pack_end(bx_c, lb);
-                  */
-                  
-                  evas_object_show(list_all);
-                  elm_box_pack_end(bx_c, list_all);
-                 
                   
                   list = elm_list_add(bx_c);
                   elm_list_multi_select_set(list, EINA_FALSE);
@@ -880,8 +864,7 @@ _open_settings(void* data,
                   
                   fill_list_in_settings(); // FILL LIST IN SETTINGS
                   
-                  evas_object_smart_callback_add(list, "selected", _it_clicked_cb, list);
-//                   evas_object_smart_callback_add(list, "unselected", _it_clicked_cb, list);
+                  evas_object_smart_callback_add(list, "selected", _cat_selected, list);
                   
                   evas_object_show(list);
                   elm_box_pack_end(bx_c, list);
@@ -890,23 +873,7 @@ _open_settings(void* data,
                         elm_box_horizontal_set(hbx, EINA_TRUE);
                         evas_object_size_hint_weight_set(hbx, EVAS_HINT_EXPAND, 0);
                         evas_object_size_hint_align_set(hbx, EVAS_HINT_FILL, 0);
-                        
-//                         entry_add = elm_entry_add(hbx);
-//                         evas_object_size_hint_weight_set(entry_add, EVAS_HINT_EXPAND, 0);
-//                         evas_object_size_hint_align_set(entry_add, EVAS_HINT_FILL, 0);
-//                         elm_entry_single_line_set(entry_add, EINA_TRUE);
-//                         elm_object_part_text_set(entry_add, "elm.guide", "Enter new Categorie");
-//                         evas_object_show(entry_add);
-//                         elm_box_pack_end(hbx, entry_add);
-//                         
-//                        Evas_Object *rect = evas_object_rectangle_add(entry_add);
-// //                         evas_object_resize(rect, w, h);
-// //                         evas_object_move(rect, x, y);
-//                         evas_object_size_hint_weight_set(rect, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-//                         evas_object_size_hint_align_set(rect, EVAS_HINT_FILL, EVAS_HINT_FILL);
-//                         evas_object_color_set(rect, 128, 128, 128, 255);
-//                         evas_object_show(rect);
-                        
+
                         bt_add = elm_button_add(hbx);
 //                         evas_object_size_hint_weight_set(bt_add, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 //                         evas_object_size_hint_align_set(bt_add, EVAS_HINT_FILL, EVAS_HINT_FILL);
@@ -924,26 +891,16 @@ _open_settings(void* data,
 //                         evas_object_size_hint_weight_set(bt_del, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 //                         evas_object_size_hint_align_set(bt_del, EVAS_HINT_FILL, EVAS_HINT_FILL);
                         elm_object_text_set(bt_del, gettext("Delete selected"));
-                        evas_object_smart_callback_add(bt_del, "clicked", _it_clicked_del_cb, list);
+                        evas_object_smart_callback_add(bt_del, "clicked", _cat_clicked_del_cb, win_s);
                         evas_object_show(bt_del);
                         elm_box_pack_end(hbx, bt_del);
-                        
-//                         bt_all = elm_button_add(hbx);
-// //                         evas_object_size_hint_weight_set(bt_all, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-// //                         evas_object_size_hint_align_set(bt_all, EVAS_HINT_FILL, EVAS_HINT_FILL);
-//                         elm_object_text_set(bt_all, "Select all");
-//                         evas_object_smart_callback_add(bt_all, "clicked", _it_clicked_select_all_cb, list);
-//                         evas_object_show(bt_all);
-//                         elm_box_pack_end(hbx, bt_all);
-                        
-                        
+
                         evas_object_show(hbx);
                   
                   elm_box_pack_end(bx_c, hbx);
                   evas_object_show(bx_c);
 
-//                   evas_object_smart_callback_add(list_all, "clicked", _showall_clicked_cb, list);
-//                   evas_object_smart_callback_add(list_all, "clicked", _it_clicked_select_all_cb, list);
+                  
    elm_object_content_set(categories_frame, bx_c);
 	evas_object_data_set(tb_settings, "categories_frame", categories_frame);
 /// CATEGORIES FRAME END ///   
@@ -1264,7 +1221,7 @@ _open_settings(void* data,
                   evas_object_smart_callback_add(check_border_enabled, "changed", _toggle_border, NULL);
 
                   evas_object_show(check_border_enabled);
-                  elm_box_pack_end(bx, check_border_enabled);                  
+                  elm_box_pack_end(bx, check_border_enabled);
 
                   evas_object_show(bx);
 
@@ -1274,10 +1231,8 @@ _open_settings(void* data,
 
    
 	evas_object_event_callback_add(win_s, EVAS_CALLBACK_MOUSE_OUT, catlist_to_catlisteet, NULL);
+	evas_object_event_callback_add(win_s, EVAS_CALLBACK_KEY_DOWN, _key_down_settings, win_s);
    evas_object_event_callback_add(list, EVAS_CALLBACK_KEY_DOWN, _esc_check, NULL);
-    
-   _fill_list_to_notes();
-   
    
     elm_win_resize_object_add(win_s, tb_settings);
     evas_object_resize(win_s, 550, 0);

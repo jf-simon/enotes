@@ -152,7 +152,7 @@ Evas_Object *bx_c;
 Evas_Object *test;
 Evas_Object *text;
 Evas_Object *list;
-Evas_Object *list_all;
+// Evas_Object *list_all;
 Eo *item;
 Elm_Object_Item *menu_it3;
 Evas_Object *it;
@@ -240,6 +240,10 @@ enotes_win_help_close(void* data,
                       Evas* e EINA_UNUSED,
                       Evas_Object* obj EINA_UNUSED,
                       void* event_info EINA_UNUSED);
+
+void
+_close_final(void* data);
+
 void
 _delete_dialogs_cs(void* data,
                    Evas* e EINA_UNUSED,
@@ -264,3 +268,9 @@ fill_list_in_settings1(void* data EINA_UNUSED,
                Evas_Object* obj EINA_UNUSED,
                const char* em EINA_UNUSED,
                const char* src EINA_UNUSED);
+
+void
+save_enotes_all_objects(void* data,
+                        Evas* e EINA_UNUSED,
+                        Evas_Object* obj EINA_UNUSED,
+                        void* event_info);
