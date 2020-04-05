@@ -2887,8 +2887,14 @@ Eina_Bool
 check_running_enotes()
    {
       FILE* fp;
-      
+       char buf[PATH_MAX];
       config_path = efreet_config_home_get();
+        
+      snprintf(buf, sizeof(buf), "%s/enotes", config_path);
+      
+      if(!ecore_file_is_dir(buf))
+         ecore_file_mkpath(buf);
+      
       snprintf(enotes_running, sizeof(enotes_running), "%s/enotes/enotes_running.pid", config_path);
  
          
