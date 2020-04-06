@@ -1,9 +1,6 @@
-
 #include "enotes.h"
 
-
 int help_on;
-
 
 void
 enotes_win_help_close1(void *data, Evas_Object *o, const char *emission, const char *source)
@@ -13,7 +10,6 @@ enotes_win_help_close1(void *data, Evas_Object *o, const char *emission, const c
   evas_object_del(data);
   help_win = NULL;
 }
-
 
 void
 enotes_win_help_close(void* data,
@@ -27,23 +23,29 @@ enotes_win_help_close(void* data,
   help_win = NULL;
 }
 
-
 void
 key_down_help(void* data EINA_UNUSED,
               Evas* e EINA_UNUSED,
               Evas_Object* obj EINA_UNUSED,
               void* event_info)
 {
-   printf("key_down_help\n");
   Evas_Event_Key_Down* ev = event_info;
   const char* k = ev->keyname;
+
   if ((!strcmp(k, "Escape")) || (!strcmp(k, "F1"))) {
-    if (help_win != NULL)
+    if (help_win)
       enotes_win_help_close(help_win, NULL, NULL, NULL);
   }
 }
 
-
+static void
+_enotes_help_move(void* data,
+              Evas* e EINA_UNUSED,
+              Evas_Object* obj EINA_UNUSED,
+              void* event_info)
+{
+  elm_win_move_resize_start(data, ELM_WIN_MOVE_RESIZE_MOVE);
+}
 
 static void
 _anchor_clicked_cb(void* data EINA_UNUSED,
@@ -59,7 +61,6 @@ _anchor_clicked_cb(void* data EINA_UNUSED,
     //          return 0;
   }
 }
-
 
 void
 enotes_win_help(void* data,
@@ -93,29 +94,30 @@ enotes_win_help(void* data,
   evas_object_show(ly);
 
   /////
-  Evas_Object *tb, *lb, *ic;
+  Evas_Object *tb, *lb, *ic, *en;
 
   tb = elm_table_add(win);
   elm_table_padding_set(tb, 5, 0);
   elm_table_homogeneous_set(tb, EINA_TRUE);
   evas_object_size_hint_align_set(tb, EVAS_HINT_FILL, EVAS_HINT_FILL);
   evas_object_show(tb);
-  lb = elm_entry_add(win);
-  elm_entry_context_menu_disabled_set(lb, EINA_TRUE);
-  elm_entry_editable_set(lb, EINA_FALSE);
-  elm_entry_single_line_set(lb, EINA_TRUE);
+
+  en = elm_entry_add(win);
+  elm_entry_context_menu_disabled_set(en, EINA_TRUE);
+  elm_entry_editable_set(en, EINA_TRUE);
+  elm_entry_single_line_set(en, EINA_TRUE);
   evas_object_smart_callback_add(
-    lb, "anchor,clicked", _anchor_clicked_cb, NULL);
+    en, "anchor,clicked", _anchor_clicked_cb, NULL);
   elm_object_text_set(
-    lb,
+    en,
     gettext("<bigger>enotes help!</bigger><br>"
             "<b>Download and updates: <a "
             "href=anc-02>https://github.com/jf-simon/enotes</a> "
             "Author: Simon Tischer [jf_simon on irc #e.de]</b>"));
-  evas_object_size_hint_align_set(lb, 0.5, 0.5);
+  evas_object_size_hint_align_set(en, 0.5, 0.5);
 
-  elm_table_pack(tb, lb, 0, 0, 16, 1);
-  evas_object_show(lb);
+  elm_table_pack(tb, en, 0, 0, 16, 1);
+  evas_object_show(en);
 
   char buf1[1024];
   snprintf(buf1, sizeof(buf1), "%s/images/esc.png", elm_app_data_dir_get());
@@ -405,8 +407,7 @@ enotes_win_help(void* data,
   elm_table_pack(tb, lb, 14, 2, 1, 1);
   evas_object_show(lb);
   ///
-  snprintf(
-    buf1, sizeof(buf1), "%s/images/ctl+mousewheel.png", elm_app_data_dir_get());
+  snprintf(buf1, sizeof(buf1), "%s/images/ctl+mousewheel.png", elm_app_data_dir_get());
   ic = elm_icon_add(win);
   elm_image_file_set(ic, buf1, NULL);
   evas_object_size_hint_weight_set(ic, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
@@ -425,14 +426,14 @@ enotes_win_help(void* data,
   evas_object_show(lb);
 
   elm_object_part_content_set(ly, "table", tb);
-  
-  evas_object_event_callback_add(
-    win, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
 
   elm_layout_signal_callback_add(ly, "close_help", "close_help", enotes_win_help_close1, win);
+  evas_object_event_callback_add(ly, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
+  evas_object_event_callback_add(ly, EVAS_CALLBACK_MOUSE_DOWN, _enotes_help_move, win);
+
 
   if (help_on != 1) {
-    evas_object_size_hint_align_set(win, 0.5, 0);
+    evas_object_size_hint_align_set(win, 0.5, 0.0);
 
     evas_object_size_hint_min_set(win, 600, 150);
     evas_object_resize(win, 900, 150);
@@ -447,5 +448,3 @@ enotes_win_help(void* data,
     enotes_win_help_close(help_win, NULL, NULL, NULL);
   }
 }
-
-
