@@ -2929,21 +2929,11 @@ collections {
       name: "close_icon_help";
       type: IMAGE;
       mouse_events: 1;
-      clip_to: "clip";
+//       clip_to: "clip";
         description {
             state: "default" 0.0;
             visible: 1;
             color: 255 255 255 255;
-            rel1.relative: 1 0;
-            rel1.offset: -30 0;
-            rel2.relative: 1 0;
-            rel2.offset: 0 30;
-            image.normal: "close_help.png";
-        }
-        description {
-            state: "off" 0.0;
-            visible: 0;
-            color: 255 255 255 0;
             rel1.relative: 1 0;
             rel1.offset: -30 0;
             rel2.relative: 1 0;
@@ -2959,14 +2949,6 @@ collections {
       source: "close_icon_help";
       action: SIGNAL_EMIT "close_help" "close_help";
       }
-//       program {
-//             name: "close_help_win1";
-//             source: "close_icon_help";
-//             signal: "mouse,clicked,1";
-//             action: STATE_SET "off" 0.0;
-//             target: "close_icon_help";
-//       }
-       
    }
   }
 /// END LAYOUT HELP WIN /// 

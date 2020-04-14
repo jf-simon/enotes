@@ -427,9 +427,9 @@ enotes_win_help(void* data,
 
   elm_object_part_content_set(ly, "table", tb);
 
-  elm_layout_signal_callback_add(ly, "close_help", "close_help", enotes_win_help_close1, win);
   evas_object_event_callback_add(ly, EVAS_CALLBACK_KEY_DOWN, key_down_help, NULL);
   evas_object_event_callback_add(ly, EVAS_CALLBACK_MOUSE_DOWN, _enotes_help_move, win);
+  elm_layout_signal_callback_add(ly, "close_help", "close_help", enotes_win_help_close1, win);
 
 
   if (help_on != 1) {

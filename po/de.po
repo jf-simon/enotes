@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enotes 0.0.1\n"
 "Report-Msgid-Bugs-To: enlightenment-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-09-21 20:46+0200\n"
-"PO-Revision-Date: 2019-09-21 20:47+0200\n"
+"POT-Creation-Date: 2020-04-12 12:12+0200\n"
+"PO-Revision-Date: 2020-04-12 12:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: Simon Tischer\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ../src/bin\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: enotes_main.c\n"
@@ -30,11 +30,11 @@ msgstr ""
 "X-Poedit-SearchPath-10: enotes_settings.c\n"
 "X-Poedit-SearchPath-11: enotes_systray.c\n"
 
-#: enotes_help.c:78 enotes_help.c:80
+#: enotes_help.c:79 enotes_help.c:81 enotes_main.c:3047
 msgid "enotes Help"
 msgstr "enotes Hilfe"
 
-#: enotes_help.c:111
+#: enotes_help.c:113
 msgid ""
 "<bigger>enotes help!</bigger><br><b>Download and updates: <a "
 "href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer "
@@ -44,140 +44,136 @@ msgstr ""
 "href=anc-02>https://github.com/jf-simon/enotes</a> Author: Simon Tischer "
 "[jf_simon on irc #e.de]</b>"
 
-#: enotes_help.c:134
+#: enotes_help.c:136
 msgid "Dismiss dialogs"
 msgstr "Dialog schließen"
 
-#: enotes_help.c:154
+#: enotes_help.c:156
 msgid "Show/hide<br>this help"
 msgstr "Diese Hilfe anzeigen/verstecken"
 
-#: enotes_help.c:172
+#: enotes_help.c:174
 msgid "Blur text"
 msgstr "Text verschwischen"
 
-#: enotes_help.c:192
+#: enotes_help.c:194
 msgid "Insert done icon"
 msgstr "DONE Symbol einfügen"
 
-#: enotes_help.c:210
+#: enotes_help.c:212
 msgid "Insert important icon"
 msgstr "WICHTIG Symbol einfügen"
 
-#: enotes_help.c:229
+#: enotes_help.c:231
 msgid "Create a new note"
 msgstr "Neue Notiz erstellen"
 
-#: enotes_help.c:247
+#: enotes_help.c:249
 msgid "Delete selected note"
 msgstr "Ausgewählte Notiz löschen"
 
-#: enotes_help.c:265
+#: enotes_help.c:267
 msgid "Set note sticky"
 msgstr "Notiz anheften"
 
-#: enotes_help.c:284
+#: enotes_help.c:286
 msgid "Iconify note"
 msgstr "Notiz minimieren"
 
-#: enotes_help.c:303
+#: enotes_help.c:305
 msgid "Toogle designs"
 msgstr "Aussehen wechseln"
 
-#: enotes_help.c:322
+#: enotes_help.c:324
 msgid "Write backup<br>textfile"
 msgstr "Datensicher schreiben<br>Textdatei"
 
-#: enotes_help.c:342
+#: enotes_help.c:344
 msgid "Start Sync"
 msgstr "Synchronisierung starten"
 
-#: enotes_help.c:362
+#: enotes_help.c:364
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: enotes_help.c:381
+#: enotes_help.c:383
 msgid "Toogle menu"
 msgstr "Menü an/aus"
 
-#: enotes_help.c:401
+#: enotes_help.c:403
 msgid "Close enotes"
 msgstr "enotes schließen"
 
-#: enotes_help.c:420
+#: enotes_help.c:421
 msgid "in/decrease font<br>ctrl+0 to reset"
 msgstr "Schrift vergrößern/verkleiner<br>strg+0 um zurückzusetzen"
 
-#: enotes_main.c:607 enotes_main.c:712
+#: enotes_main.c:603 enotes_main.c:708
 msgid "File written to:"
 msgstr "Datei schreiben nach:"
 
-#: enotes_main.c:622 enotes_main.c:727 enotes_settings.c:596
+#: enotes_main.c:618 enotes_main.c:723 enotes_settings.c:465
 msgid "close"
 msgstr "Schließen"
 
-#: enotes_main.c:629 enotes_main.c:734
+#: enotes_main.c:625 enotes_main.c:730
 msgid "open"
 msgstr "Öffnen"
 
-#: enotes_main.c:762
+#: enotes_main.c:758
 msgid "What do you want to write to file?"
 msgstr "Was möchtest du sichern?"
 
-#: enotes_main.c:770
+#: enotes_main.c:766
 msgid "all notes"
 msgstr "Alle Notizen"
 
-#: enotes_main.c:778
+#: enotes_main.c:774
 msgid "this note"
 msgstr "Diese Notiz"
 
-#: enotes_main.c:796
+#: enotes_main.c:792
 msgid "cancel"
 msgstr "Abbrechen"
 
-#: enotes_main.c:1752
+#: enotes_main.c:1725
 msgid "Close enotes?"
 msgstr "Enotes schließen?"
 
-#: enotes_main.c:1760 enotes_main.c:1994
+#: enotes_main.c:1733 enotes_main.c:1967
 msgid "No"
 msgstr "Nein"
 
-#: enotes_main.c:1766 enotes_main.c:2000
+#: enotes_main.c:1739 enotes_main.c:1973
 msgid "Yes"
 msgstr "Ja"
 
-#: enotes_main.c:1974
+#: enotes_main.c:1947
 #, c-format
 msgid "<custom color=#ff0000>Delete</custom> note<br>'%s'"
 msgstr "<custom color=#ff0000>Notiz</custom> '%s'<br>löschen?"
 
-#: enotes_main.c:2172
+#: enotes_main.c:2152
 msgid "Change color for: "
 msgstr "Farbe ändern für: "
 
-#: enotes_main.c:2173
+#: enotes_main.c:2153
 msgid "Textcolor"
 msgstr "Textfarbe"
 
-#: enotes_main.c:2174
+#: enotes_main.c:2154
 msgid "Background"
 msgstr "Hintergrund"
 
-#: enotes_main.c:2219
+#: enotes_main.c:2199
 msgid "Save colorset as default"
 msgstr "Farbauswahl als Standard speichern"
 
-#: enotes_main.c:2225
+#: enotes_main.c:2205
 msgid "Set colorset to all notes"
 msgstr "Farbauswahl für alle Notizen übernehmen"
 
-#: enotes_main.c:2303
-msgid "Select categories for this note"
-msgstr "Kategorien für die Notiz"
-
-#: enotes_main.c:2774
+#: enotes_main.c:2727
 msgid ""
 "Welcome to enotes! <br><br>Type your text here, <br>i will save the note for "
 "you automaticly <br>when you leave the note with the mouse! <br><br><item "
@@ -208,112 +204,95 @@ msgid ""
 "a><br><br>Author: Simon Tischer [jf_simon on irc.freenode.net #e.de]"
 msgstr ""
 
-#: enotes_main.c:3024
+#: enotes_main.c:3041
 #, c-format
 msgid ""
 "Dont't start enotes twice - closing ...\n"
 "If no other instance is running, please remove ~/.config/enotes/"
 "enotes_running.pid\n"
 msgstr ""
+"Enotes kann nicht doppelt gestartet werden - beende ...\n"
+"Wenn keine andere Instanz von Enotes läuft, entferne bitte ~/.config/enotes/"
+"enotes_running.pid\n"
 
-#: enotes_settings.c:489
-msgid "Show all"
-msgstr "Alle anzeigen"
-
-#: enotes_settings.c:573
+#: enotes_settings.c:442
 msgid "Add new category:"
 msgstr "Neue Kategorie hinzufügen:"
 
-#: enotes_settings.c:590
+#: enotes_settings.c:459
 msgid "add"
 msgstr "Hinzufügen"
 
-#: enotes_settings.c:692
+#: enotes_settings.c:727
 #, c-format
-msgid "<color=white>%i Notes</color>"
-msgstr "<color=white>%i Notizen</color>"
+msgid "<color=white>%i Note(s)</color>"
+msgstr "<color=white>%i Notiz(en)</color>"
 
-#: enotes_settings.c:731
+#: enotes_settings.c:771
 msgid "eNotes Settings"
 msgstr "enotes Einstellungen"
 
-#: enotes_settings.c:748 enotes_settings.c:813
+#: enotes_settings.c:788 enotes_settings.c:847
 msgid "Categories"
 msgstr "Kategorien"
 
-#: enotes_settings.c:752
-msgid "Sync"
-msgstr "Synchronisierung"
-
-#: enotes_settings.c:755 enotes_settings.c:1222
+#: enotes_settings.c:795 enotes_settings.c:1170
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: enotes_settings.c:758
+#: enotes_settings.c:798
 msgid "Help"
 msgstr "Hilfe"
 
-#: enotes_settings.c:761
+#: enotes_settings.c:801
 msgid "Notes"
 msgstr "Notizen"
 
-#: enotes_settings.c:823
-msgid ""
-"Select Categories to show:<br><small>[Notes with no categories are always "
-"shown]</small>"
-msgstr ""
-"Kategorien auswählen:<br><small>[Notizen ohne Kategorie werden immer "
-"angezeigt]</small>"
-
-#: enotes_settings.c:830
-msgid "Show all notes"
-msgstr "Alle Notizen anzeigen"
-
-#: enotes_settings.c:922
+#: enotes_settings.c:880
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: enotes_settings.c:935
+#: enotes_settings.c:893
 msgid "Delete selected"
 msgstr "Markierte löschen"
 
-#: enotes_settings.c:988
+#: enotes_settings.c:936
 msgid "Server URL:"
 msgstr "Server URL:"
 
-#: enotes_settings.c:1014
+#: enotes_settings.c:962
 msgid "Enter caldav server url with calendar name"
 msgstr "Caldav Server URL und Kalendername eingeben"
 
-#: enotes_settings.c:1025
+#: enotes_settings.c:973
 msgid "Calendar Name:"
 msgstr "Kalendername:"
 
-#: enotes_settings.c:1034
+#: enotes_settings.c:982
 msgid "Enter Calendar Name"
 msgstr "Kalendername eigeben"
 
-#: enotes_settings.c:1054
+#: enotes_settings.c:1002
 msgid "Enter username"
 msgstr "Benutzername eingeben"
 
-#: enotes_settings.c:1074
+#: enotes_settings.c:1022
 msgid "Enter Password"
 msgstr "Passwort eingeben"
 
-#: enotes_settings.c:1085
+#: enotes_settings.c:1033
 msgid "Refresh intervall:"
 msgstr "Aktualisierungsintervall:"
 
-#: enotes_settings.c:1114
+#: enotes_settings.c:1062
 msgid "manual sync [F11]"
 msgstr "Manueller Sync [F11]"
 
-#: enotes_settings.c:1125
+#: enotes_settings.c:1073
 msgid "save and check user data"
 msgstr "Nutzerdaten speichern und prüfen"
 
-#: enotes_settings.c:1163
+#: enotes_settings.c:1111
 msgid ""
 "Welcome to enotes! <br><br>i will save the note for you automaticly <br>when "
 "you leave the note with the mouse! <br><br><item relsize=24x24 vsize=full "
@@ -344,21 +323,50 @@ msgid ""
 "#e.de]"
 msgstr ""
 
-#: enotes_settings.c:1232
-msgid "Systray Icon"
-msgstr "Systray Symbol"
+#: enotes_settings.c:1180
+msgid "Systray Icon:"
+msgstr "Systray Icon:"
 
-#: enotes_settings.c:1242
+#: enotes_settings.c:1189
 msgid "Disable Systray Icon"
 msgstr "Systray Symbol deaktivieren"
 
-#: enotes_settings.c:1254
-msgid "Note Look"
-msgstr "Notiz Aussehen"
+#: enotes_settings.c:1208
+msgid "Note Look:"
+msgstr "Notiz Aussehen:"
 
-#: enotes_settings.c:1264
+#: enotes_settings.c:1217
 msgid "Show Window Border"
 msgstr "Fensterrahmen anzeigen"
+
+#~ msgid "Select categories for this note"
+#~ msgstr "Kategorien für die Notiz"
+
+#~ msgid "Show all"
+#~ msgstr "Alle anzeigen"
+
+#, c-format
+#~ msgid "<color=white>%i Notes</color>"
+#~ msgstr "<color=white>%i Notizen</color>"
+
+#~ msgid "Sync"
+#~ msgstr "Synchronisierung"
+
+#~ msgid ""
+#~ "Select Categories to show:<br><small>[Notes with no categories are always "
+#~ "shown]</small>"
+#~ msgstr ""
+#~ "Kategorien auswählen:<br><small>[Notizen ohne Kategorie werden immer "
+#~ "angezeigt]</small>"
+
+#~ msgid "Show all notes"
+#~ msgstr "Alle Notizen anzeigen"
+
+#~ msgid "Systray Icon"
+#~ msgstr "Systray Symbol"
+
+#~ msgid "Note Look"
+#~ msgstr "Notiz Aussehen"
 
 #~ msgid "eNotes Help"
 #~ msgstr "enotes Hilfe"
