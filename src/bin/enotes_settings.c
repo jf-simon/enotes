@@ -262,7 +262,7 @@ _config_show_notes(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EI
    evas_object_hide(advanced_frame);
 	evas_object_hide(help_frame);
 	evas_object_hide(sync_frame);
-   _fill_allnotes_settings(test_bx);
+//    _fill_allnotes_settings(test_bx);
 	evas_object_show(test);
 }
 /*
@@ -1193,7 +1193,7 @@ _open_settings(void* data,
         
                            /////////////TEST
                          
-         _fill_allnotes_settings(bx);
+//          _fill_allnotes_settings(bx);
    ///////////////////TEST END
    
    evas_object_show(bx);
