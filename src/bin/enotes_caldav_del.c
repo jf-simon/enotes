@@ -15,6 +15,7 @@ struct MemoryStruct
   size_t size;
 };
 
+
 static void
 parse_curl_put_response(Eina_Strbuf* mybuffer)
 {
@@ -73,7 +74,7 @@ _del_local_data(int del_id)
    
 //TODO: check for online and offline notes using Note_Sync_Data.online
 
-   printf("delete ID II %i\n", del_id);
+//    printf("delete ID II %i\n", del_id);
    Eina_List* l;
    Note* list_data;
    EINA_LIST_FOREACH(note_list, l, list_data)
@@ -85,10 +86,13 @@ _del_local_data(int del_id)
             _enotes_del_local(del_id);
       }
    }
-   printf("delete %i\n", eina_list_count(note_list_del));
+   printf("test delete %i\n", eina_list_count(note_list_del));
 
    if (eina_list_count(note_list_del) > 0)
       _del_local_data_online();
+
+//    catlist_to_catlisteet();
+//    fill_list_in_settings(); // Update cat list in settings window
 }
 
 void
@@ -144,7 +148,7 @@ _del_local_data_online()
     if (res == CURLE_OK) //online deletion OK
     {      eina_strbuf_append(response_data, chunk.memory);
       
-      printf("delete ID III %i\n", list_data->id);
+//       printf("delete ID III %i\n", list_data->id);
       // delete local note
       if(list_data->id != -1)
          _enotes_del_local(list_data->id); 
@@ -160,7 +164,7 @@ _del_local_data_online()
 
       eina_strbuf_append_printf(response_data, curl_easy_strerror(res));
       
-      printf("delete ID III %i\n", list_data->id);
+//       printf("delete ID III %i\n", list_data->id);
       _enotes_del_local(list_data->id);
       list_data->id = -1;
       printf("LOCAL: Deleted ONLY LOCAL");

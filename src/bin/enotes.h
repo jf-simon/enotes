@@ -117,12 +117,11 @@ typedef struct {
 
 } Note;
 
-Eina_List *note_list;
-Eina_List *enotes_all_objects_list;
-Eina_List *note_list_put;
-Eina_List *note_list_del;
-Eina_List *cat_list;
-Eina_List *new_cat_list;
+Eina_List *note_list;                  // list with all informations about a note, this will be store to eet and filled in starting enotes
+Eina_List *enotes_all_objects_list;    // list which holds a struct with the Evas_Objects of every single notes created from *note_list
+Eina_List *note_list_put;              // list to put online for online sync - saved in eet for later use, if the was no internet connection, as the note was created
+Eina_List *note_list_del;              // list with notes to delete online. - saved in eet for later use, if the was no internet connection, as the note was deleted
+Eina_List *cat_list;                   // used to save the categories list from the settings
 
 const char *server_url;
 const char *user_name;
@@ -195,7 +194,7 @@ void enotes_win_help_close(void *data, Evas *e EINA_UNUSED,
                            Evas_Object *obj EINA_UNUSED,
                            void *event_info EINA_UNUSED);
 
-void _close_final(void *data);
+void _close_notify(void *data);
 
 void _delete_dialogs_cs(void *data, Evas *e EINA_UNUSED,
                         Evas_Object *obj EINA_UNUSED,
