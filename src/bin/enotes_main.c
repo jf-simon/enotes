@@ -2301,6 +2301,7 @@ enotes_win_setup(Note* list_data)      // create the note (Evas_Objects) and sho
    //   enotes_all_objects = eina_list_append(enotes_all_objects, list1);
    
    enotes_all_objects_list = eina_list_append(enotes_all_objects_list, enotes_all_objects); //liste mit allen Objekten erstellen
+      update_visible_notes();
 }
 
 void
@@ -2777,6 +2778,7 @@ goto end;
                activ_cat = eina_stringshare_add(new->cat_name);
          }
       }
+      fill_list_in_settings();
 
       if (eina_list_count(note_list) == 0)   // if no note is in list, create one
       {

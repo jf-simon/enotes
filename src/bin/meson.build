@@ -4,7 +4,8 @@ deps = [
     edje,
     ecore,
     curl_dep,
-    ecorex
+    ecorex,
+    depnls
 ]
 
 src = [

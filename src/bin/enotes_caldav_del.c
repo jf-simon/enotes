@@ -91,6 +91,7 @@ _del_local_data(int del_id)
    if (eina_list_count(note_list_del) > 0)
       _del_local_data_online();
 
+      update_visible_notes();
 //    catlist_to_catlisteet();
 //    fill_list_in_settings(); // Update cat list in settings window
 }
