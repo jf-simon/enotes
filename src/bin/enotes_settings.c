@@ -13,7 +13,6 @@ Evas_Object *win_s;
 Evas_Object* settings_win = NULL;
 
 void           _fill_allnotes_settings(Evas_Object *bxp);
-static void    update_visible_notes();
 
 static void
 _close_settings(void* data EINA_UNUSED,
@@ -318,7 +317,6 @@ static void _hoversel_clicked_move_single_note_cb(void *data, Evas_Object *obj,
   int id = (int)(intptr_t)data;
   Eina_List *l1;
   Note *list_data;
-  printf("MOVE\n");
 
   Evas_Object *hv = obj;
   Evas_Object *bxp1 = evas_object_data_get(hv, "bxp");
@@ -441,7 +439,7 @@ catlist_to_catlisteet()
    }
 }
 
-static void
+void
 update_visible_notes()
 {
   Eina_List *list_values;
@@ -911,6 +909,7 @@ fill_list_in_settings()
    My_Conf_Type_Cat* new;
    new = calloc(1, sizeof(My_Conf_Type_Cat));
    
+      printf("TEST\n");
    //    catlist_to_catlisteet();
    elm_list_clear(list);
    EINA_LIST_FOREACH(cat_list_settings, l, new)

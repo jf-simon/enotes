@@ -216,3 +216,5 @@ void save_enotes_all_objects(void *data, Evas *e EINA_UNUSED,
                              Evas_Object *obj EINA_UNUSED, void *event_info);
 
 int count_notes_per_category(const char *cat_name);
+
+void    update_visible_notes();
