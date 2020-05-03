@@ -222,7 +222,7 @@ _put_local_data_online()
     if (res != CURLE_OK) {
       //                      fprintf (stderr, "curl_easy_perform() failed:
       //                      %s\n", curl_easy_strerror (res));
-      eina_strbuf_append_printf(response_data, curl_easy_strerror(res));
+      eina_strbuf_append(response_data, curl_easy_strerror(res));
     } else {
 
       //                   char *test;
