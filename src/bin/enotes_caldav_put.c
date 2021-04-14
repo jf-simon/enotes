@@ -160,13 +160,14 @@ _put_local_data_online()
     curl_easy_setopt(curl, CURLOPT_USERPWD, eina_strbuf_string_get(logindata));
     //     curl_easy_setopt (curl, CURLOPT_VERBOSE, "on");
 
-    if (strcmp(list_data->Note_Sync_Data.href, "")) // ceate new note online
+    if (strcmp(list_data->Note_Sync_Data.href, "")) // create new note online
     {
       eina_strbuf_append_printf(
-        tmp1, "https://enotes.ocloud.de%s", list_data->Note_Sync_Data.href);
+        tmp1, "http://hmttctufeblyvt1b.myfritz.net/nextcloud/%s", list_data->Note_Sync_Data.href);
       eina_strbuf_append_printf(
         tmp, "PUT %s HTTP/1.1", list_data->Note_Sync_Data.href);
 
+      printf("\n\n\nurl mit href: %s\n", eina_strbuf_string_get(tmp1));
     } else {
       eina_strbuf_append_printf(tmp1,
                                 "%s/calendars/%s/%s/enotes_%s.ics",
@@ -176,7 +177,7 @@ _put_local_data_online()
                                 list_data->Note_Sync_Data.last_modified);
       eina_strbuf_append_printf(
         tmp,
-        "PUT /calendars/%s/%s/enotes_%s HTTP/1.1",
+        "PUT /calendars/%s/%s/enotes_%s.ics HTTP/1.1",
         user_name,
         calendar_name,
         list_data->Note_Sync_Data.last_modified);
@@ -189,11 +190,10 @@ _put_local_data_online()
       list_data->Note_Sync_Data.href =
         eina_stringshare_add(eina_strbuf_string_get(tmpnew));
         
-      printf("\n\n\nhref UPDATE\n");
+//       printf("\n\n\nhref UPDATE\n");
       
-      printf("\n\n\nurl: %s\n", eina_strbuf_string_get(tmp1));
       
-      printf("\n\n\nurl: %s\n", eina_strbuf_string_get(tmp));
+      printf("\n\n\nurl neu erstellt: %s\n", eina_strbuf_string_get(tmp));
     }
     //                    printf("upload header:%s\n",
     //                    eina_strbuf_string_get(tmp)); printf("upload
@@ -204,7 +204,10 @@ _put_local_data_online()
     put_header_download_objects =
       curl_slist_append(put_header_download_objects,
                         "Content-Type: text/calendar; charset=utf-8");
-
+   char buf1[PATH_MAX];
+   snprintf(buf1, sizeof(buf1), "\"If-Match: %s\"", list_data->Note_Sync_Data.etag);
+   printf("BUF1: %s\n", buf1);
+    put_header_download_objects = curl_slist_append(put_header_download_objects, buf1);
     curl_easy_setopt(curl, CURLOPT_URL, eina_strbuf_string_get(tmp1));
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, put_header_download_objects);
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");

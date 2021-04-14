@@ -265,7 +265,7 @@ _config_show_notes(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EI
    _fill_allnotes_settings(test_bx);
 	evas_object_show(test);
 }
-/*
+
 static void
 _config_show_sync(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
 {
@@ -280,7 +280,7 @@ _config_show_sync(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EIN
    evas_object_hide(advanced_frame);
    evas_object_hide(help_frame);
    evas_object_show(sync_frame);
-}*/
+}
 /*
 static void
 _move_note_to_category(void *data, Evas_Object *obj,
@@ -981,8 +981,8 @@ _open_settings(void* data,
                                 _config_show_categories, tb_settings);
       elm_list_item_selected_set(it, 1);
       
-      //    it = elm_list_item_append(list1, gettext("Sync"), NULL, NULL,
-      //                              _config_show_sync, tb_settings);
+         it = elm_list_item_append(list1, gettext("Sync"), NULL, NULL,
+                                   _config_show_sync, tb_settings);
       
       it = elm_list_item_append(list1, gettext("Advanced"), NULL, NULL,
                                 _config_show_advanced, tb_settings);

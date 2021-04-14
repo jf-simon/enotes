@@ -93,6 +93,23 @@ enotes_systray()
    elm_menu_item_add(it, NULL, "media-eject", "Settings", _open_settings_systray, NULL);
    elm_menu_item_add(it, NULL, "help-about", "Help", enotes_win_help_systray, NULL);
    
+   elm_menu_item_separator_add(it, NULL);
+   
+   Eina_List *l1;
+   My_Conf_Type_Cat *new;
+   new = calloc(1, sizeof(My_Conf_Type_Cat));
+   char buf_cat[1024];
+
+   EINA_LIST_FOREACH(cat_list_settings, l1, new) {
+   if (!strcmp(new->cat_name, activ_cat))
+      snprintf(buf_cat, sizeof(buf_cat), "%s - current Category", new->cat_name);
+   else
+      snprintf(buf_cat, sizeof(buf_cat), "%s", new->cat_name);
+
+   elm_menu_item_add(it, NULL, NULL, buf_cat, NULL, NULL);
+   }
+
+   elm_menu_item_separator_add(it, NULL);
    elm_menu_item_add(it, NULL, "window-close", "Close Enotes", _enotes_exit, NULL);
 
    // Status Notifier Item Handler   

@@ -52,7 +52,6 @@ _save_and_check_user_data(void* data,
   calendar_name = elm_object_text_get(en_calendar);
   password = elm_object_text_get(en_password);
   user_name = elm_object_text_get(en_user);
-
   
   struct MemoryStruct chunk;
 
@@ -99,6 +98,7 @@ _save_and_check_user_data(void* data,
                       "Content-Type: application/xml; charset=utf-8");
 
   char curl_url[PATH_MAX];
+
   snprintf(
     curl_url, sizeof(curl_url), "%s/calendars/%s/%s", server_url, user_name, calendar_name);
   curl_easy_setopt(curl, CURLOPT_URL, curl_url);

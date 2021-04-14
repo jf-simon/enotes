@@ -2324,6 +2324,7 @@ note_online_to_local(Eina_List* new_notes)
    {
       EINA_LIST_FOREACH(note_list, l1, list_data)
       {
+         if(list_data->Note_Sync_Data.uid != NULL && data_get->Note_Sync_Data.uid != NULL)
          if (strcmp(list_data->Note_Sync_Data.uid, data_get->Note_Sync_Data.uid) ==
             0) {
             //                      printf("SCHLEIFE GLEICHE UID\n");
@@ -2426,7 +2427,7 @@ note_online_to_local(Eina_List* new_notes)
          defaultnote->Note_Sync_Data.uid =
          eina_stringshare_add(data_get->Note_Sync_Data.uid);
          defaultnote->Note_Sync_Data.categories =
-         eina_stringshare_add("activ_cat");
+         eina_stringshare_add(activ_cat);
          defaultnote->Note_Sync_Data.online = (int*)1;
          defaultnote->text_color = 0;
          

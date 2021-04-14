@@ -18,6 +18,8 @@ struct MemoryStruct
 static void
 parse_curl_get_response(Eina_Strbuf* mybuffer)
 {
+   
+//    printf("PARSE RESPONSE 2: %s\n", eina_strbuf_string_get(mybuffer));
   char **arr, **arr1;
   int i = 0, y = 0;
   Eina_List* new_notes = NULL;
@@ -37,9 +39,10 @@ parse_curl_get_response(Eina_Strbuf* mybuffer)
       find_data(arr[i], "<d:href>", "</d:href>"); // find <d:href>
 
     data_add->Note_Sync_Data.etag =
-      find_data(arr[i], "<d:getetag>", "</d:getetag>"); // find <d:getetag>
-    stringReplace("&quot;", "", (char*)data_add->Note_Sync_Data.etag);
+      find_data(arr[i], "<d:getetag>&quot;", "&quot;</d:getetag>"); // find <d:getetag>
+//     stringReplace("&quot;", "", (char*)data_add->Note_Sync_Data.etag);
 
+printf("ETAG: %s\n", arr[i]);
     arr1 = eina_str_split(
       find_data(arr[i], "<cal:calendar-data>", "</cal:calendar-data>"),
       "\n",
@@ -55,7 +58,6 @@ parse_curl_get_response(Eina_Strbuf* mybuffer)
 
       } else if (strstr(arr1[y], "DESCRIPTION")) {
         eina_strbuf_append_buffer(summary_tmp, arry_split);
-
       } else if (strstr(arr1[y], "UID")) {
         eina_strbuf_replace_all(arry_split, "UID:", "");
         data_add->Note_Sync_Data.uid =
@@ -84,7 +86,7 @@ parse_curl_get_response(Eina_Strbuf* mybuffer)
           eina_stringshare_add(eina_strbuf_string_get(arry_split));
 
       } else if (strstr(arr1[y], "CATEGORIES")) {
-        eina_strbuf_replace_all(arry_split, "CATEGORIES:", "");
+        eina_strbuf_replace_all(arry_split, "CATEGORIES:", "enotes");
         data_add->Note_Sync_Data.categories = eina_stringshare_add(eina_strbuf_string_get(arry_split));
 
       } else if (strstr(arr1[y], " ")) { // the DESCRIPTION is splitted into multible lines. SPACE is the indicator for this. so add this lines to DESCRIPTION
@@ -220,6 +222,7 @@ _get_online_data(void* data EINA_UNUSED,
   char curl_url[PATH_MAX];
   snprintf(
     curl_url, sizeof(curl_url), "%s/calendars/%s/%s", server_url, user_name, calendar_name);
+//      curl_url, sizeof(curl_url),  "http://hmttctufeblyvt1b.myfritz.net/nextcloud/remote.php/dav/calendars/simon/enotes/");  
   printf("CURL_URL: %s\n\n", curl_url);
   curl_easy_setopt(curl, CURLOPT_URL, curl_url);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, put_header_download_objects);

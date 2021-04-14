@@ -92,8 +92,6 @@ _del_local_data(int del_id)
       _del_local_data_online();
 
       update_visible_notes();
-//    catlist_to_catlisteet();
-//    fill_list_in_settings(); // Update cat list in settings window
 }
 
 void
@@ -125,7 +123,7 @@ _del_local_data_online()
     curl_easy_setopt(curl, CURLOPT_USERPWD, eina_strbuf_string_get(logindata));
 
     eina_strbuf_append_printf(
-      header, "https://enotes.ocloud.de%s", list_data->Note_Sync_Data.href);
+      header, "http://hmttctufeblyvt1b.myfritz.net/%s", list_data->Note_Sync_Data.href);
 
     put_header_download_objects =
       curl_slist_append(put_header_download_objects,
@@ -157,7 +155,6 @@ _del_local_data_online()
       // REMOVE LISTE ENTRY FROM note_list_del
       free(list_data);
       note_list_del = eina_list_remove_list(note_list_del, l);
-
       
       printf("ALL OK: Deleted LOCAL & ONLINE\n");
     }
