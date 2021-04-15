@@ -4,8 +4,11 @@
 #define EFL_BETA_API_SUPPORT
 #define EFL_EO_API_SUPPORT
 #endif
-
+// 
 #include "enotes.h"
+
+
+
 int settings_on;
 double step;
 Evas_Object *win_s;

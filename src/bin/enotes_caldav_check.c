@@ -9,6 +9,7 @@
 
 #include "enotes.h"
 
+
 struct MemoryStruct
 {
   char* memory;

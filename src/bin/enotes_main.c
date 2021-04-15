@@ -11,6 +11,41 @@
 
 #include "enotes.h"
 
+
+Eina_List *note_list;                  // list with all informations about a note, this will be store to eet and filled in starting enotes
+Eina_List *enotes_all_objects_list;    // list which holds a struct with the Evas_Objects of every single notes created from *note_list
+Eina_List *note_list_put;              // list to put online for online sync - saved in eet for later use, if the was no internet connection, as the note was created
+Eina_List *note_list_del;              // list with notes to delete online. - saved in eet for later use, if the was no internet connection, as the note was deleted
+Eina_List *cat_list;                   // used to save the categories list from the settings
+
+const char *server_url;
+const char *user_name;
+const char *password;
+const char *calendar_name;
+Eina_Bool ci_m_check;
+Eina_Bool ci_systray;
+Eina_Bool online_check;
+Eina_Bool ci_sync_enabled;
+Eina_Bool ci_border_enabled;
+const char *cat_settings;
+const char *activ_cat;
+Eina_List *cat_list_settings;
+
+char enotes_running[PATH_MAX];
+Eina_Bool all_hidden;
+// Evas_Object* win_s;
+Evas_Object *categories_frame;
+Evas_Object *bx_c;
+Evas_Object *test;
+Evas_Object *text;
+Evas_Object *list;
+// Evas_Object *list_all;
+Eo *item;
+Elm_Object_Item *menu_it3;
+Evas_Object *it;
+
+Evas_Object *help_win;
+
 #define COPYRIGHT                                                              \
 "Copyright © 2017 Simon Tischer <simon@t-tischer.de> for the enotes app  "  \
 "and various contributors (see AUTHORS) "

@@ -117,39 +117,41 @@ typedef struct {
 
 } Note;
 
-Eina_List *note_list;                  // list with all informations about a note, this will be store to eet and filled in starting enotes
-Eina_List *enotes_all_objects_list;    // list which holds a struct with the Evas_Objects of every single notes created from *note_list
-Eina_List *note_list_put;              // list to put online for online sync - saved in eet for later use, if the was no internet connection, as the note was created
-Eina_List *note_list_del;              // list with notes to delete online. - saved in eet for later use, if the was no internet connection, as the note was deleted
-Eina_List *cat_list;                   // used to save the categories list from the settings
 
-const char *server_url;
-const char *user_name;
-const char *password;
-const char *calendar_name;
-Eina_Bool ci_m_check;
-Eina_Bool ci_systray;
-Eina_Bool online_check;
-Eina_Bool ci_sync_enabled;
-Eina_Bool ci_border_enabled;
-const char *cat_settings;
-const char *activ_cat;
-Eina_List *cat_list_settings;
 
-char enotes_running[PATH_MAX];
-Eina_Bool all_hidden;
+extern Eina_List *note_list;                  // list with all informations about a note, this will be store to eet and filled in starting enotes
+extern Eina_List *enotes_all_objects_list;    // list which holds a struct with the Evas_Objects of every single notes created from *note_list
+extern Eina_List *note_list_put;              // list to put online for online sync - saved in eet for later use, if the was no internet connection, as the note was created
+extern Eina_List *note_list_del;              // list with notes to delete online. - saved in eet for later use, if the was no internet connection, as the note was deleted
+extern Eina_List *cat_list;                   // used to save the categories list from the settings
+
+extern const char *server_url;
+extern const char *user_name;
+extern const char *password;
+extern const char *calendar_name;
+extern Eina_Bool ci_m_check;
+extern Eina_Bool ci_systray;
+extern Eina_Bool online_check;
+extern Eina_Bool ci_sync_enabled;
+extern Eina_Bool ci_border_enabled;
+extern const char *cat_settings;
+extern const char *activ_cat;
+extern Eina_List *cat_list_settings;
+
+extern char enotes_running[PATH_MAX];
+extern Eina_Bool all_hidden;
 // Evas_Object* win_s;
-Evas_Object *categories_frame;
-Evas_Object *bx_c;
-Evas_Object *test;
-Evas_Object *text;
-Evas_Object *list;
+extern Evas_Object *categories_frame;
+extern Evas_Object *bx_c;
+extern Evas_Object *test;
+extern Evas_Object *text;
+extern Evas_Object *list;
 // Evas_Object *list_all;
-Eo *item;
-Elm_Object_Item *menu_it3;
-Evas_Object *it;
+extern Eo *item;
+extern Elm_Object_Item *menu_it3;
+extern Evas_Object *it;
 
-Evas_Object *help_win;
+extern Evas_Object *help_win;
 
 void _put_local_data(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED,
                      void *event_info EINA_UNUSED);
