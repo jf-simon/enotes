@@ -104,7 +104,7 @@ enotes_win_help(void* data,
 
   en = elm_entry_add(win);
   elm_entry_context_menu_disabled_set(en, EINA_TRUE);
-  elm_entry_editable_set(en, EINA_TRUE);
+  elm_entry_editable_set(en, EINA_FALSE);
   elm_entry_single_line_set(en, EINA_TRUE);
   evas_object_smart_callback_add(
     en, "anchor,clicked", _anchor_clicked_cb, NULL);
