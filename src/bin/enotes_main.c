@@ -772,6 +772,7 @@ _backup_to_file_notify(void* data)
    notify = elm_notify_add(win);
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _backup_to_file_all_dismiss_cb, notify);
    
    o = elm_label_add(bx);
    elm_object_text_set(o, gettext("What do you want to write to file?"));
@@ -1725,6 +1726,13 @@ _enotes_exit(void* data EINA_UNUSED,
    elm_exit();
 }
 
+static void
+_notify_block(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED)
+{
+   printf("Notify block area clicked!!\n");
+}
+
+
 void
 _close_notify(void* data)
 {
@@ -1733,6 +1741,9 @@ _close_notify(void* data)
    notify = elm_notify_add(data);
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
+   
+   evas_object_smart_callback_add(notify, "block,clicked", _notify_block, NULL);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _popup_close_cb, notify);
    
    o = elm_label_add(bx);
    elm_object_text_set(o, gettext("Close enotes?"));
@@ -1799,6 +1810,7 @@ _close_all2(void* data,
    _close_notify(data);
 }
 
+
 void
 key_down(void* data,
          Evas* e EINA_UNUSED,
@@ -1808,7 +1820,7 @@ key_down(void* data,
    Eina_List* list_values = data;
    Evas_Object* entry_notecontent = eina_list_nth(list_values, 0);
    Evas_Object* win = eina_list_nth(list_values, 2);
-   Evas_Object* entry_title = eina_list_nth(list_values, 4);
+//    Evas_Object* entry_title = eina_list_nth(list_values, 4);
    Evas_Object* ly = eina_list_nth(list_values, 5);
    
    Evas_Object* edje_obj = elm_layout_edje_get(ly);
@@ -1838,12 +1850,8 @@ key_down(void* data,
    {
       if (strcmp(edje_object_part_state_get(edje_obj, "blur", NULL), "default")) {
          edje_object_signal_emit(edje_obj, "blur_off", "");
-//          elm_entry_editable_set(entry_notecontent, EINA_TRUE);
-//          elm_entry_editable_set(entry_title, EINA_TRUE);
       } else {
          edje_object_signal_emit(edje_obj, "blur_on", "");
-//          elm_entry_editable_set(entry_notecontent, EINA_FALSE);
-//          elm_entry_editable_set(entry_title, EINA_TRUE);
       }
    }
    
@@ -1936,6 +1944,7 @@ _popup_delete_cb(void* data,
    Evas_Object *notify, *bx, *bxv, *o, *o1;
    
    notify = elm_notify_add(win);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _popup_close_cb, notify);
    
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
