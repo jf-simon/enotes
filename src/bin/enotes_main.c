@@ -1728,11 +1728,9 @@ _enotes_exit(void* data EINA_UNUSED,
 void
 _close_notify(void* data)
 {
-   
    Evas_Object *notify, *bx, *bxv, *o;
    
    notify = elm_notify_add(data);
-   
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
    
@@ -1810,6 +1808,7 @@ key_down(void* data,
    Eina_List* list_values = data;
    Evas_Object* entry_notecontent = eina_list_nth(list_values, 0);
    Evas_Object* win = eina_list_nth(list_values, 2);
+   Evas_Object* entry_title = eina_list_nth(list_values, 4);
    Evas_Object* ly = eina_list_nth(list_values, 5);
    
    Evas_Object* edje_obj = elm_layout_edje_get(ly);
@@ -1839,8 +1838,12 @@ key_down(void* data,
    {
       if (strcmp(edje_object_part_state_get(edje_obj, "blur", NULL), "default")) {
          edje_object_signal_emit(edje_obj, "blur_off", "");
+//          elm_entry_editable_set(entry_notecontent, EINA_TRUE);
+//          elm_entry_editable_set(entry_title, EINA_TRUE);
       } else {
          edje_object_signal_emit(edje_obj, "blur_on", "");
+//          elm_entry_editable_set(entry_notecontent, EINA_FALSE);
+//          elm_entry_editable_set(entry_title, EINA_TRUE);
       }
    }
    
@@ -1936,8 +1939,6 @@ _popup_delete_cb(void* data,
    
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
-   //     evas_object_smart_callback_add(notify,
-   //     "block,clicked",_restack_block_clicked_cb, NULL);
    
    o = elm_label_add(bx);
    elm_object_text_set(o, gettext(buf));
@@ -2018,6 +2019,7 @@ enotes_win_setup(Note* list_data)      // create the note (Evas_Objects) and sho
    elm_win_borderless_set(win, EINA_TRUE);
    elm_win_alpha_set(win, EINA_TRUE);
    elm_win_title_set(win, list_data->note_name);
+   elm_win_autodel_set(win, EINA_TRUE);
    
    elm_win_focus_highlight_enabled_set(win, EINA_FALSE);
    elm_object_focus_set(win, EINA_TRUE);
@@ -2838,7 +2840,7 @@ goto end;
 
       Evas_Object *dia, *lb, *box, *button;
       
-      dia = elm_win_util_standard_add("enotes-info", "Enote Information");
+      dia = elm_win_util_standard_add("enotes-info", "Enotes Information");
       
       elm_win_title_set(dia, gettext("enotes Help"));
       elm_win_autodel_set(dia, EINA_TRUE);
