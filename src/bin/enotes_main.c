@@ -50,6 +50,9 @@ Evas_Object *help_win;
 "Copyright © 2017 Simon Tischer <simon@t-tischer.de> for the enotes app  "  \
 "and various contributors (see AUTHORS) "
 
+static void 
+_keycb_to_clickcb(void* data, Evas* e EINA_UNUSED, Evas_Object* obj EINA_UNUSED, void* event_info);
+
 static void
 _enotes_iconify(void* data,
                 Evas_Object* o,
@@ -429,6 +432,12 @@ _popup_close_cb(void* data,
       evas_object_del(popup_backup_tmp);
       popup_backup_tmp = NULL;
    }
+   
+   if (popup_backup_tmp != NULL)
+   {
+      evas_object_del(popup_backup_tmp);
+      popup_backup_tmp = NULL;
+   }
 }
 
 
@@ -617,6 +626,7 @@ _backup_to_file_selected(void* data,
    
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _keycb_to_clickcb, notify);
    
    o = elm_label_add(bx);
    elm_object_text_set(o, gettext("File written to:"));
@@ -719,7 +729,7 @@ _backup_to_file_all(void* data,
    Evas_Object *notify, *bx, *bxv, *o;
    
    notify = elm_notify_add(win);
-   
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _keycb_to_clickcb, notify);
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
    
@@ -772,7 +782,7 @@ _backup_to_file_notify(void* data)
    notify = elm_notify_add(win);
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
-   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _backup_to_file_all_dismiss_cb, notify);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _keycb_to_clickcb, notify);
    
    o = elm_label_add(bx);
    elm_object_text_set(o, gettext("What do you want to write to file?"));
@@ -794,7 +804,7 @@ _backup_to_file_notify(void* data)
    elm_object_text_set(o, gettext("this note"));
    evas_object_smart_callback_add(o, "clicked", _backup_to_file_selected, data);
    evas_object_smart_callback_add(
-      o, "clicked", _backup_to_file_all_dismiss_cb, notify);
+      o, "clicked", _popup_close_cb, notify);
    evas_object_show(o);
    elm_box_pack_end(bxv, o);
    evas_object_show(bxv);
@@ -1743,7 +1753,7 @@ _close_notify(void* data)
    elm_box_horizontal_set(bx, EINA_FALSE);
    
    evas_object_smart_callback_add(notify, "block,clicked", _notify_block, NULL);
-   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _popup_close_cb, notify);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _keycb_to_clickcb, notify);
    
    o = elm_label_add(bx);
    elm_object_text_set(o, gettext("Close enotes?"));
@@ -1810,6 +1820,11 @@ _close_all2(void* data,
    _close_notify(data);
 }
 
+void
+_keycb_to_clickcb(void* data, Evas* e EINA_UNUSED, Evas_Object* obj EINA_UNUSED, void* event_info)
+{
+   _popup_close_cb(data, NULL, NULL);
+}
 
 void
 key_down(void* data,
@@ -1944,7 +1959,7 @@ _popup_delete_cb(void* data,
    Evas_Object *notify, *bx, *bxv, *o, *o1;
    
    notify = elm_notify_add(win);
-   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _popup_close_cb, notify);
+   evas_object_event_callback_add(notify, EVAS_CALLBACK_KEY_DOWN, _keycb_to_clickcb, notify);
    
    bx = elm_box_add(notify);
    elm_box_horizontal_set(bx, EINA_FALSE);
