@@ -923,7 +923,6 @@ _save_notes_eet()
          //                 return NULL;   //TODO got elm_main -> END
       }
       
-      //         my_conf->note_list1 = note_list;
       my_conf->note_list1 = note_list;
       my_conf->cat_list_eet = cat_list_settings;
       my_conf->note_list_del = note_list_del;
@@ -2712,7 +2711,7 @@ _enotes_new()     // create a new note an fill in all default datas
 
 Eina_Bool
 check_running_enotes()
-{
+text{
    FILE* fp;
    char buf[PATH_MAX];
    config_path = efreet_config_home_get();
